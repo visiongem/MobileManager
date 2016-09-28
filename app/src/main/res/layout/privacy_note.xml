@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout style="@style/title_background" >
+
+        <ImageView
+            android:id="@+id/privacy_note_iv_previous"
+            style="@style/img_previous" />
+
+        <TextView
+            style="@style/tv_title"
+            android:text="私密短信" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFC0C0C0" >
+    </View>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/background" >
+
+        <ListView
+            android:id="@+id/privacy_note_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/privacy_note_ll_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical"
+            android:visibility="invisible" >
+
+            <ProgressBar
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正在加载..."
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout style="@style/btn_background" >
+
+        <Button
+            android:id="@+id/privacy_note_btn_add"
+            style="@style/btn_style"
+            android:text="添	加" />
+    </LinearLayout>
+
+</LinearLayout>

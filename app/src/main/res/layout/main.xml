@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout style="@style/title_background" >
+
+        <TextView
+            style="@style/tv_title"
+            android:text="MobileAssistant"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/main_iv_settings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/main_settings" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/main_ll_soft"
+        style="@style/ll_main"
+        android:background="@drawable/main_soft_selector" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/widget1" />
+
+        <TextView
+            style="@style/tv_main_item"
+            android:text="软件管理" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main_ll_privacy"
+        style="@style/ll_main"
+        android:background="@drawable/main_privacy_selector" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/widget2" />
+
+        <TextView
+            style="@style/tv_main_item"
+            android:text="隐私保护" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main_ll_flow"
+        style="@style/ll_main"
+        android:background="@drawable/main_flow_selector" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/widget3" />
+
+        <TextView
+            style="@style/tv_main_item"
+            android:text="流量管理" />
+    </LinearLayout>
+
+</LinearLayout>

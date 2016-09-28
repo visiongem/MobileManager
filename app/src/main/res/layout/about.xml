@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#66000000"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/background_light"
+        android:gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:text="关	于"
+        android:textStyle="bold"
+        android:isScrollContainer="true"
+        android:textSize="22sp" />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/background_light"
+        android:layout_margin="10dp"
+        android:text="@string/about"
+        android:isScrollContainer="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:isScrollContainer="true"
+        android:textColor="@android:color/background_light"
+        android:text="联系方式: " />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/background_light"
+        android:text="指导老师: " />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/background_light"
+        android:text="开发人员: " />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/background_light"
+        android:text="当前版本: 1.0" />
+    
+    <Button
+        android:id="@+id/btn_about_sure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/about_bt_bg_selector"
+        android:textSize="18sp"
+        android:textColor="@android:color/background_dark"
+        android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="确		定" />
+
+</LinearLayout>

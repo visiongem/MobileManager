@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout style="@style/title_background" >
+
+        <ImageView
+            android:id="@+id/iv_reset_privacy_password_previous"
+            style="@style/img_previous" />
+
+        <TextView
+            style="@style/tv_title"
+            android:text="重置密码" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFC0C0C0" >
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/background"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="#77c8c8c8"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="问题 : "
+                android:textColor="#ff000000"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_reset_privacy_password_question"
+                style="@style/style_edittext"
+                android:layout_marginTop="10dp"
+                android:enabled="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="答案  :"
+                android:textColor="#ff000000"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_reset_privacy_password_answer"
+                style="@style/style_edittext"
+                android:layout_marginTop="10dp"
+                android:hint="请输入问题答案" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout style="@style/btn_background" >
+
+        <Button
+            android:id="@+id/b_reset_privacy_next"
+            style="@style/btn_style"
+            android:text="下	一	步" />
+    </LinearLayout>
+
+</LinearLayout>

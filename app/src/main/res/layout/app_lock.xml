@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout style="@style/title_background" >
+
+        <ImageView
+            android:id="@+id/app_lock_iv_previous"
+            style="@style/img_previous" />
+
+        <TextView
+            style="@style/tv_title"
+            android:text="程序锁" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:padding="5dp" >
+
+        <ListView
+            android:id="@+id/app_lock_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:cacheColorHint="@android:color/transparent" >
+        </ListView>
+    </FrameLayout>
+
+</LinearLayout>

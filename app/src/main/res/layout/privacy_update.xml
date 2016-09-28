@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    android:orientation="vertical" >
+    
+	<RelativeLayout 
+        style="@style/title_background" >
+        
+        <TextView
+	        style="@style/tv_title"
+	        android:text="更改私密联系人信息" />
+        
+    </RelativeLayout>
+    
+	<View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFC0C0C0" >
+    </View>
+    
+	<EditText 
+	    android:id="@+id/et_update_number"
+	    style="@style/style_edittext"
+	    android:layout_margin="10dp" />
+	
+	<EditText 
+	    android:id="@+id/et_update_name"
+	    style="@style/style_edittext"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp" />
+	
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="5dp"
+	    android:gravity="center"
+	    android:orientation="horizontal" >
+	    
+	    <Button 
+            android:id="@+id/b_privacy_update_sure"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/background_light"
+            android:textSize="22sp"
+            android:text="确	定"
+            android:background="@drawable/button_selector" />
+	    
+	    <Button 
+            android:id="@+id/b_privacy_update_cancel"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/background_light"
+            android:textSize="22sp"
+            android:text="取	消"
+            android:background="@drawable/button_selector" />
+	    
+	</LinearLayout>
+    
+</LinearLayout>

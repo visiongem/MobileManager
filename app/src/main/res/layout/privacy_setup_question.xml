@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout style="@style/title_background" >
+
+        <ImageView
+            android:id="@+id/privacy_setup_question_iv_previous"
+            style="@style/img_previous" />
+
+        <TextView
+            style="@style/tv_title"
+            android:text="设置安全性问题" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFC0C0C0" >
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/background"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text=" 问	题  : "
+            android:textSize="22sp" />
+
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/privacy_setup_et_question"
+                android:padding="5dp"
+                style="@style/style_edittext" />
+
+            <ImageButton
+                android:id="@+id/privacy_setup_ib_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/privacy_setup_et_question"
+                android:layout_alignRight="@id/privacy_setup_et_question"
+                android:layout_alignTop="@id/privacy_setup_et_question"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/spinner_arrow" />
+        </RelativeLayout>
+
+        <!--
+             <Spinner
+            android:id="@+id/privacy_setup_question_s"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp" />
+        -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="20dp"
+            android:text=" 答案 : "
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/privacy_setup_et_answer"
+            style="@style/style_edittext"
+            android:layout_margin="10dp" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/btn_background" >
+
+        <Button
+            android:id="@+id/privacy_setup_btn_finish"
+            style="@style/btn_style"
+            android:layout_marginTop="30dp"
+            android:text="完	成" />
+    </LinearLayout>
+
+</LinearLayout>
