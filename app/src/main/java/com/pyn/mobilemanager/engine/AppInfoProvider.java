@@ -1,8 +1,5 @@
 package com.pyn.mobilemanager.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -12,13 +9,16 @@ import android.net.TrafficStats;
 
 import com.pyn.mobilemanager.domain.AppInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Ìá¹©ÊÖ»ú°²×°µÄÓ¦ÓÃĞÅÏ¢
+ * æä¾›æ‰‹æœºå®‰è£…çš„åº”ç”¨ä¿¡æ¯
  */
 public class AppInfoProvider {
 
 	private Context mContext;
-	private PackageManager packageManager; // PackageManagerÖ÷ÒªÊÇ¹ÜÀíÓ¦ÓÃ³ÌĞò°ü£¬Í¨¹ıËü¾Í¿ÉÒÔ»ñÈ¡Ó¦ÓÃ³ÌĞòĞÅÏ¢
+	private PackageManager packageManager; // PackageManagerä¸»è¦æ˜¯ç®¡ç†åº”ç”¨ç¨‹åºåŒ…ï¼Œé€šè¿‡å®ƒå°±å¯ä»¥è·å–åº”ç”¨ç¨‹åºä¿¡æ¯
 
 	private List<AppInfo> appInfos;
 	private List<PackageInfo> packageInfos;
@@ -33,35 +33,35 @@ public class AppInfoProvider {
 	}
 
 	/**
-	 * ·µ»Øµ±Ç°ÊÖ»úÀïÃæ°²×°µÄËùÓĞÓ¦ÓÃ³ÌĞòĞÅÏ¢µÄ¼¯ºÏ
-	 * 
-	 * @return Ó¦ÓÃ³ÌĞòµÄ¼¯ºÏ
+	 * è¿”å›å½“å‰æ‰‹æœºé‡Œé¢å®‰è£…çš„æ‰€æœ‰åº”ç”¨ç¨‹åºä¿¡æ¯çš„é›†åˆ
+	 *
+	 * @return åº”ç”¨ç¨‹åºçš„é›†åˆ
 	 */
 	public List<AppInfo> getAllApps() {
 
-		appInfos = new ArrayList<AppInfo>(); // appInfosÓÃÀ´´æ·ÅÊÖ»úÖĞËùÓĞµÄÓ¦ÓÃ³ÌĞòĞÅÏ¢
-		// »ñÈ¡µ½ËùÓĞ°²×°ÁËµÄÓ¦ÓÃ³ÌĞòµÄĞÅÏ¢£¬°üÀ¨ÄÇĞ©Ğ¶ÔØÁËµÄ£¬µ«Ã»ÓĞÇå³ıÊı¾İµÄÓ¦ÓÃ³ÌĞò
+		appInfos = new ArrayList<AppInfo>(); // appInfosç”¨æ¥å­˜æ”¾æ‰‹æœºä¸­æ‰€æœ‰çš„åº”ç”¨ç¨‹åºä¿¡æ¯
+		// è·å–åˆ°æ‰€æœ‰å®‰è£…äº†çš„åº”ç”¨ç¨‹åºçš„ä¿¡æ¯ï¼ŒåŒ…æ‹¬é‚£äº›å¸è½½äº†çš„ï¼Œä½†æ²¡æœ‰æ¸…é™¤æ•°æ®çš„åº”ç”¨ç¨‹åº
 		packageInfos = packageManager
 				.getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES);
 
 		for (PackageInfo packageInfo : packageInfos) {
 			AppInfo myApp = new AppInfo();
-			// µÃµ½Ó¦ÓÃ³ÌĞòµÄ°üÃû
+			// å¾—åˆ°åº”ç”¨ç¨‹åºçš„åŒ…å
 			String packName = packageInfo.packageName;
 			myApp.setPackName(packName);
-			// µÃµ½Ó¦ÓÃ³ÌĞòµÄ°æ±¾ºÅ
+			// å¾—åˆ°åº”ç”¨ç¨‹åºçš„ç‰ˆæœ¬å·
 			String version = packageInfo.versionName;
 			myApp.setVersion(version);
 			ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-			// µÃµ½Ó¦ÓÃ³ÌĞòµÄÍ¼±ê
+			// å¾—åˆ°åº”ç”¨ç¨‹åºçš„å›¾æ ‡
 			Drawable icon = applicationInfo.loadIcon(packageManager);
 			myApp.setIcon(icon);
-			// µÃµ½Ó¦ÓÃ³ÌĞòµÄÃû³Æ
+			// å¾—åˆ°åº”ç”¨ç¨‹åºçš„åç§°
 			String appName = applicationInfo.loadLabel(packageManager)
 					.toString();
 			myApp.setAppName(appName);
 
-			// ÅĞ¶Ï³ÌĞòÊÇ·ñµÚÈı·½³ÌĞò
+			// åˆ¤æ–­ç¨‹åºæ˜¯å¦ç¬¬ä¸‰æ–¹ç¨‹åº
 			if (filterApp(applicationInfo)) {
 				myApp.setSystemApp(false);
 			} else {
@@ -71,17 +71,17 @@ public class AppInfoProvider {
 			appInfos.add(myApp);
 		}
 
-		return appInfos; // ·µ»ØÊÖ»úÖĞËùÓĞÓ¦ÓÃ³ÌĞò
+		return appInfos; // è¿”å›æ‰‹æœºä¸­æ‰€æœ‰åº”ç”¨ç¨‹åº
 	}
 
 	/**
-	 * ´Ë·½·¨ÓÃÀ´µÃµ½ÊÖ»úÖĞËùÓĞµÄÓÃ»§Ó¦ÓÃ³ÌĞò
-	 * 
-	 * @return ÓÃ»§Ó¦ÓÃ³ÌĞò¼¯ºÏ
+	 * æ­¤æ–¹æ³•ç”¨æ¥å¾—åˆ°æ‰‹æœºä¸­æ‰€æœ‰çš„ç”¨æˆ·åº”ç”¨ç¨‹åº
+	 *
+	 * @return ç”¨æˆ·åº”ç”¨ç¨‹åºé›†åˆ
 	 */
 	public List<AppInfo> getAllUserApps() {
 
-		userAppInfos = new ArrayList<AppInfo>(); // ÓÃÓÚ´æ·ÅÊÖ»úÖĞµÚÈı·½Ó¦ÓÃ³ÌĞò¼¯ºÏ
+		userAppInfos = new ArrayList<AppInfo>(); // ç”¨äºå­˜æ”¾æ‰‹æœºä¸­ç¬¬ä¸‰æ–¹åº”ç”¨ç¨‹åºé›†åˆ
 
 		List<AppInfo> Infos = getAllApps();
 
@@ -95,13 +95,13 @@ public class AppInfoProvider {
 	}
 
 	/**
-	 * ´Ë·½·¨ÓÃÀ´µÃµ½ÊÖ»úÖĞµÄÏµÍ³Ó¦ÓÃ³ÌĞò
-	 * 
-	 * @return ÏµÍ³Ó¦ÓÃ³ÌĞò¼¯ºÏ
+	 * æ­¤æ–¹æ³•ç”¨æ¥å¾—åˆ°æ‰‹æœºä¸­çš„ç³»ç»Ÿåº”ç”¨ç¨‹åº
+	 *
+	 * @return ç³»ç»Ÿåº”ç”¨ç¨‹åºé›†åˆ
 	 */
 	public List<AppInfo> getAllSystemApps() {
 
-		systemAppInfos = new ArrayList<AppInfo>(); // ÓÃÓÚ´æ·ÅÊÖ»úÖĞµÄÏµÍ³Ó¦ÓÃ³ÌĞò
+		systemAppInfos = new ArrayList<AppInfo>(); // ç”¨äºå­˜æ”¾æ‰‹æœºä¸­çš„ç³»ç»Ÿåº”ç”¨ç¨‹åº
 
 		List<AppInfo> Infos = getAllApps();
 
@@ -116,7 +116,7 @@ public class AppInfoProvider {
 
 	public List<AppInfo> getAppFlowInfo() {
 
-		// »ñÈ¡µ½ÅäÖÃÈ¨ÏŞĞÅÏ¢µÄÓ¦ÓÃ³ÌĞò
+		// è·å–åˆ°é…ç½®æƒé™ä¿¡æ¯çš„åº”ç”¨ç¨‹åº
 		List<PackageInfo> packInfos = packageManager
 				.getInstalledPackages(PackageManager.GET_PERMISSIONS);
 
@@ -124,19 +124,19 @@ public class AppInfoProvider {
 
 		for (PackageInfo packInfo : packInfos) {
 
-			// »ñÈ¡¸ÃÓ¦ÓÃµÄËùÓĞÈ¨ÏŞĞÅÏ¢
+			// è·å–è¯¥åº”ç”¨çš„æ‰€æœ‰æƒé™ä¿¡æ¯
 			String[] permissions = packInfo.requestedPermissions;
 
 			if (permissions != null && permissions.length > 0) {
 
 				for (String permission : permissions) {
-					// É¸Ñ¡³ö¾ßÓĞInternetÈ¨ÏŞµÄÓ¦ÓÃ³ÌĞò
+					// ç­›é€‰å‡ºå…·æœ‰Internetæƒé™çš„åº”ç”¨ç¨‹åº
 					if ("android.permission.INTERNET".equals(permission)) {
 
 						int uid = 0;
 
 						AppInfo appInfo = new AppInfo();
-						// ·â×°Ó¦ÓÃĞÅÏ¢
+						// å°è£…åº”ç”¨ä¿¡æ¯
 						uid = packInfo.applicationInfo.uid;
 
 						appInfo.setUid(uid);
@@ -157,17 +157,17 @@ public class AppInfoProvider {
 	}
 
 	/**
-	 * ÅĞ¶ÏÄ³¸öÓ¦ÓÃ³ÌĞòÊÇ ²»ÊÇÈı·½µÄÓ¦ÓÃ³ÌĞò
-	 * 
+	 * åˆ¤æ–­æŸä¸ªåº”ç”¨ç¨‹åºæ˜¯ ä¸æ˜¯ä¸‰æ–¹çš„åº”ç”¨ç¨‹åº
+	 *
 	 * @param info
-	 * @return true Èı·½Ó¦ÓÃ false ÏµÍ³Ó¦ÓÃ
+	 * @return true ä¸‰æ–¹åº”ç”¨ false ç³»ç»Ÿåº”ç”¨
 	 * */
 	public boolean filterApp(ApplicationInfo info) {
-		// flags×Ö¶Î£º FLAG_SYSTEM¡¡ÏµÍ³Ó¦ÓÃ³ÌĞò¡¢FLAG_EXTERNAL_STORAGE¡¡±íÊ¾¸ÃÓ¦ÓÃ°²×°ÔÚsdcardÖĞ
-		// ±¾À´ÊÇÏµÍ³³ÌĞò£¬±»ÓÃ»§ÊÖ¶¯¸üĞÂºó£¬¸ÃÏµÍ³³ÌĞòÒ²³ÉÎªµÚÈı·½Ó¦ÓÃ³ÌĞòÁË
+		// flagså­—æ®µï¼š FLAG_SYSTEMã€€ç³»ç»Ÿåº”ç”¨ç¨‹åºã€FLAG_EXTERNAL_STORAGEã€€è¡¨ç¤ºè¯¥åº”ç”¨å®‰è£…åœ¨sdcardä¸­
+		// æœ¬æ¥æ˜¯ç³»ç»Ÿç¨‹åºï¼Œè¢«ç”¨æˆ·æ‰‹åŠ¨æ›´æ–°åï¼Œè¯¥ç³»ç»Ÿç¨‹åºä¹Ÿæˆä¸ºç¬¬ä¸‰æ–¹åº”ç”¨ç¨‹åºäº†
 		if ((info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
 			return true;
-		} else if ((info.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {// ´ú±íµÄÓÃ»§µÄÓ¦ÓÃ
+		} else if ((info.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {// ä»£è¡¨çš„ç”¨æˆ·çš„åº”ç”¨
 			return true;
 		}
 		return false;

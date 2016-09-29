@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.pyn.mobilemanager.R;
 
 /**
- * ×Ô¶¨ÒåµÄ¶Ô»°¿ò
+ * è‡ªå®šä¹‰çš„å¯¹è¯æ¡†
  */
 public class LoadingDialog extends Dialog {
 	private static final int CHANGE_TITLE_WHAT = 1;

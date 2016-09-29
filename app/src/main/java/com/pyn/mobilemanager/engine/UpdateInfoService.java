@@ -1,46 +1,46 @@
 package com.pyn.mobilemanager.engine;
 
+import android.content.Context;
+
+import com.pyn.mobilemanager.domain.UpdateInfo;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import android.content.Context;
-
-import com.pyn.mobilemanager.domain.UpdateInfo;
-
 /**
- * ´Ó·şÎñÆ÷»ñÈ¡¸üĞÂĞÅÏ¢µÄÀà
+ * ä»æœåŠ¡å™¨è·å–æ›´æ–°ä¿¡æ¯çš„ç±»
  */
 public class UpdateInfoService {
-	
+
 	private Context mContext;
 
 	public UpdateInfoService(Context mContext) {
 		this.mContext = mContext;
 	}
-	
+
 	/**
-	 * @param urlid ·şÎñÆ÷Â·¾¶string¶ÔÓ¦µÄid
-	 * @return ¸üĞÂµÄĞÅÏ¢
-	 * Ò»°ãÒµÎñ·½·¨ÖĞµÄÒì³£¶¼ÏÔÊ¾µÄÅ×³ö£¬ÈÃËüµÄµ÷ÓÃÕßÈ¥´¦ÀíÕâĞ©Òì³£
+	 * @param urlId æœåŠ¡å™¨è·¯å¾„stringå¯¹åº”çš„id
+	 * @return æ›´æ–°çš„ä¿¡æ¯
+	 * ä¸€èˆ¬ä¸šåŠ¡æ–¹æ³•ä¸­çš„å¼‚å¸¸éƒ½æ˜¾ç¤ºçš„æŠ›å‡ºï¼Œè®©å®ƒçš„è°ƒç”¨è€…å»å¤„ç†è¿™äº›å¼‚å¸¸
 	 */
 	public UpdateInfo getUpdateInfo(int urlId){
 		String path = mContext.getResources().getString(urlId);
 		InputStream is = null;
 		try {
 			URL url = new URL(path);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();	// µÃµ½HttpURLConnection
-			conn.setConnectTimeout(5000);	// ÉèÖÃ5sÄÚÈôÃ»ÓĞ»ñµÃ·µ»ØĞÅÏ¢Ôò³¬Ê±
-			conn.setRequestMethod("GET");	// ÉèÖÃ·µ»Ø·½·¨
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();	// å¾—åˆ°HttpURLConnection
+			conn.setConnectTimeout(5000);	// è®¾ç½®5så†…è‹¥æ²¡æœ‰è·å¾—è¿”å›ä¿¡æ¯åˆ™è¶…æ—¶
+			conn.setRequestMethod("GET");	// è®¾ç½®è¿”å›æ–¹æ³•
 			is = conn.getInputStream();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
-		// ½âÎöxmlÎÄ¼ş
+		}
+		// è§£æxmlæ–‡ä»¶
 		return UpdateInfoParser.getUpdateInfo(is);
 	}
 

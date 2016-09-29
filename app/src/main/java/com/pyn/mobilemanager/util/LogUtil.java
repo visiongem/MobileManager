@@ -3,7 +3,7 @@ package com.pyn.mobilemanager.util;
 import android.util.Log;
 
 /**
- * ÈÕÖ¾¹¤¾ßÀà
+ * æ—¥å¿—å·¥å…·ç±»
  */
 public class LogUtil {
 

@@ -1,13 +1,13 @@
 package com.pyn.mobilemanager.util;
 
-import java.util.ArrayList;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 
+import java.util.ArrayList;
+
 /**
- * 用来判断一个service是否正在运行的工具类
+ * 鐢ㄦ潵鍒ゆ柇涓�涓猻ervice鏄惁姝ｅ湪杩愯鐨勫伐鍏风被
  */
 public class ServiceUtil {
 
@@ -18,8 +18,8 @@ public class ServiceUtil {
 	}
 
 	/**
-	 * 本方法判断自己些的一个Service是否已经运行
-	 * 
+	 * 鏈柟娉曞垽鏂嚜宸变簺鐨勪竴涓猄ervice鏄惁宸茬粡杩愯
+	 *
 	 * @param service
 	 * @return
 	 */

@@ -5,24 +5,24 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * ´´½¨Ò»¸öÊı¾İ¿âÓÃÀ´´æÒşË½Í¨Ñ¶Â¼
+ * åˆ›å»ºä¸€ä¸ªæ•°æ®åº“ç”¨æ¥å­˜éšç§é€šè®¯å½•
  */
 public class PrivacySmsDBHelper extends SQLiteOpenHelper{
 
 	public PrivacySmsDBHelper(Context context) {
 		super(context, "privacysms.db", null, 1);
 	}
-	
+
 	/**
-	 * µÚÒ»´Î´´½¨Êı¾İ¿âµÄÊ±ºòÖ´ĞĞ oncreate·½·¨
+	 * ç¬¬ä¸€æ¬¡åˆ›å»ºæ•°æ®åº“çš„æ—¶å€™æ‰§è¡Œ oncreateæ–¹æ³•
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE privacysms (_id integer primary key autoincrement, number varchar(20) not null, name varchar(20))");	
+		db.execSQL("CREATE TABLE privacysms (_id integer primary key autoincrement, number varchar(20) not null, name varchar(20))");
 	}
 
 	/**
-	 * ¸üĞÂÊı¾İ¿âµÄ²Ù×÷
+	 * æ›´æ–°æ•°æ®åº“çš„æ“ä½œ
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

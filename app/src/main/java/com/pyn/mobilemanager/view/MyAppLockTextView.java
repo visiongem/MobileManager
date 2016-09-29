@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 /**
- * �̳�һ��TextView����Ϊ�����ƽ����Ҫview�Ŀ���
+ * 继承一个TextView，因为渐变的平移需要view的宽度
  */
 public class MyAppLockTextView extends TextView {
 
@@ -27,8 +27,8 @@ public class MyAppLockTextView extends TextView {
 	}
 
 	/**
-	 * ��onSizeChanged�ｫ������Ҫ��Ԫ�س�ʼ����
-	 * ��linearGradient�ﶨ���˽������ɫ����ɫ�ı仯λ�ã�Ȼ�����ø���ͼʹ�õ�paint
+	 * 在onSizeChanged里将各个需要的元素初始化，
+	 * 在linearGradient里定义了渐变的颜色和颜色的变化位置，然后设置给绘图使用的paint
 	 */
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -37,16 +37,16 @@ public class MyAppLockTextView extends TextView {
 			mViewWidth = getMeasuredWidth();
 			if (mViewWidth > 0) {
 				mPaint = getPaint();
-				// ����LinearGradient�����ý�����ɫ����
-				// ��һ��,�ڶ���������ʾ������� ������������յ��ڶԽǵ�����λ��
-				// ������,���ĸ�������ʾ�����յ�
-				// �����������ʾ������ɫ
-				// ��������������Ϊ��,��ʾ����,ֵΪ0-1 new float[] {0.25f, 0.5f, 0.75f, 1 }
-				// ������ǿյģ���ɫ���ȷֲ������ݶ��ߡ�
-				// ���߸���ʾƽ�̷�ʽ
-				// CLAMP�ظ����һ����ɫ�����
-				// MIRROR�ظ���ɫ��ͼ��ˮƽ��ֱ�����Ѿ���ʽ�����з�תЧ��
-				// REPEAT�ظ���ɫ��ͼ��ˮƽ��ֱ����
+				// 创建LinearGradient并设置渐变颜色数组
+				// 第一个,第二个参数表示渐变起点 可以设置起点终点在对角等任意位置
+				// 第三个,第四个参数表示渐变终点
+				// 第五个参数表示渐变颜色
+				// 第六个参数可以为空,表示坐标,值为0-1 new float[] {0.25f, 0.5f, 0.75f, 1 }
+				// 如果这是空的，颜色均匀分布，沿梯度线。
+				// 第七个表示平铺方式
+				// CLAMP重复最后一个颜色至最后
+				// MIRROR重复着色的图像水平或垂直方向已镜像方式填充会有翻转效果
+				// REPEAT重复着色的图像水平或垂直方向
 				mLinearGradient = new LinearGradient(-mViewWidth, 0, 0, 0,
 						new int[] { 0x77FFFFFF, 0xffFFFFFF, 0x77FFFFFF },
 						new float[] { 0, 0.5f, 1 }, Shader.TileMode.CLAMP);
@@ -57,8 +57,8 @@ public class MyAppLockTextView extends TextView {
 	}
 
 	/**
-	 * onDraw()���������ƫ�����ļ��� ����ÿ���ƶ����ȵ�1/10 postInvalidateDelay()������ÿһ֡���Ƶ�ʱ��
-	 * Ҳ���ǿ��������Ŀ���
+	 * onDraw()方法里控制偏移量的计算 这里每次移动宽度的1/10 postInvalidateDelay()里设置每一帧绘制的时间
+	 * 也就是控制闪动的快慢
 	 */
 	@Override
 	protected void onDraw(Canvas canvas) {

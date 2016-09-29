@@ -6,7 +6,7 @@ import android.view.View.OnClickListener;
 import android.widget.PopupWindow;
 
 /**
- * Ö÷½çÃæÖĞpopwindonsµÄÉèÖÃ
+ * ä¸»ç•Œé¢ä¸­popwindonsçš„è®¾ç½®
  */
 public class MainPopMenu {
 	public static PopupWindow getPopupWindow(View view) {

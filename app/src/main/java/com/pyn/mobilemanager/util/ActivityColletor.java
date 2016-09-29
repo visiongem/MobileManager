@@ -1,33 +1,33 @@
 package com.pyn.mobilemanager.util;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
-
 /**
- * »î¶¯¹ÜÀíÆ÷
+ * æ´»åŠ¨ç®¡ç†å™¨
  */
 public class ActivityColletor {
-	
+
 	public static List<Activity> activities = new ArrayList<Activity>();
-	
+
 	/**
-	 * Ìí¼ÓÒ»¸ö»î¶¯
+	 * æ·»åŠ ä¸€ä¸ªæ´»åŠ¨
 	 * @param activity
 	 */
 	public static void addActivity(Activity activity){
 		activities.add(activity);
 	}
-	
+
 	/**
-	 * ÒÆ³ıÒ»¸ö»î¶¯
+	 * ç§»é™¤ä¸€ä¸ªæ´»åŠ¨
 	 * @param activity
 	 */
 	public static void removeActivity(Activity activity){
 		activities.remove(activity);
 	}
-	
+
 	public static void finishAll(){
 		for (Activity activity : activities){
 			if(!activity.isFinishing()){

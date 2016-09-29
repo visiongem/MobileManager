@@ -1,16 +1,16 @@
 package com.pyn.mobilemanager.db.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.pyn.mobilemanager.db.AppLockDBHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * ¶Ô³ÌĞòËøÊı¾İ¿â½øĞĞ²Ù×÷µÄÀà
+ * å¯¹ç¨‹åºé”æ•°æ®åº“è¿›è¡Œæ“ä½œçš„ç±»
  */
 public class AppLockDao {
 
@@ -23,7 +23,7 @@ public class AppLockDao {
 	}
 
 	/**
-	 * ²éÑ¯
+	 * æŸ¥è¯¢
 	 */
 	public boolean find(String packName) {
 		boolean result = false;
@@ -42,7 +42,7 @@ public class AppLockDao {
 	}
 
 	/**
-	 * Ìí¼Ó
+	 * æ·»åŠ 
 	 */
 	public void add(String packName) {
 		if (find(packName)) {
@@ -57,7 +57,7 @@ public class AppLockDao {
 	}
 
 	/**
-	 * É¾³ı
+	 * åˆ é™¤
 	 */
 	public void delete(String packName) {
 
@@ -70,7 +70,7 @@ public class AppLockDao {
 	}
 
 	/**
-	 * ²éÕÒÈ«²¿°üÃû
+	 * æŸ¥æ‰¾å…¨éƒ¨åŒ…å
 	 */
 	public List<String> getAllLockApps() {
 

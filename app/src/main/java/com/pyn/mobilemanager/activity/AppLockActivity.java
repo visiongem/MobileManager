@@ -1,7 +1,5 @@
 package com.pyn.mobilemanager.activity;
 
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,19 +26,21 @@ import com.pyn.mobilemanager.domain.AppInfo;
 import com.pyn.mobilemanager.engine.AppInfoProvider;
 import com.pyn.mobilemanager.view.LoadingDialog;
 
+import java.util.List;
+
 /**
- * ½øÈë³ÌĞòËø½çÃæµÄactivity
+ * è¿›å…¥ç¨‹åºé”ç•Œé¢çš„activity
  */
 public class AppLockActivity extends BasicActivity implements OnClickListener {
 
-	private ListView lvAppLock; // ¾ÍÊÇ³ÌĞòËøÓ¦ÓÃµÄÁĞ±í
+	private ListView lvAppLock; // å°±æ˜¯ç¨‹åºé”åº”ç”¨çš„åˆ—è¡¨
 	private ImageView ivPrevious;
-	private List<AppInfo> userAppInfos; // ËùÓĞÓ¦ÓÃ³ÌĞòµÄĞÅÏ¢,²»°üÀ¨ÏµÍ³³ÌĞò
-	private AppInfoProvider provider; // Ìá¹©ÊÖ»úÓ¦ÓÃµÄÀà
+	private List<AppInfo> userAppInfos; // æ‰€æœ‰åº”ç”¨ç¨‹åºçš„ä¿¡æ¯,ä¸åŒ…æ‹¬ç³»ç»Ÿç¨‹åº
+	private AppInfoProvider provider; // æä¾›æ‰‹æœºåº”ç”¨çš„ç±»
 	private AppLockAdapter adapter;
 	private AppLockDao dao;
 	private LoadingDialog dialog;
-	private List<String> lockAppInfos; // ÉèÖÃÁË³ÌĞòËøµÄappµÄ¼¯ºÏ
+	private List<String> lockAppInfos; // è®¾ç½®äº†ç¨‹åºé”çš„appçš„é›†åˆ
 	private Animation animation;
 	private LayoutAnimationController lac;
 
@@ -51,10 +51,10 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 			dialog.dismiss();
 			adapter = new AppLockAdapter();
 			lvAppLock.setAdapter(adapter);
-			
+
 			lvAppLock.setLayoutAnimation(lac);
 			lvAppLock.startLayoutAnimation();
-			
+
 		};
 	};
 
@@ -62,25 +62,25 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.app_lock);
-		
+
 		initAnimation();
-		
+
 		dialog = new LoadingDialog(this);
 		initViews();
 		dao = new AppLockDao(AppLockActivity.this);
-		lockAppInfos = dao.getAllLockApps(); // µÃµ½ËùÓĞÒÑ¾­¼ÓËøµÄÓ¦ÓÃ³ÌĞò¼¯ºÏ
+		lockAppInfos = dao.getAllLockApps(); // å¾—åˆ°æ‰€æœ‰å·²ç»åŠ é”çš„åº”ç”¨ç¨‹åºé›†åˆ
 
 		provider = new AppInfoProvider(this);
 
 		initUI();
 
-		// ÎªÃ¿¸öappÌõÄ¿Ìí¼Óµã»÷ÊÂ¼ş
+		// ä¸ºæ¯ä¸ªappæ¡ç›®æ·»åŠ ç‚¹å‡»äº‹ä»¶
 		lvAppLock.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// Ìí¼Ó¶¯»­Ğ§¹û£¬¶¯»­½áÊøºó£¬¾Í°ÑËøµÄÍ¼Æ¬¸Ä±ä
+									int position, long id) {
+				// æ·»åŠ åŠ¨ç”»æ•ˆæœï¼ŒåŠ¨ç”»ç»“æŸåï¼Œå°±æŠŠé”çš„å›¾ç‰‡æ”¹å˜
 				TranslateAnimation translateAnimation = new TranslateAnimation(
 						Animation.RELATIVE_TO_SELF, 0.0f,
 						Animation.RELATIVE_TO_SELF, 0.5f,
@@ -91,14 +91,14 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 				ImageView iv_status = (ImageView) view
 						.findViewById(R.id.app_lock_item_iv_status);
 
-				// ´«µİµ±Ç°ÒªËø¶¨³ÌĞòµÄ°üÃû
+				// ä¼ é€’å½“å‰è¦é”å®šç¨‹åºçš„åŒ…å
 				AppInfo info = (AppInfo) lvAppLock.getItemAtPosition(position);
-				String packName = info.getPackName(); // µÃµ½µ±Ç°ÒªËø¶¨µÄ°üÃû
+				String packName = info.getPackName(); // å¾—åˆ°å½“å‰è¦é”å®šçš„åŒ…å
 				if (dao.find(packName)) {
-					// ÒÆ³ıÕâ¸öÌõÄ¿
+					// ç§»é™¤è¿™ä¸ªæ¡ç›®
 					getContentResolver()
 							.delete(Uri
-									.parse("content://com.pyn.mobilemanager.applockprovider/delete"),
+											.parse("content://com.pyn.mobilemanager.applockprovider/delete"),
 									null, new String[] { packName });
 					lockAppInfos.remove(packName);
 					iv_status.setImageResource(R.drawable.unlock);
@@ -109,7 +109,7 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 					values.put("packName", packName);
 					getContentResolver()
 							.insert(Uri
-									.parse("content://com.pyn.mobilemanager.applockprovider/insert"),
+											.parse("content://com.pyn.mobilemanager.applockprovider/insert"),
 									values);
 					iv_status.setImageResource(R.drawable.lock);
 				}
@@ -119,9 +119,9 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 		});
 
 	}
-	
+
 	/**
-	 * ³õÊ¼»¯¶¯»­
+	 * åˆå§‹åŒ–åŠ¨ç”»
 	 */
 	private void initAnimation() {
 		animation  = AnimationUtils.loadAnimation(this, R.anim.listview_in);
@@ -130,7 +130,7 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 	}
 
 	/**
-	 * ³õÊ¼»¯½çÃæ
+	 * åˆå§‹åŒ–ç•Œé¢
 	 */
 	private void initUI() {
 
@@ -152,7 +152,7 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 	}
 
 	/**
-	 * ÊÊÅäÆ÷
+	 * é€‚é…å™¨
 	 */
 	private class AppLockAdapter extends BaseAdapter {
 
@@ -179,7 +179,7 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 				View view = View.inflate(getApplicationContext(),
 						R.layout.app_lock_item, null);
 				AppManagerViews views = new AppManagerViews();
-				// ¸ü¸Äview¶ÔÏóµÄ×´Ì¬
+				// æ›´æ”¹viewå¯¹è±¡çš„çŠ¶æ€
 
 				views.ivAppIcon = (ImageView) view
 						.findViewById(R.id.app_lock_item_iv_icon);
@@ -194,7 +194,7 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 				views.tvAppName.setText(info.getAppName());
 				views.tvAppPackname.setText(info.getPackName());
 
-				if (lockAppInfos.contains(info.getPackName())) { // Èç¹ûÊÇ¼ÓËøµÄ³ÌĞò£¬ÔòÊ¹ÓÒ±ßµÄÍ¼±ê±ä³É¼ÓËøµÄÍ¼Æ¬
+				if (lockAppInfos.contains(info.getPackName())) { // å¦‚æœæ˜¯åŠ é”çš„ç¨‹åºï¼Œåˆ™ä½¿å³è¾¹çš„å›¾æ ‡å˜æˆåŠ é”çš„å›¾ç‰‡
 					views.ivAppLock.setImageResource(R.drawable.lock);
 				} else {
 					views.ivAppLock.setImageResource(R.drawable.unlock);
@@ -219,7 +219,7 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 
 	}
 
-	// ÓÃÀ´ÓÅ»¯listviewµÄÀà
+	// ç”¨æ¥ä¼˜åŒ–listviewçš„ç±»
 	private class AppManagerViews {
 		ImageView ivAppIcon;
 		TextView tvAppName;
@@ -238,13 +238,13 @@ public class AppLockActivity extends BasicActivity implements OnClickListener {
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		case R.id.app_lock_iv_previous:
-			Intent previousIntent = new Intent(AppLockActivity.this,
-					PrivacyActivity.class);
-			startActivity(previousIntent);
-			finish();
+			case R.id.app_lock_iv_previous:
+				Intent previousIntent = new Intent(AppLockActivity.this,
+						PrivacyActivity.class);
+				startActivity(previousIntent);
+				finish();
 
-			break;
+				break;
 		}
 
 	}

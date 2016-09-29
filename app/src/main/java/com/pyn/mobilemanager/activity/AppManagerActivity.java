@@ -1,8 +1,5 @@
 package com.pyn.mobilemanager.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -26,8 +23,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
@@ -47,59 +42,62 @@ import com.pyn.mobilemanager.domain.AppInfo;
 import com.pyn.mobilemanager.engine.AppInfoProvider;
 import com.pyn.mobilemanager.view.LoadingDialog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Èí¼ş¹ÜÀí
+ * è½¯ä»¶ç®¡ç†
  */
 public class AppManagerActivity extends BasicActivity implements
 		OnClickListener {
 
 	private static final String TAG = "AppManagerActivity";
-	private static final int GET_SYSTEM_APP_FINISH = 80; // ¡¡¶¨ÒåÁËÒ»¸ö³£Êı£¬´ú±íµÃµ½ÏµÍ³µÄ³ÌĞò
-	private static final int GET_USER_APP_FINISH = 81; // ¶¨ÒåÁËÒ»¸ö³£Êı£¬´ú±íµÃµ½ÓÃ»§³ÌĞò
+	private static final int GET_SYSTEM_APP_FINISH = 80; // ã€€å®šä¹‰äº†ä¸€ä¸ªå¸¸æ•°ï¼Œä»£è¡¨å¾—åˆ°ç³»ç»Ÿçš„ç¨‹åº
+	private static final int GET_USER_APP_FINISH = 81; // å®šä¹‰äº†ä¸€ä¸ªå¸¸æ•°ï¼Œä»£è¡¨å¾—åˆ°ç”¨æˆ·ç¨‹åº
 
 	private AppInfoProvider provider;
 	private AppManagerAdapter adapter;
-	private PopupWindow localPopupWindow; // Ò»¸öĞ¡´°Ìå
+	private PopupWindow localPopupWindow; // ä¸€ä¸ªå°çª—ä½“
 
-	private List<AppInfo> systemAppInfos; // ±íÊ¾µÄÊÇÊÖ»úÀïÃæÏµÍ³µÄÓ¦ÓÃ³ÌĞò¼¯ºÏ
-	private List<AppInfo> userAppInfos; // ±íÊ¾µÄÊÇÓÃ»§×ÔĞĞÏÂÔØµÄÓ¦ÓÃ³ÌĞò¼¯ºÏ
+	private List<AppInfo> systemAppInfos; // è¡¨ç¤ºçš„æ˜¯æ‰‹æœºé‡Œé¢ç³»ç»Ÿçš„åº”ç”¨ç¨‹åºé›†åˆ
+	private List<AppInfo> userAppInfos; // è¡¨ç¤ºçš„æ˜¯ç”¨æˆ·è‡ªè¡Œä¸‹è½½çš„åº”ç”¨ç¨‹åºé›†åˆ
 
 	private ListView lvUserApp;
 	private ListView lvSystemApp;
 
 	private ImageView ivPrevious;
-	private LoadingDialog loadingDialog;// ×Ô¶¨ÒåµÄ¼ÓÔØÌõ
-	private String packageName; // ±íÊ¾Ó¦ÓÃ³ÌĞòµÄ°üÃû
+	private LoadingDialog loadingDialog;// è‡ªå®šä¹‰çš„åŠ è½½æ¡
+	private String packageName; // è¡¨ç¤ºåº”ç”¨ç¨‹åºçš„åŒ…å
 
-	private ViewPager viewPager; // Ò³¿¨ÄÚÈİ
-	private ImageView cursor; // ¶¯»­Í¼Æ¬
+	private ViewPager viewPager; // é¡µå¡å†…å®¹
+	private ImageView cursor; // åŠ¨ç”»å›¾ç‰‡
 	private TextView tvUserApp, tvSystemApp;
-	private List<View> views; // TabÒ³ÃæÁĞ±í
-	private int offset = 0; // ¶¯»­Í¼Æ¬Æ«ÒÆÁ¿
-	private int currIndex = 0; // µ±Ç°Ò³¿¨±àºÅ
-	private int bmpW; // ¶¯»­Í¼Æ¬¿í¶È
+	private List<View> views; // Tabé¡µé¢åˆ—è¡¨
+	private int offset = 0; // åŠ¨ç”»å›¾ç‰‡åç§»é‡
+	private int currIndex = 0; // å½“å‰é¡µå¡ç¼–å·
+	private int bmpW; // åŠ¨ç”»å›¾ç‰‡å®½åº¦
 
 	private Handler handler = new Handler() {
 
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			switch (msg.what) {
-			case GET_USER_APP_FINISH:
-				loadingDialog.dismiss();
-				// °ÑÊı¾İÉèÖÃ¸ølistviewµÄÊı×éÊÊÅäÆ÷
-				adapter = new AppManagerAdapter(userAppInfos,
-						AppManagerActivity.this);
-				lvUserApp.setAdapter(adapter);
+				case GET_USER_APP_FINISH:
+					loadingDialog.dismiss();
+					// æŠŠæ•°æ®è®¾ç½®ç»™listviewçš„æ•°ç»„é€‚é…å™¨
+					adapter = new AppManagerAdapter(userAppInfos,
+							AppManagerActivity.this);
+					lvUserApp.setAdapter(adapter);
 
-				break;
-			case GET_SYSTEM_APP_FINISH:
-				loadingDialog.dismiss();
-				// °ÑÊı¾İÉèÖÃ¸ølistviewµÄÊı×éÊÊÅäÆ÷
-				adapter = new AppManagerAdapter(systemAppInfos,
-						AppManagerActivity.this);
-				lvSystemApp.setAdapter(adapter);
+					break;
+				case GET_SYSTEM_APP_FINISH:
+					loadingDialog.dismiss();
+					// æŠŠæ•°æ®è®¾ç½®ç»™listviewçš„æ•°ç»„é€‚é…å™¨
+					adapter = new AppManagerAdapter(systemAppInfos,
+							AppManagerActivity.this);
+					lvSystemApp.setAdapter(adapter);
 
-				break;
+					break;
 			}
 		}
 
@@ -128,27 +126,27 @@ public class AppManagerActivity extends BasicActivity implements
 		ivPrevious = (ImageView) findViewById(R.id.app_manager_iv_previous);
 		tvUserApp = (TextView) findViewById(R.id.app_manager_tv_userapp);
 		tvSystemApp = (TextView) findViewById(R.id.app_manager_tv_systemapp);
-		viewPager = (ViewPager) findViewById(R.id.app_manager_vp); // »ñÈ¡ViewPager
+		viewPager = (ViewPager) findViewById(R.id.app_manager_vp); // è·å–ViewPager
 	}
 
 	/**
-	 * ³õÊ¼»¯¶¯»­£¬Õâ¸ö¾ÍÊÇÒ³¿¨»¬¶¯Ê±£¬ÏÂÃæµÄºáÏßÒ²»¬¶¯µÄĞ§¹û£¬ÔÚÕâÀïĞèÒª¼ÆËãÒ»Ğ©Êı¾İ
+	 * åˆå§‹åŒ–åŠ¨ç”»ï¼Œè¿™ä¸ªå°±æ˜¯é¡µå¡æ»‘åŠ¨æ—¶ï¼Œä¸‹é¢çš„æ¨ªçº¿ä¹Ÿæ»‘åŠ¨çš„æ•ˆæœï¼Œåœ¨è¿™é‡Œéœ€è¦è®¡ç®—ä¸€äº›æ•°æ®
 	 */
 	private void initImageView() {
 		cursor = (ImageView) findViewById(R.id.cursor);
 		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.cursor)
-				.getWidth(); // »ñÈ¡Í¼Æ¬¿í¶È
+				.getWidth(); // è·å–å›¾ç‰‡å®½åº¦
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		int screenW = dm.widthPixels; // »ñÈ¡·Ö±æÂÊ¿í¶È
-		offset = (screenW / 2 - bmpW) / 2; // ¼ÆËãÆ«ÒÆÁ¿
+		int screenW = dm.widthPixels; // è·å–åˆ†è¾¨ç‡å®½åº¦
+		offset = (screenW / 2 - bmpW) / 2; // è®¡ç®—åç§»é‡
 		Matrix matrix = new Matrix();
 		matrix.postTranslate(offset, 0);
-		cursor.setImageMatrix(matrix); // ÉèÖÃ¶¯»­³õÊ¼Î»ÖÃ
+		cursor.setImageMatrix(matrix); // è®¾ç½®åŠ¨ç”»åˆå§‹ä½ç½®
 	}
 
 	/**
-	 * ³õÊ¼»¯Í·±ê
+	 * åˆå§‹åŒ–å¤´æ ‡
 	 */
 	private void initTextView() {
 		tvUserApp.setOnClickListener(new MyOnClickListener(0));
@@ -156,25 +154,25 @@ public class AppManagerActivity extends BasicActivity implements
 	}
 
 	private void initViewPager() {
-		views = new ArrayList<View>(); // TabÒ³ÃæÁĞ±í,views¶ÔÏóÀ´±£´æ¸÷¸ö·ÖÒ³µÄÄÚÈİ
+		views = new ArrayList<View>(); // Tabé¡µé¢åˆ—è¡¨,viewså¯¹è±¡æ¥ä¿å­˜å„ä¸ªåˆ†é¡µçš„å†…å®¹
 
-		LayoutInflater inflater = getLayoutInflater(); // ÊµÀı»¯Ò»¸öLayoutInflater¶ÔÏó
+		LayoutInflater inflater = getLayoutInflater(); // å®ä¾‹åŒ–ä¸€ä¸ªLayoutInflaterå¯¹è±¡
 		lvUserApp = (ListView) inflater.inflate(R.layout.app_manager_listview,
-				null).findViewById(R.id.app_manager_lv); // Í¨¹ıLayoutInflaterÀ´ÊµÀı»¯¸÷¸ö·ÖÒ³
+				null).findViewById(R.id.app_manager_lv); // é€šè¿‡LayoutInflateræ¥å®ä¾‹åŒ–å„ä¸ªåˆ†é¡µ
 		lvUserApp.setAdapter(new AppManagerAdapter(userAppInfos,
 				AppManagerActivity.this));
 
-		// ÎªÓÃ»§Ó¦ÓÃµÄlistviewÌí¼Óµã»÷ÊÂ¼ş
+		// ä¸ºç”¨æˆ·åº”ç”¨çš„listviewæ·»åŠ ç‚¹å‡»äº‹ä»¶
 		lvUserApp.setOnItemClickListener(new OnItemClickListener() {
-			// µÚÒ»¸ö²ÎÊı£ºÆäÊµ¾ÍÊÇµ±Ç°µÄlistView µÚ¶ş¸ö²ÎÊı£ºµ±Ç°µÄview¶ÔÏó µÚÈı¸ö²ÎÊı:µ±Ç°Î»ÖÃ
-			// µÚËÄ¸ö²ÎÊı:ĞĞºÅ£¬²»ÔõÃ´ÓÃ
+			// ç¬¬ä¸€ä¸ªå‚æ•°ï¼šå…¶å®å°±æ˜¯å½“å‰çš„listView ç¬¬äºŒä¸ªå‚æ•°ï¼šå½“å‰çš„viewå¯¹è±¡ ç¬¬ä¸‰ä¸ªå‚æ•°:å½“å‰ä½ç½®
+			// ç¬¬å››ä¸ªå‚æ•°:è¡Œå·ï¼Œä¸æ€ä¹ˆç”¨
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+									int position, long id) {
 
 				dismissPopupWindow();
 
-				// »ñÈ¡µ±Ç°view¶ÔÏóÔÚ´°ÌåÖĞµÄÎ»ÖÃ
+				// è·å–å½“å‰viewå¯¹è±¡åœ¨çª—ä½“ä¸­çš„ä½ç½®
 				int[] arrayOfInt = new int[2];
 				view.getLocationInWindow(arrayOfInt);
 
@@ -188,7 +186,7 @@ public class AppManagerActivity extends BasicActivity implements
 		});
 
 		/**
-		 * ÎªlistView¹ö¶¯µÄÊ±ºòÌí¼ÓÊÂ¼ş£¬µ±¹ö¶¯listviewµÄÊ±ºò£¬¹Ø±Õpopupwindow
+		 * ä¸ºlistViewæ»šåŠ¨çš„æ—¶å€™æ·»åŠ äº‹ä»¶ï¼Œå½“æ»šåŠ¨listviewçš„æ—¶å€™ï¼Œå…³é—­popupwindow
 		 */
 		lvUserApp.setOnScrollListener(new OnScrollListener() {
 
@@ -199,12 +197,12 @@ public class AppManagerActivity extends BasicActivity implements
 
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
+								 int visibleItemCount, int totalItemCount) {
 				dismissPopupWindow();
 			}
 		});
 
-		views.add(lvUserApp); // Ìí¼Ó·ÖÒ³µ½listÖĞ
+		views.add(lvUserApp); // æ·»åŠ åˆ†é¡µåˆ°listä¸­
 
 		lvSystemApp = (ListView) inflater.inflate(
 				R.layout.app_manager_listview, null).findViewById(
@@ -212,16 +210,16 @@ public class AppManagerActivity extends BasicActivity implements
 		lvSystemApp.setAdapter(new AppManagerAdapter(systemAppInfos,
 				AppManagerActivity.this));
 
-		// ÎªÏµÍ³Ó¦ÓÃµÄlistviewÌí¼Óµã»÷ÊÂ¼ş
+		// ä¸ºç³»ç»Ÿåº”ç”¨çš„listviewæ·»åŠ ç‚¹å‡»äº‹ä»¶
 		lvSystemApp.setOnItemClickListener(new OnItemClickListener() {
-			// µÚÒ»¸ö²ÎÊı£ºÆäÊµ¾ÍÊÇµ±Ç°µÄlistView µÚ¶ş¸ö²ÎÊı£ºµ±Ç°µÄview¶ÔÏó µÚÈı¸ö²ÎÊı:µ±Ç°Î»ÖÃ
-			// µÚËÄ¸ö²ÎÊı:ĞĞºÅ£¬²»ÔõÃ´ÓÃ
+			// ç¬¬ä¸€ä¸ªå‚æ•°ï¼šå…¶å®å°±æ˜¯å½“å‰çš„listView ç¬¬äºŒä¸ªå‚æ•°ï¼šå½“å‰çš„viewå¯¹è±¡ ç¬¬ä¸‰ä¸ªå‚æ•°:å½“å‰ä½ç½®
+			// ç¬¬å››ä¸ªå‚æ•°:è¡Œå·ï¼Œä¸æ€ä¹ˆç”¨
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+									int position, long id) {
 				dismissPopupWindow();
 
-				// »ñÈ¡µ±Ç°view¶ÔÏóÔÚ´°ÌåÖĞµÄÎ»ÖÃ
+				// è·å–å½“å‰viewå¯¹è±¡åœ¨çª—ä½“ä¸­çš„ä½ç½®
 				int[] arrayOfInt = new int[2];
 				view.getLocationInWindow(arrayOfInt);
 
@@ -242,7 +240,7 @@ public class AppManagerActivity extends BasicActivity implements
 
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
+								 int visibleItemCount, int totalItemCount) {
 				dismissPopupWindow();
 			}
 		});
@@ -257,48 +255,47 @@ public class AppManagerActivity extends BasicActivity implements
 
 	private class MyOnPageChangeListener implements OnPageChangeListener {
 
-		int one = offset * 2 + bmpW; // Ò³¿¨1 -> Ò³¿¨2 Æ«ÒÆÁ¿
+		int one = offset * 2 + bmpW; // é¡µå¡1 -> é¡µå¡2 åç§»é‡
 
 		/**
-		 * ´Ë·½·¨ÊÇÔÚ×´Ì¬¸Ä±äµÄÊ±ºòµ÷ÓÃ£¬ÆäÖĞarg0Õâ¸ö²ÎÊı,ÓĞÈıÖÖ×´Ì¬£¨0£¬1£¬2£© arg0 ==
-		 * 1µÄÊ±³½Ä¬Ê¾ÕıÔÚ»¬¶¯£¬arg0==2µÄÊ±³½Ä¬Ê¾»¬¶¯Íê±ÏÁË£¬arg0==0µÄÊ±³½Ä¬Ê¾Ê²Ã´¶¼Ã»×ö
+		 * æ­¤æ–¹æ³•æ˜¯åœ¨çŠ¶æ€æ”¹å˜çš„æ—¶å€™è°ƒç”¨ï¼Œå…¶ä¸­arg0è¿™ä¸ªå‚æ•°,æœ‰ä¸‰ç§çŠ¶æ€ï¼ˆ0ï¼Œ1ï¼Œ2ï¼‰ arg0 ==
+		 * 1çš„æ—¶è¾°é»˜ç¤ºæ­£åœ¨æ»‘åŠ¨ï¼Œarg0==2çš„æ—¶è¾°é»˜ç¤ºæ»‘åŠ¨å®Œæ¯•äº†ï¼Œarg0==0çš„æ—¶è¾°é»˜ç¤ºä»€ä¹ˆéƒ½æ²¡åš
 		 */
 		public void onPageScrollStateChanged(int state) {
 
 		}
 
 		/**
-		 * µ±Ò³ÃæÔÚ»¬¶¯µÄÊ±ºò»áµ÷ÓÃ´Ë·½·¨£¬ÔÚ»¬¶¯±»Í£Ö¹Ö®Ç°£¬´Ë·½·¨»áÒ»Ö±µÃµ½µ÷ÓÃ arg0:µ±Ç°Ò³Ãæ£¬¼°Äãµã»÷»¬¶¯µÄÒ³Ãæ
-		 * arg1:µ±Ç°Ò³ÃæÆ«ÒÆµÄ°Ù·Ö±È arg2:µ±Ç°Ò³ÃæÆ«ÒÆµÄÏñËØÎ»ÖÃ
+		 * å½“é¡µé¢åœ¨æ»‘åŠ¨çš„æ—¶å€™ä¼šè°ƒç”¨æ­¤æ–¹æ³•ï¼Œåœ¨æ»‘åŠ¨è¢«åœæ­¢ä¹‹å‰ï¼Œæ­¤æ–¹æ³•ä¼šä¸€ç›´å¾—åˆ°è°ƒç”¨ arg0:å½“å‰é¡µé¢ï¼ŒåŠä½ ç‚¹å‡»æ»‘åŠ¨çš„é¡µé¢
+		 * arg1:å½“å‰é¡µé¢åç§»çš„ç™¾åˆ†æ¯” arg2:å½“å‰é¡µé¢åç§»çš„åƒç´ ä½ç½®
 		 */
 		public void onPageScrolled(int position, float positionOffset,
-				int positionOffsetPixels) {
+								   int positionOffsetPixels) {
 
 		}
 
 		/**
-		 * ´Ë·½·¨ÊÇÒ³ÃæÌø×ªÍêºóµÃµ½µ÷ÓÃ£¬arg0ÊÇÄãµ±Ç°Ñ¡ÖĞµÄÒ³ÃæµÄPosition£¨Î»ÖÃ±àºÅ£©
+		 * æ­¤æ–¹æ³•æ˜¯é¡µé¢è·³è½¬å®Œåå¾—åˆ°è°ƒç”¨ï¼Œarg0æ˜¯ä½ å½“å‰é€‰ä¸­çš„é¡µé¢çš„Positionï¼ˆä½ç½®ç¼–å·ï¼‰
 		 */
 		public void onPageSelected(int position) {
 			Animation animation = new TranslateAnimation(one * currIndex, one
 					* position, 0, 0);
 			currIndex = position;
-			animation.setFillAfter(true); // True:Í¼Æ¬Í£ÔÚ¶¯»­½áÊøÎ»ÖÃ
-			animation.setDuration(300); // ÉèÖÃ¶¯»­³ÖĞøÊ±¼ä
-			cursor.startAnimation(animation); // ¸øcursorÉèÖÃ¶¯»­
+			animation.setFillAfter(true); // True:å›¾ç‰‡åœåœ¨åŠ¨ç”»ç»“æŸä½ç½®
+			animation.setDuration(300); // è®¾ç½®åŠ¨ç”»æŒç»­æ—¶é—´
+			cursor.startAnimation(animation); // ç»™cursorè®¾ç½®åŠ¨ç”»
 
 			if (viewPager.getCurrentItem() == 0) {
 				initUI(true);
 			} else {
-				Toast.makeText(AppManagerActivity.this, "ÏµÍ³Èí¼ş£¬²»½¨ÒéĞ¶ÔØ£¡", 0)
-						.show();
+				Toast.makeText(AppManagerActivity.this, "ç³»ç»Ÿè½¯ä»¶ï¼Œä¸å»ºè®®å¸è½½ï¼", Toast.LENGTH_SHORT).show();
 				initUI(false);
 			}
 		}
 	}
 
 	/**
-	 * true ´ú±íµÄÊÇ¸üĞÂÓÃ»§³ÌĞò false ´ú±íµÄÊÇ¸üĞÂÏµÍ³µÄ³ÌĞò
+	 * true ä»£è¡¨çš„æ˜¯æ›´æ–°ç”¨æˆ·ç¨‹åº false ä»£è¡¨çš„æ˜¯æ›´æ–°ç³»ç»Ÿçš„ç¨‹åº
 	 */
 	private void initUI(final boolean flag) {
 		loadingDialog.show();
@@ -335,19 +332,19 @@ public class AppManagerActivity extends BasicActivity implements
 		private List<View> mListViews;
 
 		public MyViewPagerAdapter(List<View> mListViews) {
-			this.mListViews = mListViews; // ¹¹Ôì·½·¨£¬²ÎÊıÊÇÎÒÃÇµÄÒ³¿¨£¬ÕâÑù±È½Ï·½±ã
+			this.mListViews = mListViews; // æ„é€ æ–¹æ³•ï¼Œå‚æ•°æ˜¯æˆ‘ä»¬çš„é¡µå¡ï¼Œè¿™æ ·æ¯”è¾ƒæ–¹ä¾¿
 		}
 
 		/**
-		 * ´ÓviewPagerÖĞÒÆ¶¯µ±Ç°µÄview
+		 * ä»viewPagerä¸­ç§»åŠ¨å½“å‰çš„view
 		 */
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			((ViewPager) container).removeView(mListViews.get(position)); // É¾³ıÒ³¿¨
+			((ViewPager) container).removeView(mListViews.get(position)); // åˆ é™¤é¡µå¡
 		}
 
 		/**
-		 * Õâ¸ö·½·¨ÓÃÀ´ÊµÀı»¯Ò³¿¨,Õâ¸ö·½·¨·µ»ØÒ»¸ö¶ÔÏó£¬¸Ã¶ÔÏó±íÃ÷PagerAdapterÑ¡ÔñÄÄ¸ö¶ÔÏó·ÅÔÚµ±Ç°µÄViewPagerÖĞ
+		 * è¿™ä¸ªæ–¹æ³•ç”¨æ¥å®ä¾‹åŒ–é¡µå¡,è¿™ä¸ªæ–¹æ³•è¿”å›ä¸€ä¸ªå¯¹è±¡ï¼Œè¯¥å¯¹è±¡è¡¨æ˜PagerAdapteré€‰æ‹©å“ªä¸ªå¯¹è±¡æ”¾åœ¨å½“å‰çš„ViewPagerä¸­
 		 */
 		@Override
 		public Object instantiateItem(View view, int position) {
@@ -355,12 +352,12 @@ public class AppManagerActivity extends BasicActivity implements
 				if (mListViews.get(position).getParent() == null)
 					((ViewPager) view).addView(mListViews.get(position), 0);
 				else {
-					// ºÜÄÑÀí½âĞÂÌí¼Ó½øÀ´µÄview»á×Ô¶¯°ó¶¨Ò»¸ö¸¸Àà£¬ÓÉÓÚÒ»¸ö¶ù×Óview²»ÄÜÓëÁ½¸ö¸¸ÀàÏà¹Ø£¬ËùÒÔµÃ½â°ó
-					// ²»ÕâÑù×ö·ñÔò»á²úÉú viewpager java.lang.IllegalStateException: The
+					// å¾ˆéš¾ç†è§£æ–°æ·»åŠ è¿›æ¥çš„viewä¼šè‡ªåŠ¨ç»‘å®šä¸€ä¸ªçˆ¶ç±»ï¼Œç”±äºä¸€ä¸ªå„¿å­viewä¸èƒ½ä¸ä¸¤ä¸ªçˆ¶ç±»ç›¸å…³ï¼Œæ‰€ä»¥å¾—è§£ç»‘
+					// ä¸è¿™æ ·åšå¦åˆ™ä¼šäº§ç”Ÿ viewpager java.lang.IllegalStateException: The
 					// specified child already has a parent. You must call
 					// removeView() on the child's parent first.
-					// »¹ÓĞÒ»ÖÖ·½·¨ÊÇviewPager.setOffscreenPageLimit(3); ÕâÖÖ·½·¨²»ÓÃÅĞ¶Ïparent
-					// ÊÇ²»ÊÇÒÑ¾­´æÔÚ£¬µ«¶àÓàµÄlistview²»ÄÜ±»destroy
+					// è¿˜æœ‰ä¸€ç§æ–¹æ³•æ˜¯viewPager.setOffscreenPageLimit(3); è¿™ç§æ–¹æ³•ä¸ç”¨åˆ¤æ–­parent
+					// æ˜¯ä¸æ˜¯å·²ç»å­˜åœ¨ï¼Œä½†å¤šä½™çš„listviewä¸èƒ½è¢«destroy
 					((ViewGroup) mListViews.get(position).getParent())
 							.removeView(mListViews.get(position));
 					((ViewPager) view).addView(mListViews.get(position), 0);
@@ -372,24 +369,24 @@ public class AppManagerActivity extends BasicActivity implements
 		}
 
 		/**
-		 * ·µ»Øµ±Ç°·ÖÒ³Êı
+		 * è¿”å›å½“å‰åˆ†é¡µæ•°
 		 */
 		@Override
 		public int getCount() {
-			return mListViews.size(); // ·µ»ØÒ³¿¨µÄÊıÁ¿
+			return mListViews.size(); // è¿”å›é¡µå¡çš„æ•°é‡
 		}
 
 		/**
-		 * ¸Ã·½·¨ÅĞ¶ÏÊÇ·ñÓÉ¸Ã¶ÔÏóÉú³É½çÃæ
+		 * è¯¥æ–¹æ³•åˆ¤æ–­æ˜¯å¦ç”±è¯¥å¯¹è±¡ç”Ÿæˆç•Œé¢
 		 */
 		@Override
 		public boolean isViewFromObject(View arg0, Object arg1) {
-			return arg0 == arg1; // ¹Ù·½ÌáÊ¾ÕâÑùĞ´
+			return arg0 == arg1; // å®˜æ–¹æç¤ºè¿™æ ·å†™
 		}
 	}
 
 	/**
-	 * Í·±êµã»÷¼àÌı
+	 * å¤´æ ‡ç‚¹å‡»ç›‘å¬
 	 */
 	private class MyOnClickListener implements OnClickListener {
 		private int index = 0;
@@ -402,11 +399,11 @@ public class AppManagerActivity extends BasicActivity implements
 			viewPager.setCurrentItem(index);
 
 			switch (v.getId()) {
-			case R.id.app_manager_tv_userapp:
-				break;
+				case R.id.app_manager_tv_userapp:
+					break;
 
-			case R.id.app_manager_tv_systemapp:
-				break;
+				case R.id.app_manager_tv_systemapp:
+					break;
 			}
 		}
 	}
@@ -418,8 +415,8 @@ public class AppManagerActivity extends BasicActivity implements
 	}
 
 	/**
-	 * ÏÔÊ¾PopupWindowµÄ·½·¨
-	 * 
+	 * æ˜¾ç¤ºPopupWindowçš„æ–¹æ³•
+	 *
 	 * @param view
 	 * @param position
 	 * @param i
@@ -430,36 +427,36 @@ public class AppManagerActivity extends BasicActivity implements
 		View popupView = View.inflate(AppManagerActivity.this,
 				R.layout.popup_item, null);
 
-		// »ñÈ¡¸÷¸öLinearLayout
+		// è·å–å„ä¸ªLinearLayout
 		LinearLayout ll_start = (LinearLayout) popupView
 				.findViewById(R.id.ll_start);
 		LinearLayout ll_share = (LinearLayout) popupView
 				.findViewById(R.id.ll_share);
 
-		// °Ñµ±Ç°ÌõÄ¿ÔÚlistviewÖĞµÄÎ»ÖÃÉèÖÃ¸øview¶ÔÏó,Î¨Ò»±êÊ¶Ò»ÏÂÊÇÄÄ¸öÈí¼şµÄĞ¡´°ÌåÏÔÊ¾³öÀ´
+		// æŠŠå½“å‰æ¡ç›®åœ¨listviewä¸­çš„ä½ç½®è®¾ç½®ç»™viewå¯¹è±¡,å”¯ä¸€æ ‡è¯†ä¸€ä¸‹æ˜¯å“ªä¸ªè½¯ä»¶çš„å°çª—ä½“æ˜¾ç¤ºå‡ºæ¥
 		ll_share.setTag(position);
 		ll_start.setTag(position);
 
-		// ÎªÃ¿¸öÌõÄ¿µã»÷ºó³öÏÖµÄĞ¡´°ÌåµÄ¸÷¸öLinearLayoutÌí¼Óµã»÷ÊÂ¼ş
+		// ä¸ºæ¯ä¸ªæ¡ç›®ç‚¹å‡»åå‡ºç°çš„å°çª—ä½“çš„å„ä¸ªLinearLayoutæ·»åŠ ç‚¹å‡»äº‹ä»¶
 		ll_start.setOnClickListener(AppManagerActivity.this);
 		ll_share.setOnClickListener(AppManagerActivity.this);
 
 		LinearLayout ll = (LinearLayout) popupView.findViewById(R.id.ll_popup);
 		ScaleAnimation sa = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f);
-		sa.setDuration(200); // ÉèÖÃ¶¯»­Ê±¼ä
+		sa.setDuration(200); // è®¾ç½®åŠ¨ç”»æ—¶é—´
 		localPopupWindow = new PopupWindow(popupView, 500, 210);
-		// Ò»¶¨Òª¼ÇµÃ¸øpopupWindowÉèÖÃ±³¾°ÑÕÉ«,²»È»ÓĞµÄÊ±ºò»á³öÏÖÄªÃûÆäÃîµÄ´íÎó
+		// ä¸€å®šè¦è®°å¾—ç»™popupWindowè®¾ç½®èƒŒæ™¯é¢œè‰²,ä¸ç„¶æœ‰çš„æ—¶å€™ä¼šå‡ºç°è«åå…¶å¦™çš„é”™è¯¯
 		Drawable background = getResources().getDrawable(
 				R.drawable.local_popup_bg);
 		localPopupWindow.setBackgroundDrawable(background);
 		localPopupWindow.setFocusable(true);
-		// Ä¬ÈÏÊÇfalse£¬ÎªfalseÊ±£¬PopupWindowÃ»ÓĞ»ñµÃ½¹µãÄÜÁ¦
+		// é»˜è®¤æ˜¯falseï¼Œä¸ºfalseæ—¶ï¼ŒPopupWindowæ²¡æœ‰è·å¾—ç„¦ç‚¹èƒ½åŠ›
 		localPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.TOP, i, j);
 		ll.startAnimation(sa);
 	}
 
 	/**
-	 * ¹Ø±Õpopupwindow , ÎªÁË±£Ö¤Ö»ÓĞÒ»¸öpopupwindowµÄÊµÀı´æÔÚ
+	 * å…³é—­popupwindow , ä¸ºäº†ä¿è¯åªæœ‰ä¸€ä¸ªpopupwindowçš„å®ä¾‹å­˜åœ¨
 	 */
 	private void dismissPopupWindow() {
 		if (localPopupWindow != null) {
@@ -479,7 +476,7 @@ public class AppManagerActivity extends BasicActivity implements
 	}
 
 	/**
-	 * ÊÊÅäÆ÷
+	 * é€‚é…å™¨
 	 */
 	private class AppManagerAdapter extends BaseAdapter {
 
@@ -495,9 +492,9 @@ public class AppManagerActivity extends BasicActivity implements
 		}
 
 		/**
-		 * ÉèÖÃÊı¾İÊÊÅäÆ÷µÄÊı¾İ
-		 * 
-		 * @param appinfos
+		 * è®¾ç½®æ•°æ®é€‚é…å™¨çš„æ•°æ®
+		 *
+		 * @param appInfos
 		 */
 		public void setAppInfos(List<AppInfo> appInfos) {
 			this.appInfos = appInfos;
@@ -567,76 +564,76 @@ public class AppManagerActivity extends BasicActivity implements
 
 		if (viewPager.getCurrentItem() == 0) {
 			if (view.getTag() != null) {
-				position = (Integer) view.getTag(); // µÃµ½Ëùµã»÷ÌõÄ¿µÄÎ»ÖÃ
+				position = (Integer) view.getTag(); // å¾—åˆ°æ‰€ç‚¹å‡»æ¡ç›®çš„ä½ç½®
 			}
-			appInfoItem = userAppInfos.get(position); // ÓÉµã»÷ÌõÄ¿µÄÎ»ÖÃµÃµ½Ëùµã»÷ÌõÄ¿µÄĞÅÏ¢
-			packageName = appInfoItem.getPackName(); // ÓÉµã»÷ÌõÄ¿µÄĞÅÏ¢µÃµ½µã»÷ÌõÄ¿µÄ°üÃû
+			appInfoItem = userAppInfos.get(position); // ç”±ç‚¹å‡»æ¡ç›®çš„ä½ç½®å¾—åˆ°æ‰€ç‚¹å‡»æ¡ç›®çš„ä¿¡æ¯
+			packageName = appInfoItem.getPackName(); // ç”±ç‚¹å‡»æ¡ç›®çš„ä¿¡æ¯å¾—åˆ°ç‚¹å‡»æ¡ç›®çš„åŒ…å
 
 		} else {
 			if (view.getTag() != null) {
-				position = (Integer) view.getTag(); // µÃµ½Ëùµã»÷ÌõÄ¿µÄÎ»ÖÃ
+				position = (Integer) view.getTag(); // å¾—åˆ°æ‰€ç‚¹å‡»æ¡ç›®çš„ä½ç½®
 			}
-			appInfoItem = systemAppInfos.get(position); // ÓÉµã»÷ÌõÄ¿µÄÎ»ÖÃµÃµ½Ëùµã»÷ÌõÄ¿µÄĞÅÏ¢
-			packageName = appInfoItem.getPackName(); // ÓÉµã»÷ÌõÄ¿µÄĞÅÏ¢µÃµ½µã»÷ÌõÄ¿µÄ°üÃû
+			appInfoItem = systemAppInfos.get(position); // ç”±ç‚¹å‡»æ¡ç›®çš„ä½ç½®å¾—åˆ°æ‰€ç‚¹å‡»æ¡ç›®çš„ä¿¡æ¯
+			packageName = appInfoItem.getPackName(); // ç”±ç‚¹å‡»æ¡ç›®çš„ä¿¡æ¯å¾—åˆ°ç‚¹å‡»æ¡ç›®çš„åŒ…å
 		}
 
 		switch (view.getId()) {
 
-		case R.id.ll_start:
-			try {
-				PackageInfo info = getPackageManager().getPackageInfo(
-						packageName,
-						PackageManager.GET_UNINSTALLED_PACKAGES
-								| PackageManager.GET_ACTIVITIES);
-				ActivityInfo[] activityInfos = info.activities; // ÕâÑù¾Í¿ÉÒÔµÃµ½Ò»¸öActivityInfoµÄ¼¯ºÏ
-				if (activityInfos.length > 0) {
-					ActivityInfo startActivity = activityInfos[0];
-					Intent intent = new Intent();
-					intent.setClassName(packageName, startActivity.name);
-					startActivity(intent);
-					dismissPopupWindow();
-				} else {
-					Toast.makeText(this, "µ±Ç°Ó¦ÓÃ³ÌĞòÎŞ·¨Æô¶¯", 0).show();
+			case R.id.ll_start:
+				try {
+					PackageInfo info = getPackageManager().getPackageInfo(
+							packageName,
+							PackageManager.GET_UNINSTALLED_PACKAGES
+									| PackageManager.GET_ACTIVITIES);
+					ActivityInfo[] activityInfos = info.activities; // è¿™æ ·å°±å¯ä»¥å¾—åˆ°ä¸€ä¸ªActivityInfoçš„é›†åˆ
+					if (activityInfos.length > 0) {
+						ActivityInfo startActivity = activityInfos[0];
+						Intent intent = new Intent();
+						intent.setClassName(packageName, startActivity.name);
+						startActivity(intent);
+						dismissPopupWindow();
+					} else {
+						Toast.makeText(this, "å½“å‰åº”ç”¨ç¨‹åºæ— æ³•å¯åŠ¨", Toast.LENGTH_SHORT).show();
+					}
+
+				} catch (Exception e) {
+					Toast.makeText(this, "åº”ç”¨ç¨‹åºæ— æ³•å¯åŠ¨", Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
 				}
+				break;
 
-			} catch (Exception e) {
-				Toast.makeText(this, "Ó¦ÓÃ³ÌĞòÎŞ·¨Æô¶¯", 0).show();
-				e.printStackTrace();
-			}
-			break;
+			case R.id.ll_share:
+				Intent shareIntent = new Intent();
+				shareIntent.setAction(Intent.ACTION_SEND);
+				shareIntent.setType("text/plain"); // éœ€è¦æŒ‡å®šæ„å›¾çš„æ•°æ®ç±»å‹
+				shareIntent.putExtra(Intent.EXTRA_SUBJECT, "åˆ†äº«");
+				shareIntent.putExtra(Intent.EXTRA_TEXT, "æ¨èä½ ä½¿ç”¨ä¸€ä¸ªåº”ç”¨ç¨‹åº		"
+						+ appInfoItem.getAppName()); // å‘é€å†…å®¹
+				shareIntent = Intent.createChooser(shareIntent, "åˆ†äº«");
+				startActivity(shareIntent);
+				dismissPopupWindow();
+				break;
 
-		case R.id.ll_share:
-			Intent shareIntent = new Intent();
-			shareIntent.setAction(Intent.ACTION_SEND);
-			shareIntent.setType("text/plain"); // ĞèÒªÖ¸¶¨ÒâÍ¼µÄÊı¾İÀàĞÍ
-			shareIntent.putExtra(Intent.EXTRA_SUBJECT, "·ÖÏí");
-			shareIntent.putExtra(Intent.EXTRA_TEXT, "ÍÆ¼öÄãÊ¹ÓÃÒ»¸öÓ¦ÓÃ³ÌĞò		"
-					+ appInfoItem.getAppName()); // ·¢ËÍÄÚÈİ
-			shareIntent = Intent.createChooser(shareIntent, "·ÖÏí");
-			startActivity(shareIntent);
-			dismissPopupWindow();
-			break;
+			case R.id.iv_appmanager_unload:
+				if (appInfoItem.isSystemApp()) {
+					Toast.makeText(this, "ç³»ç»Ÿåº”ç”¨ä¸èƒ½è¢«åˆ é™¤", Toast.LENGTH_SHORT).show();
+				} else {
+					Log.i(TAG, "å¸è½½" + packageName);
+					String uriString = "package:" + packageName;
+					Uri uri = Uri.parse(uriString);
+					Intent deleteIntent = new Intent();
+					deleteIntent.setAction(Intent.ACTION_DELETE);
+					deleteIntent.setData(uri);
+					startActivityForResult(deleteIntent, 0);
+				}
+				break;
 
-		case R.id.iv_appmanager_unload:
-			if (appInfoItem.isSystemApp()) {
-				Toast.makeText(this, "ÏµÍ³Ó¦ÓÃ²»ÄÜ±»É¾³ı", 0).show();
-			} else {
-				Log.i(TAG, "Ğ¶ÔØ" + packageName);
-				String uriString = "package:" + packageName;
-				Uri uri = Uri.parse(uriString);
-				Intent deleteIntent = new Intent();
-				deleteIntent.setAction(Intent.ACTION_DELETE);
-				deleteIntent.setData(uri);
-				startActivityForResult(deleteIntent, 0);
-			}
-			break;
-
-		case R.id.app_manager_iv_previous:
-			Intent previousIntent = new Intent(AppManagerActivity.this,
-					MainActivity.class);
-			startActivity(previousIntent);
-			finish();
-			break;
+			case R.id.app_manager_iv_previous:
+				Intent previousIntent = new Intent(AppManagerActivity.this,
+						MainActivity.class);
+				startActivity(previousIntent);
+				finish();
+				break;
 		}
 	}
 }

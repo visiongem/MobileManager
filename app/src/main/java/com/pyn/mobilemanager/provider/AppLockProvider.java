@@ -9,13 +9,13 @@ import android.net.Uri;
 import com.pyn.mobilemanager.db.dao.AppLockDao;
 
 /**
- * ³ÌĞòËøµÄÄÚÈİÌá¹©Õß
+ * ç¨‹åºé”çš„å†…å®¹æä¾›è€…
  */
 public class AppLockProvider extends ContentProvider {
-	// ·Ö±ğ¶¨ÒåÁ½¸ö·µ»ØÖµ
+	// åˆ†åˆ«å®šä¹‰ä¸¤ä¸ªè¿”å›å€¼
 	private static final int INSERT = 1;
 	private static final int DELETE = 2;
-	// ÏÈnewÒ»¸öUriMatcher³öÀ´£¬²ÎÊı¾ÍÊÇµ±Ã»ÓĞÆ¥Åäµ½µÄÊ±ºò£¬·µ»ØµÄÖµÊÇÊ²Ã´
+	// å…ˆnewä¸€ä¸ªUriMatcherå‡ºæ¥ï¼Œå‚æ•°å°±æ˜¯å½“æ²¡æœ‰åŒ¹é…åˆ°çš„æ—¶å€™ï¼Œè¿”å›çš„å€¼æ˜¯ä»€ä¹ˆ
 	private static UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 	private static Uri changeUri = Uri.parse("content://com.pyn.mobilemanager.applockprovider");
 	private AppLockDao dao;
@@ -26,7 +26,7 @@ public class AppLockProvider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		dao = new AppLockDao(getContext());		// ³õÊ¼»¯
+		dao = new AppLockDao(getContext());		// åˆå§‹åŒ–
 		return false;
 	}
 
@@ -38,7 +38,7 @@ public class AppLockProvider extends ContentProvider {
 			dao.delete(packName);
 			getContext().getContentResolver().notifyChange(changeUri, null);
 		} else {
-			throw new IllegalArgumentException("uriµØÖ·²»ÕıÈ·");
+			throw new IllegalArgumentException("uriåœ°å€ä¸æ­£ç¡®");
 		}
 		return 0;
 	}
@@ -54,17 +54,17 @@ public class AppLockProvider extends ContentProvider {
 		if (result == INSERT) {
 			String packName = (String) values.get("packName");
 			dao.add(packName);
-			// Èç¹ûÊı¾İ·¢ÉúÁË¸Ä±ä¾ÍÍ¨Öª
+			// å¦‚æœæ•°æ®å‘ç”Ÿäº†æ”¹å˜å°±é€šçŸ¥
 			getContext().getContentResolver().notifyChange(changeUri, null);
 		} else {
-			throw new IllegalArgumentException("uriµØÖ·²»ÕıÈ·");
+			throw new IllegalArgumentException("uriåœ°å€ä¸æ­£ç¡®");
 		}
 		return null;
 	}
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-			String sortOrder) {
+						String sortOrder) {
 		return null;
 	}
 

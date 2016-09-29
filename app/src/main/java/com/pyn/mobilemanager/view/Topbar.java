@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.pyn.mobilemanager.R;
 
 /**
- * ×Ô¶¨ÒåÉÏ¶Ëµ¼º½À¸¿Ø¼ş
+ * è‡ªå®šä¹‰ä¸Šç«¯å¯¼èˆªæ æ§ä»¶
  */
 @SuppressLint("NewApi")
 public class Topbar extends RelativeLayout {
@@ -23,15 +23,15 @@ public class Topbar extends RelativeLayout {
 	private Button leftBtn, rightBtn;
 	private TextView tvTitle;
 
-	/****** ×ó±ß¿Ø¼ş    ******/
+	/****** å·¦è¾¹æ§ä»¶    ******/
 	private int leftTextColor;
 	private Drawable leftBackground;
 	private String leftText;
-	/****** ÓÒ±ß¿Ø¼ş    ******/
+	/****** å³è¾¹æ§ä»¶    ******/
 	private int rightTextColor;
 	private Drawable rightBackground;
 	private String rightText;
-	/****** ÖĞ¼ä±êÌâ    ******/
+	/****** ä¸­é—´æ ‡é¢˜    ******/
 	private float titleTextSize;
 	private int titleTextColor;
 	private String title;
@@ -43,7 +43,7 @@ public class Topbar extends RelativeLayout {
 	private TopbarClickListener listener;
 
 	/**
-	 * ¸øÍâ²¿Ìá¹©µÄ½Ó¿Úµ÷ÓÃ
+	 * ç»™å¤–éƒ¨æä¾›çš„æ¥å£è°ƒç”¨
 	 */
 	public interface TopbarClickListener {
 		public void leftClick();
@@ -59,15 +59,15 @@ public class Topbar extends RelativeLayout {
 	public Topbar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
-		
+
 		getAttrs(attrs);
 
 		initView();
-		
+
 	}
-	
+
 	/**
-	 * ³õÊ¼»¯½çÃæ
+	 * åˆå§‹åŒ–ç•Œé¢
 	 */
 	private void initView() {
 		leftBtn = new Button(mContext);
@@ -122,7 +122,7 @@ public class Topbar extends RelativeLayout {
 				listener.rightClick();
 			}
 		});
-		
+
 	}
 
 	public void setLeftVisible(boolean flag){
@@ -132,7 +132,7 @@ public class Topbar extends RelativeLayout {
 			leftBtn.setVisibility(View.INVISIBLE);
 		}
 	}
-	
+
 	public void setRightVisible(boolean flag){
 		if(flag){
 			rightBtn.setVisibility(View.VISIBLE);
@@ -140,12 +140,12 @@ public class Topbar extends RelativeLayout {
 			rightBtn.setVisibility(View.INVISIBLE);
 		}
 	}
-	
-	/** 
-	 * µÃµ½×Ô¶¨ÒåµÄÊôĞÔ
+
+	/**
+	 * å¾—åˆ°è‡ªå®šä¹‰çš„å±æ€§
 	 */
 	private void getAttrs(AttributeSet attrs){
-		
+
 		TypedArray ta = mContext.obtainStyledAttributes(attrs,
 				R.styleable.Topbar);
 

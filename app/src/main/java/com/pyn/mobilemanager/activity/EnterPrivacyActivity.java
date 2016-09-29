@@ -20,31 +20,31 @@ import com.pyn.mobilemanager.util.MD5Encoder;
 import com.pyn.mobilemanager.util.ServiceUtil;
 
 /**
- * ½øÈëÒşË½±£»¤¸ù¾İ²»Í¬µÄÉèÖÃÇé¿ö£¬¼ÓÔØ²»Í¬µÄ½çÃæ
+ * è¿›å…¥éšç§ä¿æŠ¤æ ¹æ®ä¸åŒçš„è®¾ç½®æƒ…å†µï¼ŒåŠ è½½ä¸åŒçš„ç•Œé¢
  */
 public class EnterPrivacyActivity extends BasicActivity implements
 		OnClickListener {
 
 	private SharedPreferences sp;
-	private boolean isFirstEnterPrivacy; // ÅĞ¶ÏÊÇ·ñµÚÒ»´Î½øÈëÒşË½±£»¤
+	private boolean isFirstEnterPrivacy; // åˆ¤æ–­æ˜¯å¦ç¬¬ä¸€æ¬¡è¿›å…¥éšç§ä¿æŠ¤
 
-	/***** µÚÒ»´Î½øÈëÒşË½±£»¤½çÃæµÄ×é¼ş *****/
+	/***** ç¬¬ä¸€æ¬¡è¿›å…¥éšç§ä¿æŠ¤ç•Œé¢çš„ç»„ä»¶ *****/
 	private ImageView ivFirstEnterPrevious;
 	private Button btnFirstEnterStart;
 
-	/***** ·ÇµÚÒ»´Î½øÈëÒşË½±£»¤½çÃæµÄ×é¼ş *****/
+	/***** éç¬¬ä¸€æ¬¡è¿›å…¥éšç§ä¿æŠ¤ç•Œé¢çš„ç»„ä»¶ *****/
 	private ImageView ivStartPrivacyPrevious;
 	private EditText etStartPrivacyPassword;
 	private Button btnStartPrivacy;
 	private TextView tvStartPrivacyForgetpwd;
 
-	/***** ÖØÖÃÃÜÂë½çÃæµÄ×é¼ş *****/
+	/***** é‡ç½®å¯†ç ç•Œé¢çš„ç»„ä»¶ *****/
 	private EditText etResetPwdQuestion;
 	private EditText etResetPwdAnswer;
 	private Button btnResetNext;
 	private ImageView ivResetPwdPrevious;
 
-	/***** ĞŞ¸ÄÃÜÂë½çÃæµÄ×é¼ş *****/
+	/***** ä¿®æ”¹å¯†ç ç•Œé¢çš„ç»„ä»¶ *****/
 	private ImageView ivAlterpwdPrevious;
 	private EditText etAlterPassword, etAlterPasswordConfirm;
 	private Button btnAlterFinish;
@@ -53,12 +53,12 @@ public class EnterPrivacyActivity extends BasicActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		sp = getSharedPreferences("config", Context.MODE_PRIVATE); // µÃµ½SharedPreferences
-		isFirstEnterPrivacy = sp.getBoolean("isFirstEnterPrivacy", true); // Ä¬ÈÏÎªµÚÒ»´Î½øÈëÒşË½±£»¤
+		sp = getSharedPreferences("config", Context.MODE_PRIVATE); // å¾—åˆ°SharedPreferences
+		isFirstEnterPrivacy = sp.getBoolean("isFirstEnterPrivacy", true); // é»˜è®¤ä¸ºç¬¬ä¸€æ¬¡è¿›å…¥éšç§ä¿æŠ¤
 
-		// ÅĞ¶ÏÓÃ»§ÊÇ·ñµÚÒ»´Î½øÈëÒşË½±£»¤
+		// åˆ¤æ–­ç”¨æˆ·æ˜¯å¦ç¬¬ä¸€æ¬¡è¿›å…¥éšç§ä¿æŠ¤
 		if (isFirstEnterPrivacy) {
-			showFirstEnter(); // ÏÔÊ¾µÚÒ»´Î½øÈëÒşË½±£»¤½çÃæ£¬¿ªÆôÒşË½±£»¤
+			showFirstEnter(); // æ˜¾ç¤ºç¬¬ä¸€æ¬¡è¿›å…¥éšç§ä¿æŠ¤ç•Œé¢ï¼Œå¼€å¯éšç§ä¿æŠ¤
 		} else {
 			ServiceUtil serviceUtil = new ServiceUtil(this);
 			if (!serviceUtil
@@ -68,7 +68,7 @@ public class EnterPrivacyActivity extends BasicActivity implements
 				appLockServiceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				this.startService(appLockServiceIntent);
 			}
-			showNormalEnter(); // ÏÔÊ¾ÊäÈëÃÜÂë½çÃæ£¬Ö»ÓĞÊäÈëÃÜÂë³É¹¦£¬²ÅÄÜ½øÈëÒşË½±£»¤
+			showNormalEnter(); // æ˜¾ç¤ºè¾“å…¥å¯†ç ç•Œé¢ï¼Œåªæœ‰è¾“å…¥å¯†ç æˆåŠŸï¼Œæ‰èƒ½è¿›å…¥éšç§ä¿æŠ¤
 		}
 
 	}
@@ -79,7 +79,7 @@ public class EnterPrivacyActivity extends BasicActivity implements
 	}
 
 	/**
-	 * µÚÒ»´Î½øÈëÒşË½±£»¤£¬Ê×ÏÈĞèÒª¿ªÆôÒ»ÏÂÒşË½±£»¤£¬ÉèÖÃÒ»ÏÂÃÜÂë
+	 * ç¬¬ä¸€æ¬¡è¿›å…¥éšç§ä¿æŠ¤ï¼Œé¦–å…ˆéœ€è¦å¼€å¯ä¸€ä¸‹éšç§ä¿æŠ¤ï¼Œè®¾ç½®ä¸€ä¸‹å¯†ç 
 	 */
 	private void showFirstEnter() {
 
@@ -95,7 +95,7 @@ public class EnterPrivacyActivity extends BasicActivity implements
 	}
 
 	/**
-	 * ·ÇÊ×´Î½øÈëÒşË½±£»¤£¬ÔòÊäÈëµÚÒ»´ÎÉèÖÃµÄÃÜÂë£¬½øÈëÒşË½±£»¤Ò³Ãæ
+	 * éé¦–æ¬¡è¿›å…¥éšç§ä¿æŠ¤ï¼Œåˆ™è¾“å…¥ç¬¬ä¸€æ¬¡è®¾ç½®çš„å¯†ç ï¼Œè¿›å…¥éšç§ä¿æŠ¤é¡µé¢
 	 */
 	private void showNormalEnter() {
 
@@ -106,17 +106,17 @@ public class EnterPrivacyActivity extends BasicActivity implements
 				.findViewById(R.id.privacy_start_et_password);
 		btnStartPrivacy = (Button) view.findViewById(R.id.b_start_privacy);
 		tvStartPrivacyForgetpwd = (TextView) view
-				.findViewById(R.id.privacy_start_tv_forgetpwd); // Íü¼ÇÃÜÂë
+				.findViewById(R.id.privacy_start_tv_forgetpwd); // å¿˜è®°å¯†ç 
 		tvStartPrivacyForgetpwd
-				.setText(Html.fromHtml("<u>" + "Íü¼ÇÃÜÂë?" + "</u>")); // ÎªÍü¼ÇÃÜÂëÉèÖÃÏÂ»®Ïß
-		tvStartPrivacyForgetpwd.setOnClickListener(this); // ÎªÍü¼ÇÃÜÂë×¢²á¼àÌıÆ÷
+				.setText(Html.fromHtml("<u>" + "å¿˜è®°å¯†ç ?" + "</u>")); // ä¸ºå¿˜è®°å¯†ç è®¾ç½®ä¸‹åˆ’çº¿
+		tvStartPrivacyForgetpwd.setOnClickListener(this); // ä¸ºå¿˜è®°å¯†ç æ³¨å†Œç›‘å¬å™¨
 		ivStartPrivacyPrevious.setOnClickListener(this);
 		btnStartPrivacy.setOnClickListener(this);
 		setContentView(view);
 	}
 
 	/**
-	 * ÏÔÊ¾ĞŞ¸ÄÃÜÂë½çÃæ
+	 * æ˜¾ç¤ºä¿®æ”¹å¯†ç ç•Œé¢
 	 */
 	private void showAlterPassword() {
 		View alterView = View.inflate(this, R.layout.privacy_alter_pwd, null);
@@ -134,14 +134,14 @@ public class EnterPrivacyActivity extends BasicActivity implements
 	}
 
 	/**
-	 * ÏÔÊ¾ÖØÖÃÃÜÂë½çÃæ
+	 * æ˜¾ç¤ºé‡ç½®å¯†ç ç•Œé¢
 	 */
 	private void showResetPassword() {
 		View resetView = View.inflate(this, R.layout.privacy_reset_pwd, null);
 		etResetPwdQuestion = (EditText) resetView
 				.findViewById(R.id.et_reset_privacy_password_question);
 		String question = sp.getString("privacy_question", "");
-		etResetPwdQuestion.setText(question); // ÉèÖÃÖ®Ç°Ñ¡ÔñµÄÎÊÌâ
+		etResetPwdQuestion.setText(question); // è®¾ç½®ä¹‹å‰é€‰æ‹©çš„é—®é¢˜
 		etResetPwdAnswer = (EditText) resetView
 				.findViewById(R.id.et_reset_privacy_password_answer);
 		btnResetNext = (Button) resetView
@@ -157,115 +157,115 @@ public class EnterPrivacyActivity extends BasicActivity implements
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		case R.id.privacy_first_enter_iv_previous: // µÚÒ»´Î½øÈëÒşË½±£»¤µÄ·µ»Ø°´Å¥
+			case R.id.privacy_first_enter_iv_previous: // ç¬¬ä¸€æ¬¡è¿›å…¥éšç§ä¿æŠ¤çš„è¿”å›æŒ‰é’®
 
-			Intent previousIntent = new Intent(EnterPrivacyActivity.this,
-					MainActivity.class);
-			startActivity(previousIntent);
-			finish();
-
-			break;
-
-		case R.id.privacy_first_enter_btn_start:// µÚÒ»´Î½øÈëÒşË½±£»¤µÄ¿ªÆô°´Å¥
-
-			Intent setupPrivacyIntent = new Intent(EnterPrivacyActivity.this,
-					SetupPrivacyPwdActivity.class);
-			startActivity(setupPrivacyIntent);
-			finish();
-
-			break;
-		case R.id.iv_reset_privacy_password_previous: // ÖØÖÃÃÜÂëÖĞµÄÇ°Ò»²½
-			Intent previousIntent1 = new Intent(EnterPrivacyActivity.this,
-					MainActivity.class);
-			startActivity(previousIntent1);
-			finish();
-			break;
-
-		case R.id.alter_privacy_pwd_iv_previous:
-			Intent previousIntent2 = new Intent(EnterPrivacyActivity.this,
-					MainActivity.class);
-			startActivity(previousIntent2);
-			finish();
-			break;
-
-		case R.id.privacy_start_iv_previous:
-			Intent previousIntent4 = new Intent(EnterPrivacyActivity.this,
-					MainActivity.class);
-			startActivity(previousIntent4);
-			finish();
-			break;
-
-		case R.id.b_start_privacy:
-
-			String realPassword = sp.getString("privacy_password", null);
-			String password = etStartPrivacyPassword.getText().toString();
-
-			if (password.equals("")) {
-				Toast.makeText(getApplicationContext(), "ÃÜÂë²»ÄÜÎª¿Õ", 0).show();
-			} else if (MD5Encoder.encode(password).equals(realPassword)) {
-
-				Intent privacyIntent = new Intent(EnterPrivacyActivity.this,
-						PrivacyActivity.class);
-				startActivity(privacyIntent);
+				Intent previousIntent = new Intent(EnterPrivacyActivity.this,
+						MainActivity.class);
+				startActivity(previousIntent);
 				finish();
-			} else {
-				Toast.makeText(getApplicationContext(), "ÃÜÂë´íÎó", 0).show();
-			}
 
-			break;
+				break;
 
-		// ·ÇÊ×´Î½øÈëÒşË½±£»¤½çÃæÖĞµÄÍü¼ÇÃÜÂë
-		case R.id.privacy_start_tv_forgetpwd:
+			case R.id.privacy_first_enter_btn_start:// ç¬¬ä¸€æ¬¡è¿›å…¥éšç§ä¿æŠ¤çš„å¼€å¯æŒ‰é’®
 
-			showResetPassword();
+				Intent setupPrivacyIntent = new Intent(EnterPrivacyActivity.this,
+						SetupPrivacyPwdActivity.class);
+				startActivity(setupPrivacyIntent);
+				finish();
 
-			break;
+				break;
+			case R.id.iv_reset_privacy_password_previous: // é‡ç½®å¯†ç ä¸­çš„å‰ä¸€æ­¥
+				Intent previousIntent1 = new Intent(EnterPrivacyActivity.this,
+						MainActivity.class);
+				startActivity(previousIntent1);
+				finish();
+				break;
 
-		case R.id.b_reset_privacy_next:
+			case R.id.alter_privacy_pwd_iv_previous:
+				Intent previousIntent2 = new Intent(EnterPrivacyActivity.this,
+						MainActivity.class);
+				startActivity(previousIntent2);
+				finish();
+				break;
 
-			String realAnswer = sp.getString("privacy_answer", ""); // µÃµ½ÕæÊµµÄ´ğ°¸
-			String answer = etResetPwdAnswer.getText().toString(); // µÃµ½ÓÃ»§ÊäÈëµÄ´ğ°¸
+			case R.id.privacy_start_iv_previous:
+				Intent previousIntent4 = new Intent(EnterPrivacyActivity.this,
+						MainActivity.class);
+				startActivity(previousIntent4);
+				finish();
+				break;
 
-			if (answer.equals("")) {
-				Toast.makeText(getApplicationContext(), "´ğ°¸²»ÄÜÎª¿Õ", 0).show();
-			} else if (realAnswer.equals(answer)) {
-				showAlterPassword();
-			} else {
-				Toast.makeText(getApplicationContext(), "´ğ°¸´íÎó!", 0).show();
-			}
+			case R.id.b_start_privacy:
 
-			break;
+				String realPassword = sp.getString("privacy_password", null);
+				String password = etStartPrivacyPassword.getText().toString();
 
-		case R.id.alter_privacy_btn_finish:
+				if (password.equals("")) {
+					Toast.makeText(getApplicationContext(), "å¯†ç ä¸èƒ½ä¸ºç©º", Toast.LENGTH_SHORT).show();
+				} else if (MD5Encoder.encode(password).equals(realPassword)) {
 
-			String alterPassword = etAlterPassword.getText().toString().trim();
-			String passwordConfirm = etAlterPasswordConfirm.getText()
-					.toString().trim();
-
-			if ("".equals(alterPassword) || "".equals(passwordConfirm)) { // ÃÜÂëÎª¿ÕµÄÇé¿ö
-				Toast.makeText(getApplicationContext(), "ÃÜÂë²»ÄÜÎª¿Õ", 0).show();
-				return;
-			} else {
-				if (alterPassword.equals(passwordConfirm)) { // Á½´ÎÃÜÂëÊäÈëÏàÍ¬£¬¾Í°Ñ
-																// ÃÜÂë´æÔÚsharedpreference
-					Editor editor = sp.edit();
-					editor.putString("privacy_password",
-							MD5Encoder.encode(alterPassword)); // ÕâÀï´æÃÜÂëĞèÒª¼ÓÃÜÒ»ÏÂ
-					editor.commit();
-					Intent privacyIntent = new Intent(
-							EnterPrivacyActivity.this, PrivacyActivity.class);
+					Intent privacyIntent = new Intent(EnterPrivacyActivity.this,
+							PrivacyActivity.class);
 					startActivity(privacyIntent);
-					Toast.makeText(getApplicationContext(),
-							"³É¹¦ĞŞ¸ÄÃÜÂë£¬½øÈëÒşË½±£»¤£¡	ÏÖÔÚÒşË½±£»¤ÃÜÂëÎª " + alterPassword,
-							Toast.LENGTH_LONG).show();
 					finish();
 				} else {
-					Toast.makeText(getApplicationContext(), "Á½´ÎÃÜÂë²»Ò»ÖÂ", 0)
-							.show();
-					return;
+					Toast.makeText(getApplicationContext(), "å¯†ç é”™è¯¯", Toast.LENGTH_SHORT).show();
 				}
-			}
-			break;
+
+				break;
+
+			// éé¦–æ¬¡è¿›å…¥éšç§ä¿æŠ¤ç•Œé¢ä¸­çš„å¿˜è®°å¯†ç 
+			case R.id.privacy_start_tv_forgetpwd:
+
+				showResetPassword();
+
+				break;
+
+			case R.id.b_reset_privacy_next:
+
+				String realAnswer = sp.getString("privacy_answer", ""); // å¾—åˆ°çœŸå®çš„ç­”æ¡ˆ
+				String answer = etResetPwdAnswer.getText().toString(); // å¾—åˆ°ç”¨æˆ·è¾“å…¥çš„ç­”æ¡ˆ
+
+				if (answer.equals("")) {
+					Toast.makeText(getApplicationContext(), "ç­”æ¡ˆä¸èƒ½ä¸ºç©º", Toast.LENGTH_SHORT).show();
+				} else if (realAnswer.equals(answer)) {
+					showAlterPassword();
+				} else {
+					Toast.makeText(getApplicationContext(), "ç­”æ¡ˆé”™è¯¯!", Toast.LENGTH_SHORT).show();
+				}
+
+				break;
+
+			case R.id.alter_privacy_btn_finish:
+
+				String alterPassword = etAlterPassword.getText().toString().trim();
+				String passwordConfirm = etAlterPasswordConfirm.getText()
+						.toString().trim();
+
+				if ("".equals(alterPassword) || "".equals(passwordConfirm)) { // å¯†ç ä¸ºç©ºçš„æƒ…å†µ
+					Toast.makeText(getApplicationContext(), "å¯†ç ä¸èƒ½ä¸ºç©º", Toast.LENGTH_SHORT).show();
+					return;
+				} else {
+					if (alterPassword.equals(passwordConfirm)) { // ä¸¤æ¬¡å¯†ç è¾“å…¥ç›¸åŒï¼Œå°±æŠŠ
+						// å¯†ç å­˜åœ¨sharedpreference
+						Editor editor = sp.edit();
+						editor.putString("privacy_password",
+								MD5Encoder.encode(alterPassword)); // è¿™é‡Œå­˜å¯†ç éœ€è¦åŠ å¯†ä¸€ä¸‹
+						editor.commit();
+						Intent privacyIntent = new Intent(
+								EnterPrivacyActivity.this, PrivacyActivity.class);
+						startActivity(privacyIntent);
+						Toast.makeText(getApplicationContext(),
+								"æˆåŠŸä¿®æ”¹å¯†ç ï¼Œè¿›å…¥éšç§ä¿æŠ¤ï¼	ç°åœ¨éšç§ä¿æŠ¤å¯†ç ä¸º " + alterPassword,
+								Toast.LENGTH_LONG).show();
+						finish();
+					} else {
+						Toast.makeText(getApplicationContext(), "ä¸¤æ¬¡å¯†ç ä¸ä¸€è‡´", Toast.LENGTH_SHORT)
+								.show();
+						return;
+					}
+				}
+				break;
 		}
 
 	}

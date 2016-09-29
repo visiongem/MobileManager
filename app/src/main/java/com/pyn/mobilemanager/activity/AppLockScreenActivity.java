@@ -1,6 +1,5 @@
 package com.pyn.mobilemanager.activity;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -28,134 +27,134 @@ import com.pyn.mobilemanager.service.IService;
 import com.pyn.mobilemanager.util.MD5Encoder;
 
 /**
- * ÎªÄ³Ğ©Ó¦ÓÃÉèÖÃ³ÌĞòËøºó£¬½øÈëÓ¦ÓÃÇ°Ìø³öµÄ³ÌĞòËø½çÃæµÄactivity
+ * ä¸ºæŸäº›åº”ç”¨è®¾ç½®ç¨‹åºé”åï¼Œè¿›å…¥åº”ç”¨å‰è·³å‡ºçš„ç¨‹åºé”ç•Œé¢çš„activity
  */
 public class AppLockScreenActivity extends BasicActivity implements
-		OnClickListener {
+        OnClickListener {
 
-	private ImageView ivIcon;
-	private TextView tvName;
-	private EditText etPassword;
-	private Button btnSure;
-	private SharedPreferences sp;
-	private String realPassword; // Êµ¼ÊÕıÈ·µÄÃÜÂë
-	private String packName; // °üÃû
-	private IService iService;
-	private MyConn myConn;
+    private ImageView ivIcon;
+    private TextView tvName;
+    private EditText etPassword;
+    private Button btnSure;
+    private SharedPreferences sp;
+    private String realPassword; // å®é™…æ­£ç¡®çš„å¯†ç 
+    private String packName; // åŒ…å
+    private IService iService;
+    private MyConn myConn;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.app_lock_password);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.app_lock_password);
 
-		initViews();
+        initViews();
 
-		myConn = new MyConn();
-		// °ó¶¨·şÎñ£¬Ö÷ÒªÊÇÎªÁËÄÜ¹»µ÷ÓÃ·şÎñÀïÃæµÄ·½·¨
-		Intent intent = new Intent(this, AppLockService.class);
-		bindService(intent, myConn, BIND_AUTO_CREATE); // °ó¶¨·şÎñ
+        myConn = new MyConn();
+        // ç»‘å®šæœåŠ¡ï¼Œä¸»è¦æ˜¯ä¸ºäº†èƒ½å¤Ÿè°ƒç”¨æœåŠ¡é‡Œé¢çš„æ–¹æ³•
+        Intent intent = new Intent(this, AppLockService.class);
+        bindService(intent, myConn, BIND_AUTO_CREATE); // ç»‘å®šæœåŠ¡
 
-		sp = getSharedPreferences("config", MODE_PRIVATE);
-		realPassword = sp.getString("privacy_password", ""); // ´ÓspÖĞµÃµ½Ö®Ç°ÉèÖÃµÄÃÜÂë
-		packName = getIntent().getStringExtra("packName"); // µÃµ½°üÃû
+        sp = getSharedPreferences("config", MODE_PRIVATE);
+        realPassword = sp.getString("privacy_password", ""); // ä»spä¸­å¾—åˆ°ä¹‹å‰è®¾ç½®çš„å¯†ç 
+        packName = getIntent().getStringExtra("packName"); // å¾—åˆ°åŒ…å
 
-		// Íê³É½çÃæµÄ³õÊ¼»¯
-		ApplicationInfo appInfo;
+        // å®Œæˆç•Œé¢çš„åˆå§‹åŒ–
+        ApplicationInfo appInfo;
 
-		try {
-			// Í¨¹ı°üÃûÄÃµ½ApplicationInfo
-			appInfo = getPackageManager().getPackageInfo(packName, 0).applicationInfo;
-			Drawable appIcon = appInfo.loadIcon(getPackageManager()); // Ó¦ÓÃÍ¼±ê
-			String appName = appInfo.loadLabel(getPackageManager()).toString(); // Ó¦ÓÃµÄÃû×Ö
-			ivIcon.setImageDrawable(appIcon);
-			tvName.setText(appName);
+        try {
+            // é€šè¿‡åŒ…åæ‹¿åˆ°ApplicationInfo
+            appInfo = getPackageManager().getPackageInfo(packName, 0).applicationInfo;
+            Drawable appIcon = appInfo.loadIcon(getPackageManager()); // åº”ç”¨å›¾æ ‡
+            String appName = appInfo.loadLabel(getPackageManager()).toString(); // åº”ç”¨çš„åå­—
+            ivIcon.setImageDrawable(appIcon);
+            tvName.setText(appName);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-			return true; // ×èÖ¹°´¼üÊÂ¼ş¼ÌĞøÏòÏÂ·Ö·¢
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            return true; // é˜»æ­¢æŒ‰é”®äº‹ä»¶ç»§ç»­å‘ä¸‹åˆ†å‘
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
-	class MyConn implements ServiceConnection {
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			// ÔÚServiceÀïÃæÒÑ¾­ÊµÏÖÁËIService½Ó¿ÚÁË
-			iService = (IService) service;
-		}
+    class MyConn implements ServiceConnection {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            // åœ¨Serviceé‡Œé¢å·²ç»å®ç°äº†IServiceæ¥å£äº†
+            iService = (IService) service;
+        }
 
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-		}
-	}
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    }
 
-	@Override
-	protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
 
-		super.onDestroy();
-		if (myConn != null) {
-			unbindService(myConn); // ½â³ı°ó¶¨
-			myConn = null;
-		}
-	}
+        super.onDestroy();
+        if (myConn != null) {
+            unbindService(myConn); // è§£é™¤ç»‘å®š
+            myConn = null;
+        }
+    }
 
-	@Override
-	protected void initViews() {
-		ivIcon = (ImageView) findViewById(R.id.app_lock_pwd_iv_icon); // Ó¦ÓÃÍ¼±ê
-		tvName = (TextView) findViewById(R.id.app_lock_pwd_tv_name); // Ó¦ÓÃÃû³Æ
-		etPassword = (EditText) findViewById(R.id.app_lock_pwd_et); // µÃµ½ÊäÈëÃÜÂëµÄEditText
-		btnSure = (Button) findViewById(R.id.app_lock_btn_sure); // µÃµ½È·¶¨button
-		btnSure.setOnClickListener(this);
-	}
+    @Override
+    protected void initViews() {
+        ivIcon = (ImageView) findViewById(R.id.app_lock_pwd_iv_icon); // åº”ç”¨å›¾æ ‡
+        tvName = (TextView) findViewById(R.id.app_lock_pwd_tv_name); // åº”ç”¨åç§°
+        etPassword = (EditText) findViewById(R.id.app_lock_pwd_et); // å¾—åˆ°è¾“å…¥å¯†ç çš„EditText
+        btnSure = (Button) findViewById(R.id.app_lock_btn_sure); // å¾—åˆ°ç¡®å®šbutton
+        btnSure.setOnClickListener(this);
+    }
 
-	@Override
-	public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
 
-		switch (v.getId()) {
-		case R.id.app_lock_btn_sure:
+        switch (v.getId()) {
+            case R.id.app_lock_btn_sure:
 
-			// µÃµ½ÓÃ»§ÊäÈëµÄÃÜÂë
-			String password = etPassword.getText().toString().trim();
+                // å¾—åˆ°ç”¨æˆ·è¾“å…¥çš„å¯†ç 
+                String password = etPassword.getText().toString().trim();
 
-			if (TextUtils.isEmpty(password)) { // Èç¹ûÊ²Ã´¶¼Ã»ÓĞÊäÈë¾ÍÖ±½Óµã»÷È·¶¨
-				Toast.makeText(AppLockScreenActivity.this, "ÃÜÂë²»ÄÜÎª¿Õ", 1).show();
-			} else {
-				if (MD5Encoder.encode(password).equals(realPassword)) {
-					// Í¨Öª³ÌĞòËø·şÎñ£¬ÁÙÊ±È¡Ïû¶ÔÕâ¸ö³ÌĞòµÄ±£»¤
-					iService.callAppProtecteStop(packName);
-					finish();
-					try {
-						PackageInfo info = getPackageManager().getPackageInfo(
-								packName,
-								PackageManager.GET_UNINSTALLED_PACKAGES
-										| PackageManager.GET_ACTIVITIES);
-						ActivityInfo[] activityInfos = info.activities; // ´æ·ÅÕâ¸ö°üÖĞËùÓĞactivityµÄĞÅÏ¢£¬ÕâÑù¾Í¿ÉÒÔµÃµ½Ò»¸öActivityInfoµÄ¼¯ºÏ
-						if (activityInfos.length > 0) {
-							ActivityInfo startActivity = activityInfos[0]; // µÃµ½¾ßÓĞÆô¶¯ÊôĞÔµÄactivity
-							Intent intent = new Intent();
-							intent.setClassName(packName, startActivity.name); // startActivity.nameµÃµ½µ±Ç°activityµÄÃû×Ö
-							startActivity(intent); // Æô¶¯Õâ¸ö³ÌĞò
-						}
+                if (TextUtils.isEmpty(password)) { // å¦‚æœä»€ä¹ˆéƒ½æ²¡æœ‰è¾“å…¥å°±ç›´æ¥ç‚¹å‡»ç¡®å®š
+                    Toast.makeText(AppLockScreenActivity.this, "å¯†ç ä¸èƒ½ä¸ºç©º", 1).show();
+                } else {
+                    if (MD5Encoder.encode(password).equals(realPassword)) {
+                        // é€šçŸ¥ç¨‹åºé”æœåŠ¡ï¼Œä¸´æ—¶å–æ¶ˆå¯¹è¿™ä¸ªç¨‹åºçš„ä¿æŠ¤
+                        iService.callAppProtecteStop(packName);
+                        finish();
+                        try {
+                            PackageInfo info = getPackageManager().getPackageInfo(
+                                    packName,
+                                    PackageManager.GET_UNINSTALLED_PACKAGES
+                                            | PackageManager.GET_ACTIVITIES);
+                            ActivityInfo[] activityInfos = info.activities; // å­˜æ”¾è¿™ä¸ªåŒ…ä¸­æ‰€æœ‰activityçš„ä¿¡æ¯ï¼Œè¿™æ ·å°±å¯ä»¥å¾—åˆ°ä¸€ä¸ªActivityInfoçš„é›†åˆ
+                            if (activityInfos.length > 0) {
+                                ActivityInfo startActivity = activityInfos[0]; // å¾—åˆ°å…·æœ‰å¯åŠ¨å±æ€§çš„activity
+                                Intent intent = new Intent();
+                                intent.setClassName(packName, startActivity.name); // startActivity.nameå¾—åˆ°å½“å‰activityçš„åå­—
+                                startActivity(intent); // å¯åŠ¨è¿™ä¸ªç¨‹åº
+                            }
 
-					} catch (Exception e) {
-						// Toast.makeText(AppLockScreenActivity.this,
-						// "Ó¦ÓÃ³ÌĞòÎŞ·¨Æô¶¯", 0).show();
-						e.printStackTrace();
-					}
-				} else {
-					Toast.makeText(AppLockScreenActivity.this, "ÃÜÂë´íÎó", 1)
-							.show();
-				}
-			}
+                        } catch (Exception e) {
+                            // Toast.makeText(AppLockScreenActivity.this,
+                            // "åº”ç”¨ç¨‹åºæ— æ³•å¯åŠ¨", 0).show();
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(AppLockScreenActivity.this, "å¯†ç é”™è¯¯", 1)
+                                .show();
+                    }
+                }
 
-			break;
-		}
-	}
+                break;
+        }
+    }
 }

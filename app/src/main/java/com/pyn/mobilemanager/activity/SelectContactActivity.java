@@ -1,11 +1,5 @@
 package com.pyn.mobilemanager.activity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -33,15 +27,20 @@ import com.pyn.mobilemanager.R;
 import com.pyn.mobilemanager.view.MyContactListView;
 import com.pyn.mobilemanager.view.MyContactListView.OnTouchingLetterChangedListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Pattern;
+
 /**
- * Ñ¡ÔñÁªÏµÈËµÄactivity
+ * é€‰æ‹©è”ç³»äººçš„activity
  */
 public class SelectContactActivity extends BasicActivity implements
 		OnClickListener {
 
 	private TextView contact_overlay;
-	private HashMap<String, Integer> alphaIndex; // ´æ·Å´æÔÚµÄººÓïÆ´ÒôÊ××ÖÄ¸ºÍÓëÖ®¶ÔÓ¦µÄÁĞ±íÎ»ÖÃ
-	private String[] sections; // ´æ·Å´æÔÚµÄººÓïÆ´ÒôÊ××ÖÄ¸
+	private HashMap<String, Integer> alphaIndex; // å­˜æ”¾å­˜åœ¨çš„æ±‰è¯­æ‹¼éŸ³é¦–å­—æ¯å’Œä¸ä¹‹å¯¹åº”çš„åˆ—è¡¨ä½ç½®
+	private String[] sections; // å­˜æ”¾å­˜åœ¨çš„æ±‰è¯­æ‹¼éŸ³é¦–å­—æ¯
 	private Handler handler;
 	private OverlayThread overlayThread;
 	private MyContactListView myContactlv;
@@ -67,26 +66,26 @@ public class SelectContactActivity extends BasicActivity implements
 		overlayThread = new OverlayThread();
 		initOverlay();
 
-		lvSelectContact.setOnItemClickListener(new OnItemClickListener() { // ÎªÃ¿¸öÌõÄ¿ÉèÖÃµã»÷ÊÂ¼ş£¬·µ»Øµ±Ç°µç»°ºÅÂë
+		lvSelectContact.setOnItemClickListener(new OnItemClickListener() { // ä¸ºæ¯ä¸ªæ¡ç›®è®¾ç½®ç‚¹å‡»äº‹ä»¶ï¼Œè¿”å›å½“å‰ç”µè¯å·ç 
 
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+									int position, long id) {
 
-						String phone = list.get(position).get("number")
-								.toString().trim();
-						String name = list.get(position).get("name").toString()
-								.trim();
-						Intent intent = new Intent();
-						intent.putExtra("privacy_number", phone);
-						intent.putExtra("privacy_name", name);
-						intent.putExtra("number", phone);
-						intent.putExtra("name", name);
-						setResult(0, intent);
-						finish();
-					}
+				String phone = list.get(position).get("number")
+						.toString().trim();
+				String name = list.get(position).get("name").toString()
+						.trim();
+				Intent intent = new Intent();
+				intent.putExtra("privacy_number", phone);
+				intent.putExtra("privacy_name", name);
+				intent.putExtra("number", phone);
+				intent.putExtra("name", name);
+				setResult(0, intent);
+				finish();
+			}
 
-				});
+		});
 
 	}
 
@@ -95,7 +94,7 @@ public class SelectContactActivity extends BasicActivity implements
 		super.onResume();
 		Uri uri = Uri.parse("content://com.android.contacts/data/phones");
 		String[] projection;
-		// »ñÈ¡µ±Ç°ÏµÍ³µÄandroid°æ±¾ºÅ
+		// è·å–å½“å‰ç³»ç»Ÿçš„androidç‰ˆæœ¬å·
 		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 		if (currentapiVersion >= 19) {
 			projection = new String[] { "_id", "display_name", "data1",
@@ -109,7 +108,7 @@ public class SelectContactActivity extends BasicActivity implements
 				"sort_key COLLATE LOCALIZED asc");
 	}
 
-	// ²éÑ¯ÁªÏµÈË,AsyncQueryHandler:Òì²½µÄ²éÑ¯²Ù×÷°ïÖúÀà£¬ÆäÊµËüÍ¬Ñù¿ÉÒÔ´¦ÀíÔöÉ¾¸Ä
+	// æŸ¥è¯¢è”ç³»äºº,AsyncQueryHandler:å¼‚æ­¥çš„æŸ¥è¯¢æ“ä½œå¸®åŠ©ç±»ï¼Œå…¶å®å®ƒåŒæ ·å¯ä»¥å¤„ç†å¢åˆ æ”¹
 	private class MyAsyncQueryHandler extends AsyncQueryHandler {
 
 		public MyAsyncQueryHandler(ContentResolver contentResolver) {
@@ -123,24 +122,24 @@ public class SelectContactActivity extends BasicActivity implements
 				list = new ArrayList<ContentValues>();
 				cursor.moveToFirst();
 				for (int i = 0; i < cursor.getCount(); i++) {
-					ContentValues values = new ContentValues(); // Í¨¹ıContentResolverµ÷ÓÃÏµÍ³URIÊµÏÖÍ¨Ñ¶Â¼²éÑ¯,
-																// Í¨¹ıÉÏÏÂÎÄ¶ÔÏóµÃµ½Õâ¸ö¶ÔÏó
+					ContentValues values = new ContentValues(); // é€šè¿‡ContentResolverè°ƒç”¨ç³»ç»ŸURIå®ç°é€šè®¯å½•æŸ¥è¯¢,
+					// é€šè¿‡ä¸Šä¸‹æ–‡å¯¹è±¡å¾—åˆ°è¿™ä¸ªå¯¹è±¡
 					cursor.moveToPosition(i);
 					String name = cursor.getString(1).trim();
 					String number1 = cursor.getString(2).trim();
 					String number = "";
-					number = number1.replaceAll(" ", ""); // Ìæ»»µôµç»°ºÅÂëÖĞµÄ¿Õ¸ñ
+					number = number1.replaceAll(" ", ""); // æ›¿æ¢æ‰ç”µè¯å·ç ä¸­çš„ç©ºæ ¼
 					String sortKey = cursor.getString(3).trim();
-					if (number.startsWith("+86")) { // È¥µôµç»°ºÅÂëÖĞµÄ+86
+					if (number.startsWith("+86")) { // å»æ‰ç”µè¯å·ç ä¸­çš„+86
 						values.put(NAME, name);
-						values.put(NUMBER, number.substring(3)); // È¥µô+86
+						values.put(NUMBER, number.substring(3)); // å»æ‰+86
 						values.put(SORT_KEY, sortKey);
 					} else {
 						values.put(NAME, name);
 						values.put(NUMBER, number);
 						values.put(SORT_KEY, sortKey);
 					}
-					if (list.contains(values)) { // °ÑÖØ¸´µÄºÅÂëÈ¥µô
+					if (list.contains(values)) { // æŠŠé‡å¤çš„å·ç å»æ‰
 						continue;
 					} else {
 						list.add(values);
@@ -159,7 +158,7 @@ public class SelectContactActivity extends BasicActivity implements
 	}
 
 	/**
-	 * ÊÊÅäÆ÷
+	 * é€‚é…å™¨
 	 */
 	private class SelectContactAdapter extends BaseAdapter {
 
@@ -173,10 +172,10 @@ public class SelectContactActivity extends BasicActivity implements
 			sections = new String[list.size()];
 
 			for (int i = 0; i < list.size(); i++) {
-				// µ±Ç°ººÓïÆ´ÒôÊ××ÖÄ¸
+				// å½“å‰æ±‰è¯­æ‹¼éŸ³é¦–å­—æ¯
 				String currentStr = getAlpha(list.get(i)
 						.getAsString("sort_key"));
-				// ÉÏÒ»¸öººÓïÆ´ÒôÊ××ÖÄ¸£¬Èç¹û²»´æÔÚÎª
+				// ä¸Šä¸€ä¸ªæ±‰è¯­æ‹¼éŸ³é¦–å­—æ¯ï¼Œå¦‚æœä¸å­˜åœ¨ä¸º
 				String previewStr = (i - 1) >= 0 ? getAlpha(list.get(i - 1)
 						.getAsString(SORT_KEY)) : " ";
 				if (!previewStr.equals(currentStr)) {
@@ -241,7 +240,7 @@ public class SelectContactActivity extends BasicActivity implements
 		TextView number;
 	}
 
-	// ³õÊ¼»¯ººÓïÆ´ÒôÊ××ÖÄ¸µ¯³öÌáÊ¾¿ò
+	// åˆå§‹åŒ–æ±‰è¯­æ‹¼éŸ³é¦–å­—æ¯å¼¹å‡ºæç¤ºæ¡†
 	private void initOverlay() {
 		LayoutInflater inflater = LayoutInflater.from(this);
 		contact_overlay = (TextView) inflater.inflate(R.layout.contact_overlay,
@@ -269,15 +268,15 @@ public class SelectContactActivity extends BasicActivity implements
 				contact_overlay.setText(sections[position]);
 				contact_overlay.setVisibility(View.VISIBLE);
 				handler.removeCallbacks(overlayThread);
-				// ÑÓ³ÙÒ»ÃëºóÖ´ĞĞ£¬ÈÃoverlayÎª²»¿É¼û
+				// å»¶è¿Ÿä¸€ç§’åæ‰§è¡Œï¼Œè®©overlayä¸ºä¸å¯è§
 				handler.postDelayed(overlayThread, 1000);
 			}
 		}
 	}
 
 	/**
-	 * ÉèÖÃoverlay²»¿É¼û
-	 * 
+	 * è®¾ç½®overlayä¸å¯è§
+	 *
 	 * @author hp
 	 */
 	private class OverlayThread implements Runnable {
@@ -290,8 +289,8 @@ public class SelectContactActivity extends BasicActivity implements
 	}
 
 	/**
-	 * »ñµÃººÓïÆ´ÒôÊ××ÖÄ¸
-	 * 
+	 * è·å¾—æ±‰è¯­æ‹¼éŸ³é¦–å­—æ¯
+	 *
 	 * @param str
 	 * @return
 	 */
@@ -305,7 +304,7 @@ public class SelectContactActivity extends BasicActivity implements
 		}
 
 		char c = str.trim().substring(0, 1).charAt(0);
-		// ÕıÔò±í´ïÊ½£¬ÅĞ¶ÏÊ××ÖÄ¸ÊÇ·ñÊÇÓ¢ÎÄ×ÖÄ¸
+		// æ­£åˆ™è¡¨è¾¾å¼ï¼Œåˆ¤æ–­é¦–å­—æ¯æ˜¯å¦æ˜¯è‹±æ–‡å­—æ¯
 		Pattern pattern = Pattern.compile("^[A-Za-z]+$");
 		if (pattern.matcher(c + "").matches()) {
 			return (c + "").toUpperCase();
@@ -315,7 +314,7 @@ public class SelectContactActivity extends BasicActivity implements
 	}
 
 	/**
-	 * ³õÊ¼»¯¿Ø¼ş
+	 * åˆå§‹åŒ–æ§ä»¶
 	 */
 	@Override
 	protected void initViews() {
@@ -328,24 +327,24 @@ public class SelectContactActivity extends BasicActivity implements
 	}
 
 	/**
-	 * ¿Ø¼şµã»÷ÊÂ¼ş
+	 * æ§ä»¶ç‚¹å‡»äº‹ä»¶
 	 */
 	@Override
 	public void onClick(View v) {
 
 		switch (v.getId()) {
 
-		/**
-		 * ·µ»Ø
-		 */
-		case R.id.select_contact_iv_previous:
+			/**
+			 * è¿”å›
+			 */
+			case R.id.select_contact_iv_previous:
 
-			Intent previousIntent = new Intent(SelectContactActivity.this,
-					MainActivity.class);
-			startActivity(previousIntent);
-			finish();
+				Intent previousIntent = new Intent(SelectContactActivity.this,
+						MainActivity.class);
+				startActivity(previousIntent);
+				finish();
 
-			break;
+				break;
 		}
 	}
 }

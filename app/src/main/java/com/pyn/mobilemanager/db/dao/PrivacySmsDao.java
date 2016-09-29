@@ -1,8 +1,5 @@
 package com.pyn.mobilemanager.db.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,51 +8,54 @@ import android.text.TextUtils;
 import com.pyn.mobilemanager.db.PrivacySmsDBHelper;
 import com.pyn.mobilemanager.domain.PrivacySmsInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PrivacySmsDao {
-	
+
 	private PrivacySmsDBHelper helper;
-	
+
 	public PrivacySmsDao(Context context) {
 		helper = new PrivacySmsDBHelper(context);
 	}
-	
+
 	/**
-	 * ²éÕÒÒ»ÌõÒşË½±£»¤ºÅÂë£¨Æä·µ»ØÖµÊÇÓÃÓÚÅĞ¶ÏÊı¾İ¿âÖĞÊÇ·ñ´æÔÚ¸ÃºÅÂë£©
+	 * æŸ¥æ‰¾ä¸€æ¡éšç§ä¿æŠ¤å·ç ï¼ˆå…¶è¿”å›å€¼æ˜¯ç”¨äºåˆ¤æ–­æ•°æ®åº“ä¸­æ˜¯å¦å­˜åœ¨è¯¥å·ç ï¼‰
 	 */
 	public boolean find(String number) {
-		// Ä¬ÈÏÇé¿öÏÂÊÇÃ»ÓĞ¸ÃÌõÊı¾İ
+		// é»˜è®¤æƒ…å†µä¸‹æ˜¯æ²¡æœ‰è¯¥æ¡æ•°æ®
 		boolean result = false;
-		// ´ò¿ªÊı¾İ¿â
+		// æ‰“å¼€æ•°æ®åº“
 		SQLiteDatabase db = helper.getReadableDatabase();
 		if (db.isOpen()) {
-			// Ö´ĞĞ²éÑ¯Óï¾äºó£¬·µ»ØÒ»¸ö½á¹û¼¯
+			// æ‰§è¡ŒæŸ¥è¯¢è¯­å¥åï¼Œè¿”å›ä¸€ä¸ªç»“æœé›†
 			Cursor cursor = db.rawQuery(
 					"select * from privacysms where number =?",
 					new String[] { number });
-			// Ä¬ÈÏÇé¿öÏÂ£¬ÓÎ±êÖ¸ÕëÖ¸ÏòÔÚµÚÒ»ÌõÊı¾İµÄÉÏ·½
+			// é»˜è®¤æƒ…å†µä¸‹ï¼Œæ¸¸æ ‡æŒ‡é’ˆæŒ‡å‘åœ¨ç¬¬ä¸€æ¡æ•°æ®çš„ä¸Šæ–¹
 			if (cursor.moveToFirst()) {
-				// ·µ»Øtrue£¬ËµÃ÷Êı¾İ¿âÖĞÒÑ¾­´æÔÚÁË¸ÃÌõÊı¾İ
+				// è¿”å›trueï¼Œè¯´æ˜æ•°æ®åº“ä¸­å·²ç»å­˜åœ¨äº†è¯¥æ¡æ•°æ®
 				result = true;
 			}
-			// ¹Ø±ÕÊı¾İ¿â
+			// å…³é—­æ•°æ®åº“
 			cursor.close();
 			db.close();
 		}
 		return result;
 	}
-	
+
 	/**
-	 * ²éÑ¯È«²¿µÄÒşË½±£»¤Ãûµ¥
+	 * æŸ¥è¯¢å…¨éƒ¨çš„éšç§ä¿æŠ¤åå•
 	 */
 	public List<PrivacySmsInfo> findAll(){
-		//¶¨ÒåºÃÒª·µ»ØµÄ¶ÔÏó
+		//å®šä¹‰å¥½è¦è¿”å›çš„å¯¹è±¡
 		List<PrivacySmsInfo> infos = new ArrayList<PrivacySmsInfo>();
 		SQLiteDatabase db = helper.getReadableDatabase();
-		
+
 		if(db.isOpen()){
-			// ²éÑ¯privacysms±íÖĞµÄËùÓĞºÅÂë
+			// æŸ¥è¯¢privacysmsè¡¨ä¸­çš„æ‰€æœ‰å·ç 
 			Cursor cursor = db.rawQuery("select number, name from privacysms", null);
-			// Ñ­»·±éÀú½á¹û¼¯£¬½«Ã¿¸ö½á¹û¼¯·â×°ºóÌí¼Óµ½¼¯ºÏÖĞ
+			// å¾ªç¯éå†ç»“æœé›†ï¼Œå°†æ¯ä¸ªç»“æœé›†å°è£…åæ·»åŠ åˆ°é›†åˆä¸­
 			while (cursor.moveToNext()) {
 				PrivacySmsInfo info = new PrivacySmsInfo();
 				info.setNumber(cursor.getString(0));
@@ -68,63 +68,63 @@ public class PrivacySmsDao {
 		}
 		return infos;
 	}
-	
+
 	/**
-	 * ¸ü¸ÄÒşË½±£»¤ºÅÂë
+	 * æ›´æ”¹éšç§ä¿æŠ¤å·ç 
 	 * @param oldnumber
-	 *            ¾ÉµÄµÄµç»°ºÅÂë
+	 *            æ—§çš„çš„ç”µè¯å·ç 
 	 * @param newnumber
-	 *            ĞÂµÄºÅÂë ¿ÉÒÔÁô¿Õ
+	 *            æ–°çš„å·ç  å¯ä»¥ç•™ç©º
 	 * @param name
-	 *            ĞÂµÄÃû×Ö
+	 *            æ–°çš„åå­—
 	 */
 	public void update(String oldnumber, String newnumber, String name) {
 
 		SQLiteDatabase db = helper.getWritableDatabase();
 		if (db.isOpen()) {
 			if (TextUtils.isEmpty(newnumber)) {
-				// Èç¹ûĞÂµÄºÅÂëÎª¿ÕµÄ»°£¬ÔòËµÃ÷ÓÃ»§²¢Ã»ÓĞĞŞ¸Ä¸ÃºÅÂë£¨ListViewÖĞµÄitemÉèÖÃÓĞÉ¾³ı¹¦ÄÜ£©
+				// å¦‚æœæ–°çš„å·ç ä¸ºç©ºçš„è¯ï¼Œåˆ™è¯´æ˜ç”¨æˆ·å¹¶æ²¡æœ‰ä¿®æ”¹è¯¥å·ç ï¼ˆListViewä¸­çš„itemè®¾ç½®æœ‰åˆ é™¤åŠŸèƒ½ï¼‰
 				newnumber = oldnumber;
 			}
-			// Ö´ĞĞ¸üĞÂ²Ù×÷
+			// æ‰§è¡Œæ›´æ–°æ“ä½œ
 			db.execSQL(
 					"update privacysms set number=?, name=? where number=?",
 					new Object[] { newnumber, name, oldnumber });
 			db.close();
 		}
 	}
-	
+
 	/**
-	 * É¾³ıÒ»ÌõÒşË½±£»¤ºÅÂë
+	 * åˆ é™¤ä¸€æ¡éšç§ä¿æŠ¤å·ç 
 	 */
 	public void delete(String number) {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		if (db.isOpen()) {
-			// Ö´ĞĞÉ¾³ı²Ù×÷
+			// æ‰§è¡Œåˆ é™¤æ“ä½œ
 			db.execSQL("delete from privacysms where number=?",
 					new Object[] { number });
 			db.close();
 		}
 	}
-	
+
 	/**
-	 * Ìí¼ÓÒ»ÌõÒşË½±£»¤ºÅÂë
+	 * æ·»åŠ ä¸€æ¡éšç§ä¿æŠ¤å·ç 
 	 */
 	public boolean add(String number, String name) {
-		// Ê×ÏÈÅĞ¶ÏÊı¾İ¿âÖĞÊÇ·ñÒÑ¾­´æÔÚ¸ÃÌõÊı¾İ£¬ ·ÀÖ¹Ìí¼ÓÖØ¸´µÄÊı¾İÏÔÊ¾µ½ºÚÃûµ¥ÁĞ±íÖĞ
+		// é¦–å…ˆåˆ¤æ–­æ•°æ®åº“ä¸­æ˜¯å¦å·²ç»å­˜åœ¨è¯¥æ¡æ•°æ®ï¼Œ é˜²æ­¢æ·»åŠ é‡å¤çš„æ•°æ®æ˜¾ç¤ºåˆ°é»‘åå•åˆ—è¡¨ä¸­
 		if (find(number))
-			// Èç¹ûÊı¾İ¿âÖĞÒÑ¾­´æÔÚÒªÌí¼ÓµÄÊı¾İ£¬Ö±½ÓÍ£Ö¹µô¸Ã·½·¨µÄÖ´ĞĞ
+			// å¦‚æœæ•°æ®åº“ä¸­å·²ç»å­˜åœ¨è¦æ·»åŠ çš„æ•°æ®ï¼Œç›´æ¥åœæ­¢æ‰è¯¥æ–¹æ³•çš„æ‰§è¡Œ
 			return false;
-		
+
 		SQLiteDatabase db = helper.getWritableDatabase();
 		if (db.isOpen()) {
-			// Ö´ĞĞÌí¼ÓÊı¾İµÄSQLÓï¾ä
+			// æ‰§è¡Œæ·»åŠ æ•°æ®çš„SQLè¯­å¥
 			db.execSQL("insert into privacysms (number, name) values (?,?)",
 					new Object[] { number, name });
 			db.close();
 		}
-		// Èç¹û´úÂëÄÜ¹»Ö´ĞĞµ½ÕâÒ»²½£¬ËµÃ÷ÉÏÃæµÄÌí¼Ó²Ù×÷Ò²Ö´ĞĞÁË¡£ËùÒÔ²éÑ¯µÄ·µ»ØÖµ±Ø¶¨Îªtrue
+		// å¦‚æœä»£ç èƒ½å¤Ÿæ‰§è¡Œåˆ°è¿™ä¸€æ­¥ï¼Œè¯´æ˜ä¸Šé¢çš„æ·»åŠ æ“ä½œä¹Ÿæ‰§è¡Œäº†ã€‚æ‰€ä»¥æŸ¥è¯¢çš„è¿”å›å€¼å¿…å®šä¸ºtrue
 		return find(number);
 	}
-	
+
 }

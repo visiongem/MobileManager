@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.pyn.mobilemanager.db.FlowMonitorDBHelper;
 
 /**
- * ¶Ô´æ´¢ÁËÃ¿ÔÂÊ¹ÓÃÁ÷Á¿Êı¾İµÄÊı¾İ¿â½øĞĞ²Ù×÷µÄÀà
+ * å¯¹å­˜å‚¨äº†æ¯æœˆä½¿ç”¨æµé‡æ•°æ®çš„æ•°æ®åº“è¿›è¡Œæ“ä½œçš„ç±»
  */
 public class FlowMonitorDao {
 
@@ -20,7 +20,7 @@ public class FlowMonitorDao {
 	}
 
 	/**
-	 * ¸ù¾İÔÂ·İÀ´²éÑ¯ÊÇ·ñ´æÓĞ´ËÔÂ·İµÄÁ÷Á¿ĞÅÏ¢
+	 * æ ¹æ®æœˆä»½æ¥æŸ¥è¯¢æ˜¯å¦å­˜æœ‰æ­¤æœˆä»½çš„æµé‡ä¿¡æ¯
 	 */
 	public boolean find(String month) {
 		boolean result = false;
@@ -39,7 +39,7 @@ public class FlowMonitorDao {
 	}
 
 	/**
-	 * Ìí¼ÓÄ³¸öÔÂÁ÷Á¿Ê¹ÓÃÇé¿ö
+	 * æ·»åŠ æŸä¸ªæœˆæµé‡ä½¿ç”¨æƒ…å†µ
 	 */
 	public void add(String flow, String month) {
 
@@ -52,11 +52,11 @@ public class FlowMonitorDao {
 	}
 
 	/**
-	 * ²éÕÒÄ³¸öÔÂÁ÷Á¿Ê¹ÓÃÇé¿ö
-	 * 
+	 * æŸ¥æ‰¾æŸä¸ªæœˆæµé‡ä½¿ç”¨æƒ…å†µ
+	 *
 	 * @param month
-	 *            ÔÂ·İ
-	 * @return Ä³¸öÔÂÊ¹ÓÃµÄÁ÷Á¿×ÜÊı
+	 *            æœˆä»½
+	 * @return æŸä¸ªæœˆä½¿ç”¨çš„æµé‡æ€»æ•°
 	 */
 	public String getFlow(String month) {
 
@@ -78,8 +78,8 @@ public class FlowMonitorDao {
 	}
 
 	/**
-	 * ¸üĞÂÄ³¸öÔÂÁ÷Á¿´óĞ¡
-	 * 
+	 * æ›´æ–°æŸä¸ªæœˆæµé‡å¤§å°
+	 *
 	 * @param month
 	 * @return
 	 */

@@ -1,14 +1,14 @@
 package com.pyn.mobilemanager.receiver;
 
-import java.text.DecimalFormat;
-import java.util.Calendar;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.TrafficStats;
 
 import com.pyn.mobilemanager.db.dao.FlowMonitorDao;
+
+import java.text.DecimalFormat;
+import java.util.Calendar;
 
 public class ShutdownReceiver extends BroadcastReceiver {
 
@@ -19,14 +19,14 @@ public class ShutdownReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 
 		calendar = Calendar.getInstance();
-		String month = String.valueOf(calendar.get(Calendar.MONTH)); // µÃµ½µ±Ç°ÔÂ·Ý
+		String month = String.valueOf(calendar.get(Calendar.MONTH)); // å¾—åˆ°å½“å‰æœˆä»½
 
 		float mobileRx = TrafficStats.getMobileRxBytes();
 		float mobileTx = TrafficStats.getMobileTxBytes();
-		// ±¾´Î¿ª»úÓÃµÄ2G/3G×ÜÁ÷Á¿
+		// æœ¬æ¬¡å¼€æœºç”¨çš„2G/3Gæ€»æµé‡
 		float mobileTotal = mobileRx + mobileTx;
 
-		if (dao.find(month)) { // Èç¹ûµ±Ç°ÔÂ·ÝÓÐ´æÊý¾Ý
+		if (dao.find(month)) { // å¦‚æžœå½“å‰æœˆä»½æœ‰å­˜æ•°æ®
 
 			if (mobileTotal >= 1024 * 1024) {
 

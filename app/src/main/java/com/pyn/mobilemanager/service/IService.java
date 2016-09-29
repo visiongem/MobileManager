@@ -1,10 +1,10 @@
 package com.pyn.mobilemanager.service;
 
 /**
- * ÕâÊÇÒ»¸ö½Ó¿Ú
+ * è¿™æ˜¯ä¸€ä¸ªæ¥å£
  */
 public interface IService {
-	
+
 	public void callAppProtectStart(String packName);
 	public void callAppProtecteStop(String packName);
 

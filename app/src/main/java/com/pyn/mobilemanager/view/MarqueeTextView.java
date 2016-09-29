@@ -6,7 +6,7 @@ import android.view.ViewDebug.ExportedProperty;
 import android.widget.TextView;
 
 /**
- * 实现了跑马灯的TextView
+ * 瀹炵幇浜嗚窇椹伅鐨凾extView
  */
 public class MarqueeTextView extends TextView {
 	public MarqueeTextView(Context context) {

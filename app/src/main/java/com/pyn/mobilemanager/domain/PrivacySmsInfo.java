@@ -1,7 +1,7 @@
 package com.pyn.mobilemanager.domain;
 
 /**
- * ÒşË½±£»¤Ãûµ¥µÄµç»°ºÅÂëºÍÃû×ÖÊµÌåÀà
+ * éšç§ä¿æŠ¤åå•çš„ç”µè¯å·ç å’Œåå­—å®ä½“ç±»
  */
 public class PrivacySmsInfo {
 

@@ -3,12 +3,12 @@ package com.pyn.mobilemanager.util;
 import java.text.DecimalFormat;
 
 /**
- * ¹¤¾ßÀà£¬ÓÃÓÚ·µ»ØÊı¾İ´óĞ¡¶ÔÓ¦µÄÎÄ±¾
+ * å·¥å…·ç±»ï¼Œç”¨äºè¿”å›æ•°æ®å¤§å°å¯¹åº”çš„æ–‡æœ¬
  */
 public class TextFormater {
 
 	/**
-	 * ·µ»ØbyteµÄÊı¾İ´óĞ¡¶ÔÓ¦µÄÎÄ±¾
+	 * è¿”å›byteçš„æ•°æ®å¤§å°å¯¹åº”çš„æ–‡æœ¬
 	 */
 	public static String getDataSize(long size) {
 
@@ -33,7 +33,7 @@ public class TextFormater {
 	}
 
 	/**
-	 * ·µ»ØkbµÄÊı¾İ´óĞ¡¶ÔÓ¦µÄÎÄ±¾
+	 * è¿”å›kbçš„æ•°æ®å¤§å°å¯¹åº”çš„æ–‡æœ¬
 	 */
 	public static String getKBDataSize(long size) {
 		return getDataSize(size * 1024);

@@ -16,7 +16,7 @@ import com.pyn.mobilemanager.R;
 import com.pyn.mobilemanager.util.MD5Encoder;
 
 /**
- * ÉèÖÃÒşË½±£»¤ÃÜÂë
+ * è®¾ç½®éšç§ä¿æŠ¤å¯†ç 
  */
 public class SetupPrivacyPwdActivity extends BasicActivity implements
 		OnClickListener {
@@ -31,7 +31,7 @@ public class SetupPrivacyPwdActivity extends BasicActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.privacy_setup_password);
 
-		sp = getSharedPreferences("config", Context.MODE_PRIVATE); // µÃµ½SharedPreferences
+		sp = getSharedPreferences("config", Context.MODE_PRIVATE); // å¾—åˆ°SharedPreferences
 
 		initViews();
 
@@ -50,39 +50,39 @@ public class SetupPrivacyPwdActivity extends BasicActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.privacy_setup_pwd_iv_previous:
-			Intent previousIntent = new Intent(SetupPrivacyPwdActivity.this,
-					EnterPrivacyActivity.class);
-			startActivity(previousIntent);
-			finish();
+			case R.id.privacy_setup_pwd_iv_previous:
+				Intent previousIntent = new Intent(SetupPrivacyPwdActivity.this,
+						EnterPrivacyActivity.class);
+				startActivity(previousIntent);
+				finish();
 
-			break;
+				break;
 
-		case R.id.privacy_setup_btn_next:
-			String pwd = etPwd.getText().toString().trim();
-			String pwdConfirm = etPwdConfirm.getText().toString().trim();
+			case R.id.privacy_setup_btn_next:
+				String pwd = etPwd.getText().toString().trim();
+				String pwdConfirm = etPwdConfirm.getText().toString().trim();
 
-			if ("".equals(pwd) || "".equals(pwdConfirm)) { // ÃÜÂëÎª¿ÕµÄÇé¿ö
-				Toast.makeText(getApplicationContext(), "ÃÜÂë²»ÄÜÎª¿Õ", 0).show();
-				return;
-			} else {
-				if (pwd.equals(pwdConfirm)) { // Á½´ÎÃÜÂëÊäÈëÏàÍ¬£¬¾Í°Ñ
-												// ÃÜÂë´æÔÚsharedpreference
-					Editor editor = sp.edit();
-					editor.putString("privacy_password", MD5Encoder.encode(pwd)); // ÕâÀï´æÃÜÂëĞèÒª¼ÓÃÜÒ»ÏÂ
-					editor.commit();
-					Intent questionIntent = new Intent(
-							SetupPrivacyPwdActivity.this,
-							SetupPrivacyQuestionActivity.class);
-					startActivity(questionIntent);
-					finish();
-				} else {
-					Toast.makeText(getApplicationContext(), "Á½´ÎÃÜÂë²»Ò»ÖÂ", 0)
-							.show();
+				if ("".equals(pwd) || "".equals(pwdConfirm)) { // å¯†ç ä¸ºç©ºçš„æƒ…å†µ
+					Toast.makeText(getApplicationContext(), "å¯†ç ä¸èƒ½ä¸ºç©º", Toast.LENGTH_SHORT).show();
 					return;
+				} else {
+					if (pwd.equals(pwdConfirm)) { // ä¸¤æ¬¡å¯†ç è¾“å…¥ç›¸åŒï¼Œå°±æŠŠ
+						// å¯†ç å­˜åœ¨sharedpreference
+						Editor editor = sp.edit();
+						editor.putString("privacy_password", MD5Encoder.encode(pwd)); // è¿™é‡Œå­˜å¯†ç éœ€è¦åŠ å¯†ä¸€ä¸‹
+						editor.commit();
+						Intent questionIntent = new Intent(
+								SetupPrivacyPwdActivity.this,
+								SetupPrivacyQuestionActivity.class);
+						startActivity(questionIntent);
+						finish();
+					} else {
+						Toast.makeText(getApplicationContext(), "ä¸¤æ¬¡å¯†ç ä¸ä¸€è‡´", Toast.LENGTH_SHORT)
+								.show();
+						return;
+					}
 				}
-			}
-			break;
+				break;
 
 		}
 	}

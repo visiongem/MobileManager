@@ -21,13 +21,13 @@ public abstract class BasicActivity extends Activity {
 	}
 
 	/**
-	 * µÃµ½Ñ¾ÖÖĞµÄ¸÷‚€¿Ø¼ş
+	 * å¾—åˆ°ä½ˆå±€ä¸­çš„å„å€‹æ§ä»¶
 	 */
 	protected abstract void initViews();
 
 	@Override
 	protected void onResume() {
-		// ·Åµ½onResume¾Í¿ÉÒÔÊµÏÖandroid ·µ»Ø¼ü¶¯»­
+		// æ”¾åˆ°onResumeå°±å¯ä»¥å®ç°android è¿”å›é”®åŠ¨ç”»
 		overridePendingTransition(R.anim.enter, R.anim.exit);
 		super.onResume();
 	}

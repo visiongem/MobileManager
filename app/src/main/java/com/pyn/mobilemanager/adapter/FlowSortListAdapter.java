@@ -1,7 +1,5 @@
 package com.pyn.mobilemanager.adapter;
 
-import java.util.List;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +12,10 @@ import com.pyn.mobilemanager.activity.FlowSortActivity;
 import com.pyn.mobilemanager.domain.AppInfo;
 import com.pyn.mobilemanager.util.TextFormater;
 
+import java.util.List;
+
 /**
- * Á÷Á¿ÏêÇéµÄÊÊÅäÆ÷
+ * æµé‡è¯¦æƒ…çš„é€‚é…å™¨
  */
 public class FlowSortListAdapter extends BaseAdapter {
 

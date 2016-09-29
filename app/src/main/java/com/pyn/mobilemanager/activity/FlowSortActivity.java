@@ -1,19 +1,12 @@
 package com.pyn.mobilemanager.activity;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.Activity;
 import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,17 +17,21 @@ import com.pyn.mobilemanager.engine.AppInfoProvider;
 import com.pyn.mobilemanager.util.TextFormater;
 import com.pyn.mobilemanager.view.LoadingDialog;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Á÷Á¿¹ÜÀíÖĞµÄÁ÷Á¿ÅÅĞĞ
+ * æµé‡ç®¡ç†ä¸­çš„æµé‡æ’è¡Œ
  */
 public class FlowSortActivity extends BasicActivity {
 
 	private ListView lvFlowSort;
 
-	// µ±Ìì¿ª»úÆğ¹²²úÉúµÄÊı¾İÁ÷Á¿ºÍwifiÁ÷Á¿
+	// å½“å¤©å¼€æœºèµ·å…±äº§ç”Ÿçš„æ•°æ®æµé‡å’Œwifiæµé‡
 	private TextView tvGprs;
 	private TextView tvWlan;
-	private TextView tvDate; // ÈÕÆÚ
+	private TextView tvDate; // æ—¥æœŸ
 	private LoadingDialog dialog;
 	private FlowSortListAdapter adapter;
 
@@ -42,7 +39,7 @@ public class FlowSortActivity extends BasicActivity {
 	private boolean flag = true;
 	private List<AppInfo> infos;
 
-	/**** ¶¯»­ ****/
+	/**** åŠ¨ç”» ****/
 	private Animation animation;
 	private LayoutAnimationController lac;
 
@@ -91,7 +88,7 @@ public class FlowSortActivity extends BasicActivity {
 	}
 
 	/**
-	 * ³õÊ¼»¯¶¯»­
+	 * åˆå§‹åŒ–åŠ¨ç”»
 	 */
 	private void initAnimation() {
 		animation = AnimationUtils.loadAnimation(this, R.anim.listview_in);
@@ -101,33 +98,33 @@ public class FlowSortActivity extends BasicActivity {
 
 	@Override
 	protected void initViews() {
-		// Õ¹ÏÖ¸÷¸öÈí¼şµÄÁ÷Á¿ĞÅÏ¢µÄlistview
+		// å±•ç°å„ä¸ªè½¯ä»¶çš„æµé‡ä¿¡æ¯çš„listview
 		lvFlowSort = (ListView) findViewById(R.id.flow_sort_lv);
-		// ÏÔÊ¾µÄµ±ÌìÈÕÆÚ
+		// æ˜¾ç¤ºçš„å½“å¤©æ—¥æœŸ
 		tvDate = (TextView) findViewById(R.id.flow_sort_tv_date);
-		// ±¾´Î¿ª»úÓÃµÄ2G/3GÁ÷Á¿
+		// æœ¬æ¬¡å¼€æœºç”¨çš„2G/3Gæµé‡
 		tvGprs = (TextView) findViewById(R.id.flow_sort_tv_gprs);
-		// ±¾´Î¿ª»úÓÃµÄwlanÁ÷Á¿
+		// æœ¬æ¬¡å¼€æœºç”¨çš„wlanæµé‡
 		tvWlan = (TextView) findViewById(R.id.flow_sort_tv_wlan);
 	}
 
 	private void initInfo() {
 
-		// µÃµ½´ËÊ±µÄÏµÍ³Ê±¼ä
+		// å¾—åˆ°æ­¤æ—¶çš„ç³»ç»Ÿæ—¶é—´
 		SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String nowTime = sDateFormat.format(new java.util.Date());
-		tvDate.setText(nowTime); // ÉèÖÃ½ñÈÕÈÕÆÚ
+		tvDate.setText(nowTime); // è®¾ç½®ä»Šæ—¥æ—¥æœŸ
 
 		long mobileRx = TrafficStats.getMobileRxBytes();
 		long mobileTx = TrafficStats.getMobileTxBytes();
-		// ±¾´Î¿ª»úÓÃµÄ2G/3G×ÜÁ÷Á¿
+		// æœ¬æ¬¡å¼€æœºç”¨çš„2G/3Gæ€»æµé‡
 		long mobileTotal = mobileRx + mobileTx;
 
 		long totalRx = TrafficStats.getTotalRxBytes();
 		long totalTx = TrafficStats.getTotalTxBytes();
-		// ±¾´Î¿ª»úÓÃµÄ×ÜÁ÷Á¿
+		// æœ¬æ¬¡å¼€æœºç”¨çš„æ€»æµé‡
 		long total = totalTx + totalRx;
-		// ±¾´Î¿ª»úÓÃµÄwlan×ÜÁ÷Á¿
+		// æœ¬æ¬¡å¼€æœºç”¨çš„wlanæ€»æµé‡
 		long wlanTotal = total - mobileTotal;
 
 		tvGprs.setText(TextFormater.getDataSize(mobileTotal));

@@ -1,8 +1,5 @@
 package com.pyn.mobilemanager.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +12,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,19 +25,22 @@ import android.widget.Toast;
 import com.pyn.mobilemanager.R;
 import com.pyn.mobilemanager.service.AppLockService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * ÉèÖÃÒşË½±£»¤°²È«ĞÔÎÊÌâµÄactivity,ÈôÊÇÔÚ½øÈëÒşË½±£»¤Ö®Ê±Íü¼ÇÃÜÂëÁË£¬»Ø´ğ°²È«ĞÔÎÊÌâÕıÈ·µÄ»°¾Í¿ÉÒÔÕÒ»ØÃÜÂë
+ * è®¾ç½®éšç§ä¿æŠ¤å®‰å…¨æ€§é—®é¢˜çš„activity,è‹¥æ˜¯åœ¨è¿›å…¥éšç§ä¿æŠ¤ä¹‹æ—¶å¿˜è®°å¯†ç äº†ï¼Œå›ç­”å®‰å…¨æ€§é—®é¢˜æ­£ç¡®çš„è¯å°±å¯ä»¥æ‰¾å›å¯†ç 
  */
 public class SetupPrivacyQuestionActivity extends BasicActivity implements
 		OnClickListener {
 
-	private ImageView ivPrevious; // ·µ»Ø
-	private EditText etAnswer; // ´ğ°¸
-	private Button btnFinish; // Íê³É
-	private List<String> questions; // ÎÊÌâ¼¯ºÏ
+	private ImageView ivPrevious; // è¿”å›
+	private EditText etAnswer; // ç­”æ¡ˆ
+	private Button btnFinish; // å®Œæˆ
+	private List<String> questions; // é—®é¢˜é›†åˆ
 	private SharedPreferences sp;
-	private EditText etQuestion; // ÎÊÌâ
-	private QuestionsAdapter adapter; // ÎÊÌâÊÊÅäÆ÷
+	private EditText etQuestion; // é—®é¢˜
+	private QuestionsAdapter adapter; // é—®é¢˜é€‚é…å™¨
 	private PopupWindow popupWindow;
 	private ImageButton ibCheck;
 
@@ -50,30 +49,30 @@ public class SetupPrivacyQuestionActivity extends BasicActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.privacy_setup_question);
 
-		sp = getSharedPreferences("config", Context.MODE_PRIVATE); // µÃµ½SharedPreferences
+		sp = getSharedPreferences("config", Context.MODE_PRIVATE); // å¾—åˆ°SharedPreferences
 		initViews();
 
 	}
 
 	/**
-	 * µÃµ½ÎÊÌâ¼¯ºÏ
-	 * 
-	 * @return ÎÊÌâ¼¯ºÏ
+	 * å¾—åˆ°é—®é¢˜é›†åˆ
+	 *
+	 * @return é—®é¢˜é›†åˆ
 	 */
 	private List<String> getQuestions() {
 		List<String> question = new ArrayList<String>();
 
-		question.add("ÎÒÄ¸Ç×µÄĞÕÃûÊÇ?");
-		question.add("ÎÒ¸¸Ç×µÄĞÕÃûÊÇ?");
-		question.add("ÎÒÉí·İºóÁùÎ»ÊÇ?");
-		question.add("ÎÒÄ¸Ç×µÄÉúÈÕÊÇ?");
-		question.add("ÎÒ¸¸Ç×µÄÉúÈÕÊÇ?");
+		question.add("æˆ‘æ¯äº²çš„å§“åæ˜¯?");
+		question.add("æˆ‘çˆ¶äº²çš„å§“åæ˜¯?");
+		question.add("æˆ‘èº«ä»½åå…­ä½æ˜¯?");
+		question.add("æˆ‘æ¯äº²çš„ç”Ÿæ—¥æ˜¯?");
+		question.add("æˆ‘çˆ¶äº²çš„ç”Ÿæ—¥æ˜¯?");
 
 		return question;
 	}
 
 	/**
-	 * ³õÊ¼»¯¿Ø¼ş
+	 * åˆå§‹åŒ–æ§ä»¶
 	 */
 	@Override
 	protected void initViews() {
@@ -89,63 +88,63 @@ public class SetupPrivacyQuestionActivity extends BasicActivity implements
 	}
 
 	/**
-	 * µã»÷ÊÂ¼ş
+	 * ç‚¹å‡»äº‹ä»¶
 	 */
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		/***** ·µ»Ø *****/
-		case R.id.privacy_setup_question_iv_previous:
-			Intent passwordIntent = new Intent(
-					SetupPrivacyQuestionActivity.this,
-					SetupPrivacyPwdActivity.class);
-			startActivity(passwordIntent);
-			finish();
-			break;
-		/***** Íê³É *****/
-		case R.id.privacy_setup_btn_finish:
-			String answer = etAnswer.getText().toString().trim();
-			String question = etQuestion.getText().toString().trim();
-
-			if (answer.equals("")) {
-				Toast.makeText(getApplicationContext(), "´ğ°¸²»ÄÜÎª¿Õ", 0).show();
-			} else {
-				saveInfo(answer, question);
-				Intent appLockServiceIntent = new Intent(
-						SetupPrivacyQuestionActivity.this, AppLockService.class);
-				startService(appLockServiceIntent); // ¿ªÆô³ÌĞòËø·şÎñ
-				Intent privacyIntent = new Intent(
+			/***** è¿”å› *****/
+			case R.id.privacy_setup_question_iv_previous:
+				Intent passwordIntent = new Intent(
 						SetupPrivacyQuestionActivity.this,
-						PrivacyActivity.class);
-				startActivity(privacyIntent);
-				Toast.makeText(SetupPrivacyQuestionActivity.this,
-						"ÉèÖÃÍê³É£¬³É¹¦½øÈëÒşË½±£»¤£¡", 0).show();
+						SetupPrivacyPwdActivity.class);
+				startActivity(passwordIntent);
 				finish();
-			}
-			break;
-		/***** ÏÂÀ­°´Å¥ *****/
-		case R.id.privacy_setup_ib_arrow:
-			// µ¯³öÑ¡ÔñÎÊÌâ¶Ô»°¿ò
-			showSelectQuestionDialog();
-			break;
+				break;
+			/***** å®Œæˆ *****/
+			case R.id.privacy_setup_btn_finish:
+				String answer = etAnswer.getText().toString().trim();
+				String question = etQuestion.getText().toString().trim();
+
+				if (answer.equals("")) {
+					Toast.makeText(getApplicationContext(), "ç­”æ¡ˆä¸èƒ½ä¸ºç©º", Toast.LENGTH_SHORT).show();
+				} else {
+					saveInfo(answer, question);
+					Intent appLockServiceIntent = new Intent(
+							SetupPrivacyQuestionActivity.this, AppLockService.class);
+					startService(appLockServiceIntent); // å¼€å¯ç¨‹åºé”æœåŠ¡
+					Intent privacyIntent = new Intent(
+							SetupPrivacyQuestionActivity.this,
+							PrivacyActivity.class);
+					startActivity(privacyIntent);
+					Toast.makeText(SetupPrivacyQuestionActivity.this,
+							"è®¾ç½®å®Œæˆï¼ŒæˆåŠŸè¿›å…¥éšç§ä¿æŠ¤ï¼", Toast.LENGTH_SHORT).show();
+					finish();
+				}
+				break;
+			/***** ä¸‹æ‹‰æŒ‰é’® *****/
+			case R.id.privacy_setup_ib_arrow:
+				// å¼¹å‡ºé€‰æ‹©é—®é¢˜å¯¹è¯æ¡†
+				showSelectQuestionDialog();
+				break;
 		}
 	}
 
 	/**
-	 * ±£´æĞÅÏ¢
+	 * ä¿å­˜ä¿¡æ¯
 	 * @param answer
 	 * @param question
 	 */
 	private void saveInfo(String answer, String question) {
 		Editor editor = sp.edit();
-		editor.putString("privacy_answer", answer); // ½«°²È«ĞÔÎÊÌâ´æÏÂÀ´
-		editor.putBoolean("isFirstEnterPrivacy", false); // ¼ÇÂ¼ÓÃ»§²¢²»ÊÇµÚÒ»´Î½øÈëÒşË½±£»¤
-		editor.putString("privacy_question", question); // ½«°²È«ĞÔÎÊÌâ´æÏÂÀ´
+		editor.putString("privacy_answer", answer); // å°†å®‰å…¨æ€§é—®é¢˜å­˜ä¸‹æ¥
+		editor.putBoolean("isFirstEnterPrivacy", false); // è®°å½•ç”¨æˆ·å¹¶ä¸æ˜¯ç¬¬ä¸€æ¬¡è¿›å…¥éšç§ä¿æŠ¤
+		editor.putString("privacy_question", question); // å°†å®‰å…¨æ€§é—®é¢˜å­˜ä¸‹æ¥
 		editor.commit();
 	}
 
 	/**
-	 * ÏÔÊ¾ÎÊÌâ¶Ô»°¿ò
+	 * æ˜¾ç¤ºé—®é¢˜å¯¹è¯æ¡†
 	 */
 	private void showSelectQuestionDialog() {
 		questions = getQuestions();
@@ -155,7 +154,7 @@ public class SetupPrivacyQuestionActivity extends BasicActivity implements
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+									int position, long id) {
 				String question = questions.get(position);
 				etQuestion.setText(question);
 
@@ -168,18 +167,18 @@ public class SetupPrivacyQuestionActivity extends BasicActivity implements
 		lv.setAdapter(adapter);
 
 		popupWindow = new PopupWindow(lv, etQuestion.getWidth() - 4, 400);
-		// ÉèÖÃµã»÷Íâ²¿¿ÉÒÔ±»¹Ø±Õ
+		// è®¾ç½®ç‚¹å‡»å¤–éƒ¨å¯ä»¥è¢«å…³é—­
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 
-		// ÉèÖÃpopupWindow¿ÉÒÔµÃµ½½¹µã
+		// è®¾ç½®popupWindowå¯ä»¥å¾—åˆ°ç„¦ç‚¹
 		popupWindow.setFocusable(true);
 
-		popupWindow.showAsDropDown(etQuestion, 4, -5); // ÏÔÊ¾
+		popupWindow.showAsDropDown(etQuestion, 4, -5); // æ˜¾ç¤º
 	}
 
 	/**
-	 * ÎÊÌâ¼¯ºÏµÄÊÊÅäÆ÷
+	 * é—®é¢˜é›†åˆçš„é€‚é…å™¨
 	 */
 	class QuestionsAdapter extends BaseAdapter {
 

@@ -1,9 +1,6 @@
 package com.pyn.mobilemanager.view;
 
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -18,183 +15,186 @@ import android.view.View;
 
 import com.pyn.mobilemanager.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
- * ×Ô¶¨ÒåÊÓÍ¼¿Ø¼şÀà¡£»æÖÆÔ²ĞÎ½ø¶ÈÌõ
+ * è‡ªå®šä¹‰è§†å›¾æ§ä»¶ç±»ã€‚ç»˜åˆ¶åœ†å½¢è¿›åº¦æ¡
  * @author MrRight
  *
  */
 public class MyProgressCircle extends View{
 
-	
-	 private  static final int DEFAULT_MAX_VALUE = 100;					// Ä¬ÈÏ½ø¶ÈÌõ×î´óÖµ
-	 private  static final int DEFAULT_PAINT_WIDTH = 10;				// Ä¬ÈÏ»­±Ê¿í¶È
-	 private  static final int DEFAULT_PAINT_COLOR = 0xff25BFA0;		// Ä¬ÈÏ»­±ÊÑÕÉ«
-	 private  static final boolean DEFAULT_FILL_MODE = true;			// Ä¬ÈÏÌî³äÄ£Ê½
-	 private  static final int DEFAULT_INSIDE_VALUE = 0;				// Ä¬ÈÏËõ½ø¾àÀë
-	
-	 private CircleAttribute mCircleAttribute;			// Ô²ĞÎ½ø¶ÈÌõ»ù±¾ÊôĞÔ
 
-	 private int mMaxProgress;							// ½ø¶ÈÌõ×î´óÖµ	 	 																												
-	 private int mMainCurProgress;						// Ö÷½ø¶ÈÌõµ±Ç°Öµ 
-	 private int mSubCurProgress;						// ×Ó½ø¶ÈÌõµ±Ç°Öµ 
-	 private int progress;
-	 
-	 private CartoomEngine mCartoomEngine;				// ¶¯»­ÒıÇæ
-	
-	 private Drawable mBackgroundPicture;				// ±³¾°Í¼
-	 
-	 public MyProgressCircle(Context context)
-	 {
-			super(context);		
-			defaultParam();
+	private  static final int DEFAULT_MAX_VALUE = 100;					// é»˜è®¤è¿›åº¦æ¡æœ€å¤§å€¼
+	private  static final int DEFAULT_PAINT_WIDTH = 10;				// é»˜è®¤ç”»ç¬”å®½åº¦
+	private  static final int DEFAULT_PAINT_COLOR = 0xff25BFA0;		// é»˜è®¤ç”»ç¬”é¢œè‰²
+	private  static final boolean DEFAULT_FILL_MODE = true;			// é»˜è®¤å¡«å……æ¨¡å¼
+	private  static final int DEFAULT_INSIDE_VALUE = 0;				// é»˜è®¤ç¼©è¿›è·ç¦»
+
+	private CircleAttribute mCircleAttribute;			// åœ†å½¢è¿›åº¦æ¡åŸºæœ¬å±æ€§
+
+	private int mMaxProgress;							// è¿›åº¦æ¡æœ€å¤§å€¼
+	private int mMainCurProgress;						// ä¸»è¿›åº¦æ¡å½“å‰å€¼
+	private int mSubCurProgress;						// å­è¿›åº¦æ¡å½“å‰å€¼
+	private int progress;
+
+	private CartoomEngine mCartoomEngine;				// åŠ¨ç”»å¼•æ“
+
+	private Drawable mBackgroundPicture;				// èƒŒæ™¯å›¾
+
+	public MyProgressCircle(Context context)
+	{
+		super(context);
+		defaultParam();
 	}
 
 	public MyProgressCircle(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		defaultParam();
-		
-		
-		TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressBar);      
-	        
-	    mMaxProgress = array.getInteger(R.styleable.CircleProgressBar_max, DEFAULT_MAX_VALUE); 				// »ñÈ¡½ø¶ÈÌõ×î´óÖµ	
-	    
-	    boolean bFill = array.getBoolean(R.styleable.CircleProgressBar_fill, DEFAULT_FILL_MODE);			// »ñÈ¡Ìî³äÄ£Ê½
-	    int paintWidth = array.getInt(R.styleable.CircleProgressBar_Paint_Width, DEFAULT_PAINT_WIDTH);		// »ñÈ¡»­±Ê¿í¶È	    
-        mCircleAttribute.setFill(bFill);
-        if (bFill == false)
-        {
-        	mCircleAttribute.setPaintWidth(paintWidth);
-        }
-        
-        int paintColor = array.getColor(R.styleable.CircleProgressBar_Paint_Color, DEFAULT_PAINT_COLOR);	 // »ñÈ¡»­±ÊÑÕÉ«
 
-        mCircleAttribute.setPaintColor(paintColor);
-        
-	    mCircleAttribute.mSidePaintInterval = array.getInt(R.styleable.CircleProgressBar_Inside_Interval, DEFAULT_INSIDE_VALUE);// Ô²»·Ëõ½ø¾àÀë
 
-	    array.recycle(); //Ò»¶¨Òªµ÷ÓÃ£¬·ñÔò»áÓĞÎÊÌâ
-		
+		TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressBar);
+
+		mMaxProgress = array.getInteger(R.styleable.CircleProgressBar_max, DEFAULT_MAX_VALUE); 				// è·å–è¿›åº¦æ¡æœ€å¤§å€¼
+
+		boolean bFill = array.getBoolean(R.styleable.CircleProgressBar_fill, DEFAULT_FILL_MODE);			// è·å–å¡«å……æ¨¡å¼
+		int paintWidth = array.getInt(R.styleable.CircleProgressBar_Paint_Width, DEFAULT_PAINT_WIDTH);		// è·å–ç”»ç¬”å®½åº¦
+		mCircleAttribute.setFill(bFill);
+		if (bFill == false)
+		{
+			mCircleAttribute.setPaintWidth(paintWidth);
+		}
+
+		int paintColor = array.getColor(R.styleable.CircleProgressBar_Paint_Color, DEFAULT_PAINT_COLOR);	 // è·å–ç”»ç¬”é¢œè‰²
+
+		mCircleAttribute.setPaintColor(paintColor);
+
+		mCircleAttribute.mSidePaintInterval = array.getInt(R.styleable.CircleProgressBar_Inside_Interval, DEFAULT_INSIDE_VALUE);// åœ†ç¯ç¼©è¿›è·ç¦»
+
+		array.recycle(); //ä¸€å®šè¦è°ƒç”¨ï¼Œå¦åˆ™ä¼šæœ‰é—®é¢˜
+
 	}
 
 	/*
-	 * Ä¬ÈÏ²ÎÊı
+	 * é»˜è®¤å‚æ•°
 	 */
 	private void defaultParam()
 	{
 		mCircleAttribute = new CircleAttribute();
-		 
+
 		mCartoomEngine = new CartoomEngine();
-		
-		mMaxProgress = DEFAULT_MAX_VALUE;								 																												
-		mMainCurProgress = 0;						
-	    mSubCurProgress = 0;					
-		 
+
+		mMaxProgress = DEFAULT_MAX_VALUE;
+		mMainCurProgress = 0;
+		mSubCurProgress = 0;
+
 	}
-	 
+
 	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {		// ÉèÖÃÊÓÍ¼´óĞ¡
-		
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {		// è®¾ç½®è§†å›¾å¤§å°
+
 		int width = MeasureSpec.getSize(widthMeasureSpec);
 		int height = MeasureSpec.getSize(heightMeasureSpec);
-		
+
 		mBackgroundPicture = getBackground();
 		if (mBackgroundPicture != null)
 		{
 			width = mBackgroundPicture.getMinimumWidth();
 			height = mBackgroundPicture.getMinimumHeight();
 		}
-		
+
 		setMeasuredDimension(resolveSize(width, widthMeasureSpec), resolveSize(width, heightMeasureSpec));
 	}
-	 
+
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
-		
+
 		mCircleAttribute.autoFix(w, h);
 
 	}
-	
+
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		       	
-		if (mBackgroundPicture == null)									// Ã»±³¾°Í¼µÄ»°¾Í»æÖÆµ×É«
+
+		if (mBackgroundPicture == null)									// æ²¡èƒŒæ™¯å›¾çš„è¯å°±ç»˜åˆ¶åº•è‰²
 		{
 			canvas.drawArc(mCircleAttribute.mRoundOval, 0, 360, mCircleAttribute.mBRoundPaintsFill, mCircleAttribute.mBottomPaint);
 		}
-		
-		
+
+
 		float subRate = (float)mSubCurProgress / mMaxProgress;
 		float subSweep = 360 * subRate;
 		canvas.drawArc(mCircleAttribute.mRoundOval, mCircleAttribute.mDrawPos, subSweep, mCircleAttribute.mBRoundPaintsFill, mCircleAttribute.mSubPaint);
-		
+
 		float rate = (float)mMainCurProgress / mMaxProgress;
 		float sweep = 360 * rate;
 		canvas.drawArc(mCircleAttribute.mRoundOval, mCircleAttribute.mDrawPos, sweep, mCircleAttribute.mBRoundPaintsFill, mCircleAttribute.mMainPaints);
-	
-	
+
+
 	}
-	
-	
+
+
 	/*
-	 * ÉèÖÃÖ÷½ø¶ÈÖµ
+	 * è®¾ç½®ä¸»è¿›åº¦å€¼
 	 */
-	 public synchronized void setMainProgress (int progress)
-	 {
-	    	mMainCurProgress = progress;
-	    	if (mMainCurProgress < 0)
-	    	{
-	    		mMainCurProgress = 0;
-	    	}
-	    	
-	    	if (mMainCurProgress > mMaxProgress)
-	    	{
-	    		mMainCurProgress = mMaxProgress;
-	    	}
-	    	
-	    	invalidate();
+	public synchronized void setMainProgress (int progress)
+	{
+		mMainCurProgress = progress;
+		if (mMainCurProgress < 0)
+		{
+			mMainCurProgress = 0;
+		}
+
+		if (mMainCurProgress > mMaxProgress)
+		{
+			mMainCurProgress = mMaxProgress;
+		}
+
+		invalidate();
 	}
-	    
-    public synchronized int getMainProgress()
-    {
-    	return mMainCurProgress;
-    }
-	   
-    /*
-     *  ÉèÖÃ×Ó½ø¶ÈÖµ
+
+	public synchronized int getMainProgress()
+	{
+		return mMainCurProgress;
+	}
+
+	/*
+     *  è®¾ç½®å­è¿›åº¦å€¼
      */
-    public synchronized void setSubProgress (int progress)
-    {
-    	mSubCurProgress = progress;
-    	if (mSubCurProgress < 0)
-    	{
-    		mSubCurProgress = 0;
-    	}
-    	
-    	if (mSubCurProgress > mMaxProgress)
-    	{
-    		mSubCurProgress = mMaxProgress;
-    	}
-    	
-    	invalidate();
-    }
-	    
-    public synchronized int getSubProgress()
-    {
-    	return mSubCurProgress;
-    }
-    
-    /*
-     * ¿ªÆô¶¯»­
+	public synchronized void setSubProgress (int progress)
+	{
+		mSubCurProgress = progress;
+		if (mSubCurProgress < 0)
+		{
+			mSubCurProgress = 0;
+		}
+
+		if (mSubCurProgress > mMaxProgress)
+		{
+			mSubCurProgress = mMaxProgress;
+		}
+
+		invalidate();
+	}
+
+	public synchronized int getSubProgress()
+	{
+		return mSubCurProgress;
+	}
+
+	/*
+     * å¼€å¯åŠ¨ç”»
      */
 	public  void  startCartoom(int mainprogress)
 	{
 		progress=mainprogress;
 		mCartoomEngine.startCartoom();
 	}
-	
+
 	/*
-	 * ½áÊø¶¯»­
+	 * ç»“æŸåŠ¨ç”»
 	 */
 	public  void  stopCartoom()
 	{
@@ -203,120 +203,120 @@ public class MyProgressCircle extends View{
 
 	class CircleAttribute
 	{
-		 public RectF  	mRoundOval;					// Ô²ĞÎËùÔÚ¾ØĞÎÇøÓò
-		 public boolean mBRoundPaintsFill;			// ÊÇ·ñÌî³äÒÔÌî³äÄ£Ê½»æÖÆÔ²ĞÎ
-		 public int  	mSidePaintInterval;			// Ô²ĞÎÏòÀïËõ½øµÄ¾àÀë
-		 public int    	mPaintWidth;				// Ô²ĞÎ»­±Ê¿í¶È£¨Ìî³äÄ£Ê½ÏÂÎŞÊÓ£©
-		 public int     mPaintColor;				// »­±ÊÑÕÉ«  £¨¼´Ö÷½ø¶ÈÌõ»­±ÊÑÕÉ«£¬×Ó½ø¶ÈÌõ»­±ÊÑÕÉ«ÎªÆä°ëÍ¸Ã÷Öµ£© 
-		 public int     mDrawPos;					// »æÖÆÔ²ĞÎµÄÆğµã£¨Ä¬ÈÏÎª-90¶È¼´12µãÖÓ·½Ïò£©
-		 
-		 public Paint   mMainPaints;				// Ö÷½ø¶ÈÌõ»­±Ê 	    
-		 public Paint   mSubPaint;    				// ×Ó½ø¶ÈÌõ»­±Ê 
-		 
-		 public Paint   mBottomPaint;				// ÎŞ±³¾°Í¼Ê±»æÖÆËùÓÃ»­±Ê
+		public RectF  	mRoundOval;					// åœ†å½¢æ‰€åœ¨çŸ©å½¢åŒºåŸŸ
+		public boolean mBRoundPaintsFill;			// æ˜¯å¦å¡«å……ä»¥å¡«å……æ¨¡å¼ç»˜åˆ¶åœ†å½¢
+		public int  	mSidePaintInterval;			// åœ†å½¢å‘é‡Œç¼©è¿›çš„è·ç¦»
+		public int    	mPaintWidth;				// åœ†å½¢ç”»ç¬”å®½åº¦ï¼ˆå¡«å……æ¨¡å¼ä¸‹æ— è§†ï¼‰
+		public int     mPaintColor;				// ç”»ç¬”é¢œè‰²  ï¼ˆå³ä¸»è¿›åº¦æ¡ç”»ç¬”é¢œè‰²ï¼Œå­è¿›åº¦æ¡ç”»ç¬”é¢œè‰²ä¸ºå…¶åŠé€æ˜å€¼ï¼‰
+		public int     mDrawPos;					// ç»˜åˆ¶åœ†å½¢çš„èµ·ç‚¹ï¼ˆé»˜è®¤ä¸º-90åº¦å³12ç‚¹é’Ÿæ–¹å‘ï¼‰
 
-		 
-		 public CircleAttribute()
-		 {
+		public Paint   mMainPaints;				// ä¸»è¿›åº¦æ¡ç”»ç¬”
+		public Paint   mSubPaint;    				// å­è¿›åº¦æ¡ç”»ç¬”
+
+		public Paint   mBottomPaint;				// æ— èƒŒæ™¯å›¾æ—¶ç»˜åˆ¶æ‰€ç”¨ç”»ç¬”
+
+
+		public CircleAttribute()
+		{
 			mRoundOval = new RectF();
 			mBRoundPaintsFill = DEFAULT_FILL_MODE;
 			mSidePaintInterval = DEFAULT_INSIDE_VALUE;
 			mPaintWidth = 0;
 			mPaintColor = DEFAULT_PAINT_COLOR;
 			mDrawPos = -90;
-			 
-			mMainPaints = new Paint();		
+
+			mMainPaints = new Paint();
 			mMainPaints.setAntiAlias(true);
 			mMainPaints.setStyle(Paint.Style.FILL);
 			mMainPaints.setStrokeWidth(mPaintWidth);
 			mMainPaints.setColor(mPaintColor);
-		     
+
 			mSubPaint = new Paint();
 			mSubPaint.setAntiAlias(true);
 			mSubPaint.setStyle(Paint.Style.FILL);
 			mSubPaint.setStrokeWidth(mPaintWidth);
-			mSubPaint.setColor(mPaintColor);			
-				
+			mSubPaint.setColor(mPaintColor);
+
 			mBottomPaint = new Paint();
 			mBottomPaint.setAntiAlias(true);
 			mBottomPaint.setStyle(Paint.Style.FILL);
 			mBottomPaint.setStrokeWidth(mPaintWidth);
 			mBottomPaint.setColor(Color.GRAY);
-			
-		 }
-	
-		 
-		 /*
-		  * ÉèÖÃ»­±Ê¿í¶È
-		  */
-		 public void setPaintWidth(int width)
-		 {
-			 mMainPaints.setStrokeWidth(width);
-			 mSubPaint.setStrokeWidth(width);
-			 mBottomPaint.setStrokeWidth(width);
-		 }
-		 
-		 /*
-		  * ÉèÖÃ»­±ÊÑÕÉ«
-		  */
-		 public void setPaintColor(int color)
-		 {
-			 mMainPaints.setColor(color);
-		     int color1 = color & 0x00ffffff | 0x66000000;
-		     mSubPaint.setColor(color1);	        
-		 }
-		 
-		 /*
-		  * ÉèÖÃÌî³äÄ£Ê½
-		  */
-		 public void setFill(boolean fill)
-		 {
-			 mBRoundPaintsFill = fill;
-			 if (fill)
-			 {
-				 mMainPaints.setStyle(Paint.Style.FILL);
-				 mSubPaint.setStyle(Paint.Style.FILL);	 
-				 mBottomPaint.setStyle(Paint.Style.FILL);	
-			 }else{
-				 mMainPaints.setStyle(Paint.Style.STROKE);
-				 mSubPaint.setStyle(Paint.Style.STROKE);	
-				 mBottomPaint.setStyle(Paint.Style.STROKE);	
-			 }	
-		 }
-		 
+
+		}
+
+
 		/*
-		 * ×Ô¶¯ĞŞÕı
+         * è®¾ç½®ç”»ç¬”å®½åº¦
+         */
+		public void setPaintWidth(int width)
+		{
+			mMainPaints.setStrokeWidth(width);
+			mSubPaint.setStrokeWidth(width);
+			mBottomPaint.setStrokeWidth(width);
+		}
+
+		/*
+         * è®¾ç½®ç”»ç¬”é¢œè‰²
+         */
+		public void setPaintColor(int color)
+		{
+			mMainPaints.setColor(color);
+			int color1 = color & 0x00ffffff | 0x66000000;
+			mSubPaint.setColor(color1);
+		}
+
+		/*
+         * è®¾ç½®å¡«å……æ¨¡å¼
+         */
+		public void setFill(boolean fill)
+		{
+			mBRoundPaintsFill = fill;
+			if (fill)
+			{
+				mMainPaints.setStyle(Paint.Style.FILL);
+				mSubPaint.setStyle(Paint.Style.FILL);
+				mBottomPaint.setStyle(Paint.Style.FILL);
+			}else{
+				mMainPaints.setStyle(Paint.Style.STROKE);
+				mSubPaint.setStyle(Paint.Style.STROKE);
+				mBottomPaint.setStyle(Paint.Style.STROKE);
+			}
+		}
+
+		/*
+		 * è‡ªåŠ¨ä¿®æ­£
 		 */
-		 public void autoFix(int w, int h)
-		 {
+		public void autoFix(int w, int h)
+		{
 			if (mSidePaintInterval != 0)
 			{
 				mRoundOval.set(mPaintWidth/2 + mSidePaintInterval, mPaintWidth/2 + mSidePaintInterval,
-				w - mPaintWidth/2 - mSidePaintInterval, h - mPaintWidth/2 - mSidePaintInterval);	
+						w - mPaintWidth/2 - mSidePaintInterval, h - mPaintWidth/2 - mSidePaintInterval);
 			}else{
 
 				int sl = getPaddingLeft();
 				int sr = getPaddingRight();
 				int st = getPaddingTop();
 				int sb = getPaddingBottom();
-			
-				mRoundOval.set(sl + mPaintWidth/2, st + mPaintWidth/2, w - sr - mPaintWidth/2, h - sb - mPaintWidth/2);	
-			}	
-		 }
+
+				mRoundOval.set(sl + mPaintWidth/2, st + mPaintWidth/2, w - sr - mPaintWidth/2, h - sb - mPaintWidth/2);
+			}
+		}
 	}
-	
+
 	class CartoomEngine
 	{
-		public Handler mHandler; 
-		public boolean mBCartoom;					// ÊÇ·ñÕıÔÚ×÷¶¯»­ 
-		public Timer   mTimer;						// ÓÃÓÚ×÷¶¯»­µÄTIMER 
-		public MyTimerTask	mTimerTask;				// ¶¯»­ÈÎÎñ
-		public int 	 mSaveMax;						// ÔÚ×÷¶¯»­Ê±»áÁÙÊ±¸Ä±äMAXÖµ£¬¸Ã±äÁ¿ÓÃÓÚ±£´æÖµÒÔ±ã»Ö¸´	 
-		public int     mTimerInterval;				// ¶¨Ê±Æ÷´¥·¢¼ä¸ôÊ±¼ä(ms)	 
-		public float   mCurFloatProcess;			// ×÷¶¯»­Ê±µ±Ç°½ø¶ÈÖµ 
+		public Handler mHandler;
+		public boolean mBCartoom;					// æ˜¯å¦æ­£åœ¨ä½œåŠ¨ç”»
+		public Timer   mTimer;						// ç”¨äºä½œåŠ¨ç”»çš„TIMER
+		public MyTimerTask	mTimerTask;				// åŠ¨ç”»ä»»åŠ¡
+		public int 	 mSaveMax;						// åœ¨ä½œåŠ¨ç”»æ—¶ä¼šä¸´æ—¶æ”¹å˜MAXå€¼ï¼Œè¯¥å˜é‡ç”¨äºä¿å­˜å€¼ä»¥ä¾¿æ¢å¤
+		public int     mTimerInterval;				// å®šæ—¶å™¨è§¦å‘é—´éš”æ—¶é—´(ms)
+		public float   mCurFloatProcess;			// ä½œåŠ¨ç”»æ—¶å½“å‰è¿›åº¦å€¼
 
 		private long timeMil;
-		
+
 		public CartoomEngine()
 		{
 			mHandler = new Handler()
@@ -332,15 +332,15 @@ public class MyProgressCircle extends View{
 							{
 								return ;
 							}
-							
+
 							mCurFloatProcess += 1;
 							setMainProgress((int) mCurFloatProcess);
-							
+
 							long curtimeMil = System.currentTimeMillis();
-									
-							
+
+
 							timeMil = curtimeMil;
-							
+
 							if (mCurFloatProcess >= mMaxProgress)
 							{
 								stopCartoom();
@@ -351,40 +351,40 @@ public class MyProgressCircle extends View{
 						break;
 					}
 				}
-				
+
 			};
-			
+
 			mBCartoom = false;
 			mTimer = new Timer();
 			mSaveMax = 0;
 			mTimerInterval = 25;
 			mCurFloatProcess = 0;
-			
+
 		}
-		
+
 		public synchronized void  startCartoom()
 		{
 			if ( mBCartoom == true)
 			{
 				return ;
 			}
-			
+
 			timeMil = 0;
-			
+
 			mBCartoom = true;
 
 			setMainProgress(0);
 			setSubProgress(0);
-			
+
 			mSaveMax = mMaxProgress;
 			mCurFloatProcess = 0;
-		
-			
+
+
 			mTimerTask = new MyTimerTask();
 			mTimer.schedule(mTimerTask, mTimerInterval, mTimerInterval);
 
 		}
-		
+
 		public synchronized void  stopCartoom()
 		{
 
@@ -392,26 +392,26 @@ public class MyProgressCircle extends View{
 			{
 				return ;
 			}
-			
+
 			mBCartoom = false;
 			mMaxProgress = mSaveMax;
-			
+
 			if (mTimerTask != null)
 			{
 				mTimerTask.cancel();
 				mTimerTask = null;
 			}
 		}
-		
+
 		private final static int TIMER_ID = 0x0010;
-		
+
 		class MyTimerTask extends TimerTask{
 
 			@Override
 			public void run() {
 				Message msg = mHandler.obtainMessage(TIMER_ID);
 				msg.sendToTarget();
-		
+
 			}
 		}
 	}

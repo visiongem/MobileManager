@@ -1,14 +1,14 @@
 package com.pyn.mobilemanager.db.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.pyn.mobilemanager.db.PrivacySmsDetailDBHelper;
 import com.pyn.mobilemanager.domain.PrivacySmsDetailInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrivacySmsDetailDao {
 
@@ -19,20 +19,20 @@ public class PrivacySmsDetailDao {
 	}
 
 	/**
-	 * ²éÑ¯È«²¿µÄ¶ÌĞÅÏêÇé
+	 * æŸ¥è¯¢å…¨éƒ¨çš„çŸ­ä¿¡è¯¦æƒ…
 	 */
 	public List<PrivacySmsDetailInfo> findAll(String number) {
-		// ¶¨ÒåºÃÒª·µ»ØµÄ¶ÔÏó
+		// å®šä¹‰å¥½è¦è¿”å›çš„å¯¹è±¡
 		List<PrivacySmsDetailInfo> infos = new ArrayList<PrivacySmsDetailInfo>();
 		SQLiteDatabase db = helper.getReadableDatabase();
 
 		if (db.isOpen()) {
-			// ²éÑ¯privacysms±íÖĞµÄËùÓĞºÅÂë
+			// æŸ¥è¯¢privacysmsè¡¨ä¸­çš„æ‰€æœ‰å·ç 
 			Cursor cursor = db
 					.rawQuery(
 							"select time, content from privacysmscontent where number = ?",
 							new String[] { number });
-			// Ñ­»·±éÀú½á¹û¼¯£¬½«Ã¿¸ö½á¹û¼¯·â×°ºóÌí¼Óµ½¼¯ºÏÖĞ
+			// å¾ªç¯éå†ç»“æœé›†ï¼Œå°†æ¯ä¸ªç»“æœé›†å°è£…åæ·»åŠ åˆ°é›†åˆä¸­
 			while (cursor.moveToNext()) {
 				PrivacySmsDetailInfo info = new PrivacySmsDetailInfo();
 				info.setTime(cursor.getString(0));
@@ -47,12 +47,12 @@ public class PrivacySmsDetailDao {
 	}
 
 	/**
-	 * É¾³ıÒ»ÌõĞÅÏ¢
+	 * åˆ é™¤ä¸€æ¡ä¿¡æ¯
 	 */
 	public void delete(String content) {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		if (db.isOpen()) {
-			// Ö´ĞĞÉ¾³ı²Ù×÷
+			// æ‰§è¡Œåˆ é™¤æ“ä½œ
 			db.execSQL("delete from privacysmscontent where content=?",
 					new Object[] { content });
 			db.close();
@@ -60,14 +60,14 @@ public class PrivacySmsDetailDao {
 	}
 
 	/**
-	 * Ìí¼ÓÒ»ÌõĞÅÏ¢
+	 * æ·»åŠ ä¸€æ¡ä¿¡æ¯
 	 */
 	public void add(String number, String time, String content) {
 
 		SQLiteDatabase db = helper.getWritableDatabase();
 
 		if (db.isOpen()) {
-			// Ö´ĞĞÌí¼ÓÊı¾İµÄSQLÓï¾ä
+			// æ‰§è¡Œæ·»åŠ æ•°æ®çš„SQLè¯­å¥
 			db.execSQL(
 					"insert into privacysmscontent (number, time, content) values (?,?,?)",
 					new Object[] { number, time, content });

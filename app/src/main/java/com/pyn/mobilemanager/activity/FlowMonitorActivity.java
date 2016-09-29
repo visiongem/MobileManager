@@ -28,36 +28,36 @@ import com.pyn.mobilemanager.db.dao.FlowMonitorDao;
 import com.pyn.mobilemanager.view.MyProgressCircle;
 
 /**
- * Á÷Á¿¼à¿ØµÄactivity
+ * æµé‡ç›‘æ§çš„activity
  */
 public class FlowMonitorActivity extends BasicActivity implements
 		OnClickListener {
 
-	private TextView tvFlowAll; // Ì×²Í
-	private LinearLayout llFlowSetting; // ÉèÖÃÌ×²Í
+	private TextView tvFlowAll; // å¥—é¤
+	private LinearLayout llFlowSetting; // è®¾ç½®å¥—é¤
 	private SharedPreferences sp;
 
-	private TextView tvFlowRemainder; // Ê£ÓàÁ÷Á¿
+	private TextView tvFlowRemainder; // å‰©ä½™æµé‡
 
-	private TextView tvFlowUsed; // ÒÑ¾­Ê¹ÓÃÁ÷Á¿Êı
-	private Button btnFlowCheck; // Á÷Á¿Ğ£ÕıButton
-	private Dialog checkDialog; // Á÷Á¿Ğ£Õı¶Ô»°¿ò
-	private EditText etComboCheckSize; // Á÷Á¿Ğ£ÕıÊäÈëÊı¾İ
-	private Button btnComboCheckSure, btnComboCheckCancel; // Á÷Á¿Ğ£ÕıµÄÈ·¶¨ºÍÈ¡Ïû°´Å¥
+	private TextView tvFlowUsed; // å·²ç»ä½¿ç”¨æµé‡æ•°
+	private Button btnFlowCheck; // æµé‡æ ¡æ­£Button
+	private Dialog checkDialog; // æµé‡æ ¡æ­£å¯¹è¯æ¡†
+	private EditText etComboCheckSize; // æµé‡æ ¡æ­£è¾“å…¥æ•°æ®
+	private Button btnComboCheckSure, btnComboCheckCancel; // æµé‡æ ¡æ­£çš„ç¡®å®šå’Œå–æ¶ˆæŒ‰é’®
 
-	private Dialog comboDialog; // ¡¡Ì×²Í¶Ô»°¿ò
-	private EditText etComboSize; // ÉèÖÃÌ×²Í´óĞ¡
-	private Button btnComboSure, btnComboCancel; // Ì×²Í¶Ô»°¿òµÄÈ·¶¨ºÍÈ¡Ïû°´Å¥
+	private Dialog comboDialog; // ã€€å¥—é¤å¯¹è¯æ¡†
+	private EditText etComboSize; // è®¾ç½®å¥—é¤å¤§å°
+	private Button btnComboSure, btnComboCancel; // å¥—é¤å¯¹è¯æ¡†çš„ç¡®å®šå’Œå–æ¶ˆæŒ‰é’®
 
-	private Calendar calendar; // ÎªÁË»ñµÃÏµÍ³ÈÕÆÚ
-	private FlowMonitorDao dao; // ²Ù×÷Á÷Á¿ĞÅÏ¢Êı¾İ¿âµÄdao£¬ÎªÁË²éÑ¯µ±ÔÂµÄÁ÷Á¿ĞÅÏ¢
+	private Calendar calendar; // ä¸ºäº†è·å¾—ç³»ç»Ÿæ—¥æœŸ
+	private FlowMonitorDao dao; // æ“ä½œæµé‡ä¿¡æ¯æ•°æ®åº“çš„daoï¼Œä¸ºäº†æŸ¥è¯¢å½“æœˆçš„æµé‡ä¿¡æ¯
 
-	private MyProgressCircle myProgressCircle;	// ×Ô¶¨Òå»­È¦
+	private MyProgressCircle myProgressCircle;	// è‡ªå®šä¹‰ç”»åœˆ
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.flow_monitor); // ¼ÓÔØ²¼¾Ö
+		setContentView(R.layout.flow_monitor); // åŠ è½½å¸ƒå±€
 
 		initViews();
 
@@ -66,91 +66,91 @@ public class FlowMonitorActivity extends BasicActivity implements
 
 		long mobileRx = TrafficStats.getMobileRxBytes();
 		long mobileTx = TrafficStats.getMobileTxBytes();
-		// ±¾´Î¿ª»úÓÃµÄ2G/3G×ÜÁ÷Á¿
+		// æœ¬æ¬¡å¼€æœºç”¨çš„2G/3Gæ€»æµé‡
 		long mobileTotal = mobileRx + mobileTx;
 
 		DecimalFormat formater = new DecimalFormat("####.00");
 		String total = formater.format(mobileTotal / 1024f / 1024f);
 
-		String comboSize = sp.getString("combo", ""); // µÃµ½ÉèÖÃ¹ıµÄÁ÷Á¿Ì×²Í
-		if (!comboSize.equals("")) { // Èç¹ûÉèÖÃ¹ıÌ×²Í
+		String comboSize = sp.getString("combo", ""); // å¾—åˆ°è®¾ç½®è¿‡çš„æµé‡å¥—é¤
+		if (!comboSize.equals("")) { // å¦‚æœè®¾ç½®è¿‡å¥—é¤
 			tvFlowAll.setText(comboSize + " MB");
 			tvFlowAll.setTextColor(Color.BLACK);
-		} else { // Ã»ÓĞÉèÖÃÌ×²ÍµÄÇé¿ö,ÏÈÌø³öÒ»¸ö¶Ô»°¿òÌáÊ¾Ò»ÏÂÓÃ»§»¹Ã»ÉèÖÃ¹ıÌ×²Í
+		} else { // æ²¡æœ‰è®¾ç½®å¥—é¤çš„æƒ…å†µ,å…ˆè·³å‡ºä¸€ä¸ªå¯¹è¯æ¡†æç¤ºä¸€ä¸‹ç”¨æˆ·è¿˜æ²¡è®¾ç½®è¿‡å¥—é¤
 			AlertDialog.Builder alertbBuilder = new AlertDialog.Builder(this);
 			alertbBuilder
-					.setTitle("ÎÂÜ°ÌáÊ¾")
-					.setMessage("Äú»¹Ã»ÓĞÉèÖÃ¹ıÌ×²Í£¡ÏÖÔÚÊÇ·ñĞèÒªÉèÖÃÒ»ÏÂ?")
-					.setPositiveButton("È·¶¨",
+					.setTitle("æ¸©é¦¨æç¤º")
+					.setMessage("æ‚¨è¿˜æ²¡æœ‰è®¾ç½®è¿‡å¥—é¤ï¼ç°åœ¨æ˜¯å¦éœ€è¦è®¾ç½®ä¸€ä¸‹?")
+					.setPositiveButton("ç¡®å®š",
 							new DialogInterface.OnClickListener() {
 
 								@Override
 								public void onClick(DialogInterface dialog,
-										int which) {
-									showComboDialog(); // ÏÔÊ¾ÉèÖÃÌ×²Í¶Ô»°¿ò
-									dialog.cancel(); // Ê¹¶Ô»°¿òÏûÊ§
+													int which) {
+									showComboDialog(); // æ˜¾ç¤ºè®¾ç½®å¥—é¤å¯¹è¯æ¡†
+									dialog.cancel(); // ä½¿å¯¹è¯æ¡†æ¶ˆå¤±
 								}
 							})
-					.setNegativeButton("È¡Ïû",
+					.setNegativeButton("å–æ¶ˆ",
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,
-										int which) {
-									dialog.cancel(); // Ê¹¶Ô»°¿òÏûÊ§
+													int which) {
+									dialog.cancel(); // ä½¿å¯¹è¯æ¡†æ¶ˆå¤±
 								}
 							}).create();
 
-			alertbBuilder.show(); // show³ö¶Ô»°¿ò
-			tvFlowAll.setText("»¹Î´ÉèÖÃÌ×²ÍĞÅÏ¢!");
+			alertbBuilder.show(); // showå‡ºå¯¹è¯æ¡†
+			tvFlowAll.setText("è¿˜æœªè®¾ç½®å¥—é¤ä¿¡æ¯!");
 			tvFlowAll.setTextColor(Color.RED);
 		}
 
-		calendar = Calendar.getInstance(); // »ñµÃÒ»¸öcanlendarÊµÀı
-		String month = String.valueOf(calendar.get(Calendar.MONTH)); // µÃµ½µ±Ç°ÔÂ·İ
+		calendar = Calendar.getInstance(); // è·å¾—ä¸€ä¸ªcanlendarå®ä¾‹
+		String month = String.valueOf(calendar.get(Calendar.MONTH)); // å¾—åˆ°å½“å‰æœˆä»½
 		String comboUsedSize = null;
-		if (dao.find(month)) { // Èç¹ûµ±Ç°ÔÂ·İÓĞ´æÊı¾İ
+		if (dao.find(month)) { // å¦‚æœå½“å‰æœˆä»½æœ‰å­˜æ•°æ®
 			comboUsedSize = dao.getFlow(month);
 			comboUsedSize = String.valueOf(Float.parseFloat(comboUsedSize)
 					+ Float.parseFloat(total));
-			tvFlowUsed.setText("ÒÑÓÃ:" + comboUsedSize + " MB");
+			tvFlowUsed.setText("å·²ç”¨:" + comboUsedSize + " MB");
 		} else {
 			comboUsedSize = total;
-			tvFlowUsed.setText("ÒÑÓÃ:0 MB");
+			tvFlowUsed.setText("å·²ç”¨:0 MB");
 		}
 
 		String remainder = "0";
-		if (!comboSize.equals("")) { // Èç¹ûÉèÖÃ¹ıÁ÷Á¿Ì×²Í
+		if (!comboSize.equals("")) { // å¦‚æœè®¾ç½®è¿‡æµé‡å¥—é¤
 
 			if (Float.parseFloat(comboSize) < Float.parseFloat(comboUsedSize)) {
-				remainder = "0"; // Èç¹ûÒÑ¾­Ê¹ÓÃµÄÁ÷Á¿´óÓÚÁ÷Á¿Ì×²Í
-				myProgressCircle.startCartoom(100); // »­È¦»­Âú
-			} else { // Ëã³öÊ£ÓàÁ÷Á¿Êı¾İ
+				remainder = "0"; // å¦‚æœå·²ç»ä½¿ç”¨çš„æµé‡å¤§äºæµé‡å¥—é¤
+				myProgressCircle.startCartoom(100); // ç”»åœˆç”»æ»¡
+			} else { // ç®—å‡ºå‰©ä½™æµé‡æ•°æ®
 				remainder = String.valueOf(Float.parseFloat(comboSize)
 						- Float.parseFloat(comboUsedSize));
 				int cartoom = (int) (Float.parseFloat(comboUsedSize) * 100 / Float
 						.parseFloat(comboSize));
 
-				myProgressCircle.startCartoom(cartoom); // »­È¦
+				myProgressCircle.startCartoom(cartoom); // ç”»åœˆ
 			}
 		}
-		// ÉèÖÃÊ£ÓàÁ÷Á¿Êı¾İ
+		// è®¾ç½®å‰©ä½™æµé‡æ•°æ®
 		tvFlowRemainder.setText(remainder);
 
 	}
 
 	@Override
 	protected void initViews() {
-		// Á÷Á¿Ì×²ÍµÄTextView
+		// æµé‡å¥—é¤çš„TextView
 		tvFlowAll = (TextView) findViewById(R.id.flow_monitor_all);
-		// ÉèÖÃÌ×²ÍµÄÄÇ¸öLinearLayout
+		// è®¾ç½®å¥—é¤çš„é‚£ä¸ªLinearLayout
 		llFlowSetting = (LinearLayout) findViewById(R.id.flow_monitor_ll_setting);
-		llFlowSetting.setOnClickListener(this); // ÉèÖÃµã»÷ÊÂ¼ş
-		// ÒÑÊ¹ÓÃµÄÁ÷Á¿
+		llFlowSetting.setOnClickListener(this); // è®¾ç½®ç‚¹å‡»äº‹ä»¶
+		// å·²ä½¿ç”¨çš„æµé‡
 		tvFlowUsed = (TextView) findViewById(R.id.flow_monitor_tv_used);
 		myProgressCircle = (MyProgressCircle) findViewById(R.id.hadUsedFlowProgress);
-		// Ê£ÓàÁ÷Á¿
+		// å‰©ä½™æµé‡
 		tvFlowRemainder = (TextView) findViewById(R.id.flow_monitor_tv_remainder);
-		// Á÷Á¿Ğ£Õı°´Å¥
+		// æµé‡æ ¡æ­£æŒ‰é’®
 		btnFlowCheck = (Button) findViewById(R.id.flow_monitor_btn_check);
 		btnFlowCheck.setOnClickListener(this);
 	}
@@ -159,157 +159,157 @@ public class FlowMonitorActivity extends BasicActivity implements
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		// Ì×²ÍÉèÖÃ
-		case R.id.flow_monitor_ll_setting:
+			// å¥—é¤è®¾ç½®
+			case R.id.flow_monitor_ll_setting:
 
-			showComboDialog();
+				showComboDialog();
 
-			break;
+				break;
 
-		// È·ÈÏÌ×²ÍÉèÖÃ
-		case R.id.b_combo_sure:
+			// ç¡®è®¤å¥—é¤è®¾ç½®
+			case R.id.b_combo_sure:
 
-			if (etComboSize.getText().toString().trim().equals("")) {
-				Toast.makeText(FlowMonitorActivity.this, "Ì×²ÍÉèÖÃ²»ÄÜÎª¿Õ!", 0).show();
-			} else {
-				String comboSize = etComboSize.getText().toString().trim(); // µÃµ½ÊäÈëµÄÌ×²ÍÊı¾İ
-				String pattern = "^([0-9]*)$"; // ÕıÔò±í´ïÊ½£¬±íÊ¾ÕıÕûÊı
-				if (!comboSize.matches(pattern)) {
-					Toast.makeText(FlowMonitorActivity.this, "ÇëÊäÈëÕıÈ·µÄÌ×²Í´óĞ¡!", 0)
-							.show();
+				if (etComboSize.getText().toString().trim().equals("")) {
+					Toast.makeText(FlowMonitorActivity.this, "å¥—é¤è®¾ç½®ä¸èƒ½ä¸ºç©º!", 0).show();
 				} else {
-					Editor editor = sp.edit(); // µÃµ½Editor
-					editor.putString("combo", comboSize); // ´æÆğÀ´Ì×²ÍÊı
-					editor.commit(); // Ìá½»
-					// ÂíÉÏ¸üĞÂÒ»ÏÂÉèÖÃµÄÌ×²ÍÊı¾İ
-					tvFlowAll.setText(comboSize + " MB");
-					tvFlowAll.setTextColor(Color.BLACK);
-
-					// ÉèÖÃÍêÌ×²Íºó£¬Ê£ÓàÁ÷Á¿Êı¸üĞÂÒ»ÏÂ£¬ÓÃÌ×²ÍÊı¼õÈ¥ÒÑ¾­Ê¹ÓÃµÄÁ÷Á¿
-					String remainder = "0";
-
-					String month = String.valueOf(calendar.get(Calendar.MONTH)); // µÃµ½µ±Ç°ÔÂ·İ
-
-					if (dao.find(month)) { // Èç¹ûµ±Ç°ÔÂ·İÃ»ÓĞ´æÊı¾İ
-						String comboUsedSize = dao.getFlow(month);
-
-						if (Float.parseFloat(comboSize) < Float
-								.parseFloat(comboUsedSize)) {
-							remainder = "0"; // Ì×²ÍÁ÷Á¿Ğ¡ÓÚÒÑ¾­Ê¹ÓÃµÄÁ÷Á¿Çé¿ö
-							myProgressCircle.startCartoom(100);
-						} else {
-							// ¼ÆËã³öÊ£ÓàÁ÷Á¿Êı¾İ
-							remainder = String.valueOf(Float
-									.parseFloat(comboSize)
-									- Float.parseFloat(comboUsedSize));
-							int cartoom = Integer.parseInt(comboUsedSize) * 100
-									/ Integer.parseInt(comboSize);
-							myProgressCircle.startCartoom(cartoom); // »­È¦
-						}
-
-					}
-
-					// ÉèÖÃÊ£ÓàÁ÷Á¿
-					tvFlowRemainder.setText(remainder);
-
-				}
-				// Ìø³ö¸öÍÂË¾ÌáÊ¾ÓÃ»§ÉèÖÃÍê³É
-				Toast.makeText(FlowMonitorActivity.this, "ÉèÖÃ³É¹¦!", 0).show();
-				comboDialog.dismiss(); // ¹Ø±Õ¶Ô»°¿ò
-			}
-			break;
-
-		// Ì×²ÍÉèÖÃÈ¡Ïû
-		case R.id.b_combo_cancel:
-			comboDialog.dismiss(); // ¹Ø±Õ¶Ô»°¿ò
-			break;
-
-		// µã»÷ÁËÁ÷Á¿Ğ£Õı
-		case R.id.flow_monitor_btn_check:
-
-			// Ò»¸öĞ£ÕıÁ÷Á¿µÄ¶Ô»°¿ò
-			checkDialog = new Dialog(FlowMonitorActivity.this);
-			checkDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			checkDialog.show();
-			Window checkWindow = checkDialog.getWindow();
-			checkWindow.setLayout(LayoutParams.MATCH_PARENT,
-					LayoutParams.WRAP_CONTENT);
-			checkWindow.setContentView(R.layout.combo_check);
-			etComboCheckSize = (EditText) checkWindow
-					.findViewById(R.id.et_combo_check_size);
-			btnComboCheckSure = (Button) checkWindow
-					.findViewById(R.id.b_combo_check_sure);
-			btnComboCheckCancel = (Button) checkWindow
-					.findViewById(R.id.b_combo_check_cancel);
-
-			btnComboCheckSure.setOnClickListener(FlowMonitorActivity.this); // È·¶¨
-			btnComboCheckCancel.setOnClickListener(FlowMonitorActivity.this); // ¡¡È¡Ïû
-
-			break;
-
-		// Á÷Á¿Ğ£ÕıÈ¡Ïû
-		case R.id.b_combo_check_cancel:
-			checkDialog.dismiss(); // ¹Ø±Õ¶Ô»°¿ò
-			break;
-
-		// ¡¡Á÷Á¿Ğ£ÕıÈ·¶¨°´Å¥
-		case R.id.b_combo_check_sure:
-
-			// Ã»ÓĞÊäÈëĞ£ÕıÖµ
-			if (etComboCheckSize.getText().toString().trim().equals("")) {
-				Toast.makeText(FlowMonitorActivity.this, "Ğ£ÕıÖµ²»ÄÜÎª¿Õ!", 0).show();
-			} else {
-				// µÃµ½Ğ£ÕıÖµ
-				String combo_used_Size = etComboCheckSize.getText()
-						.toString().trim();// µÃµ½Ğ£ÕıÖµ
-				String pattern = "^[0-9]+(.[0-9]{2})?$"; // ÕıÔò±í´ïÊ½£¬±íÊ¾Õı¸¡µãÊı
-				if (!combo_used_Size.matches(pattern)) { // ÊäÈëµÄĞ£ÕıÖµ²»ÎªÊı×Ö
-					Toast.makeText(FlowMonitorActivity.this, "ÇëÊäÈëÕıÈ·µÄÊı×Ö!", 0)
-							.show();
-				} else {
-
-					String month = String.valueOf(calendar.get(Calendar.MONTH)); // µÃµ½µ±Ç°ÔÂ·İ
-
-					if (!dao.find(month)) { // Èç¹ûµ±Ç°ÔÂ·İÃ»ÓĞ´æÊı¾İ
-						dao.add(combo_used_Size, month); // Ôò²åÈëµ±Ç°ÔÂ·İÁ÷Á¿Ê¹ÓÃÊı¾İ
+					String comboSize = etComboSize.getText().toString().trim(); // å¾—åˆ°è¾“å…¥çš„å¥—é¤æ•°æ®
+					String pattern = "^([0-9]*)$"; // æ­£åˆ™è¡¨è¾¾å¼ï¼Œè¡¨ç¤ºæ­£æ•´æ•°
+					if (!comboSize.matches(pattern)) {
+						Toast.makeText(FlowMonitorActivity.this, "è¯·è¾“å…¥æ­£ç¡®çš„å¥—é¤å¤§å°!", 0)
+								.show();
 					} else {
-						dao.updateFlow(combo_used_Size, month); // ·ñÔò¸üĞÂµ±Ç°ÔÂ·İÁ÷Á¿Ê¹ÓÃÊı¾İ
-					}
+						Editor editor = sp.edit(); // å¾—åˆ°Editor
+						editor.putString("combo", comboSize); // å­˜èµ·æ¥å¥—é¤æ•°
+						editor.commit(); // æäº¤
+						// é©¬ä¸Šæ›´æ–°ä¸€ä¸‹è®¾ç½®çš„å¥—é¤æ•°æ®
+						tvFlowAll.setText(comboSize + " MB");
+						tvFlowAll.setTextColor(Color.BLACK);
 
-					tvFlowUsed.setText("ÒÑÓÃ:" + combo_used_Size + " MB");
+						// è®¾ç½®å®Œå¥—é¤åï¼Œå‰©ä½™æµé‡æ•°æ›´æ–°ä¸€ä¸‹ï¼Œç”¨å¥—é¤æ•°å‡å»å·²ç»ä½¿ç”¨çš„æµé‡
+						String remainder = "0";
 
-					// µÃµ½Ì×²Í´óĞ¡
-					String comboSize = sp.getString("combo", "");
+						String month = String.valueOf(calendar.get(Calendar.MONTH)); // å¾—åˆ°å½“å‰æœˆä»½
 
-					// ÉèÖÃÍêÒÑ¾­Á÷Á¿Ò²Òª¸üĞÂÒ»ÏÂÊ£ÓàÁ÷Á¿Êı¾İ
-					String remainder = "0";
-					if (!comboSize.equals("")) {
+						if (dao.find(month)) { // å¦‚æœå½“å‰æœˆä»½æ²¡æœ‰å­˜æ•°æ®
+							String comboUsedSize = dao.getFlow(month);
 
-						if (Float.parseFloat(comboSize) < Float
-								.parseFloat(combo_used_Size)) {
-							myProgressCircle.startCartoom(100); // »­È¦»­Âú
-							comboSize = "0";
-						} else {
-							remainder = String.valueOf(Float
-									.parseFloat(comboSize)
-									- Float.parseFloat(combo_used_Size));
-							int cartoom = Integer.parseInt(combo_used_Size)
-									* 100 / Integer.parseInt(comboSize);
-							myProgressCircle.startCartoom(cartoom); // »­È¦
+							if (Float.parseFloat(comboSize) < Float
+									.parseFloat(comboUsedSize)) {
+								remainder = "0"; // å¥—é¤æµé‡å°äºå·²ç»ä½¿ç”¨çš„æµé‡æƒ…å†µ
+								myProgressCircle.startCartoom(100);
+							} else {
+								// è®¡ç®—å‡ºå‰©ä½™æµé‡æ•°æ®
+								remainder = String.valueOf(Float
+										.parseFloat(comboSize)
+										- Float.parseFloat(comboUsedSize));
+								int cartoom = Integer.parseInt(comboUsedSize) * 100
+										/ Integer.parseInt(comboSize);
+								myProgressCircle.startCartoom(cartoom); // ç”»åœˆ
+							}
+
 						}
-					}
-					tvFlowRemainder.setText(remainder);
 
-					Toast.makeText(FlowMonitorActivity.this, "ÉèÖÃ³É¹¦!", 0).show();
-					checkDialog.dismiss(); // ¹Ø±Õ¶Ô»°¿ò
+						// è®¾ç½®å‰©ä½™æµé‡
+						tvFlowRemainder.setText(remainder);
+
+					}
+					// è·³å‡ºä¸ªåå¸æç¤ºç”¨æˆ·è®¾ç½®å®Œæˆ
+					Toast.makeText(FlowMonitorActivity.this, "è®¾ç½®æˆåŠŸ!", 0).show();
+					comboDialog.dismiss(); // å…³é—­å¯¹è¯æ¡†
 				}
-			}
-			break;
+				break;
+
+			// å¥—é¤è®¾ç½®å–æ¶ˆ
+			case R.id.b_combo_cancel:
+				comboDialog.dismiss(); // å…³é—­å¯¹è¯æ¡†
+				break;
+
+			// ç‚¹å‡»äº†æµé‡æ ¡æ­£
+			case R.id.flow_monitor_btn_check:
+
+				// ä¸€ä¸ªæ ¡æ­£æµé‡çš„å¯¹è¯æ¡†
+				checkDialog = new Dialog(FlowMonitorActivity.this);
+				checkDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				checkDialog.show();
+				Window checkWindow = checkDialog.getWindow();
+				checkWindow.setLayout(LayoutParams.MATCH_PARENT,
+						LayoutParams.WRAP_CONTENT);
+				checkWindow.setContentView(R.layout.combo_check);
+				etComboCheckSize = (EditText) checkWindow
+						.findViewById(R.id.et_combo_check_size);
+				btnComboCheckSure = (Button) checkWindow
+						.findViewById(R.id.b_combo_check_sure);
+				btnComboCheckCancel = (Button) checkWindow
+						.findViewById(R.id.b_combo_check_cancel);
+
+				btnComboCheckSure.setOnClickListener(FlowMonitorActivity.this); // ç¡®å®š
+				btnComboCheckCancel.setOnClickListener(FlowMonitorActivity.this); // ã€€å–æ¶ˆ
+
+				break;
+
+			// æµé‡æ ¡æ­£å–æ¶ˆ
+			case R.id.b_combo_check_cancel:
+				checkDialog.dismiss(); // å…³é—­å¯¹è¯æ¡†
+				break;
+
+			// ã€€æµé‡æ ¡æ­£ç¡®å®šæŒ‰é’®
+			case R.id.b_combo_check_sure:
+
+				// æ²¡æœ‰è¾“å…¥æ ¡æ­£å€¼
+				if (etComboCheckSize.getText().toString().trim().equals("")) {
+					Toast.makeText(FlowMonitorActivity.this, "æ ¡æ­£å€¼ä¸èƒ½ä¸ºç©º!", 0).show();
+				} else {
+					// å¾—åˆ°æ ¡æ­£å€¼
+					String combo_used_Size = etComboCheckSize.getText()
+							.toString().trim();// å¾—åˆ°æ ¡æ­£å€¼
+					String pattern = "^[0-9]+(.[0-9]{2})?$"; // æ­£åˆ™è¡¨è¾¾å¼ï¼Œè¡¨ç¤ºæ­£æµ®ç‚¹æ•°
+					if (!combo_used_Size.matches(pattern)) { // è¾“å…¥çš„æ ¡æ­£å€¼ä¸ä¸ºæ•°å­—
+						Toast.makeText(FlowMonitorActivity.this, "è¯·è¾“å…¥æ­£ç¡®çš„æ•°å­—!", 0)
+								.show();
+					} else {
+
+						String month = String.valueOf(calendar.get(Calendar.MONTH)); // å¾—åˆ°å½“å‰æœˆä»½
+
+						if (!dao.find(month)) { // å¦‚æœå½“å‰æœˆä»½æ²¡æœ‰å­˜æ•°æ®
+							dao.add(combo_used_Size, month); // åˆ™æ’å…¥å½“å‰æœˆä»½æµé‡ä½¿ç”¨æ•°æ®
+						} else {
+							dao.updateFlow(combo_used_Size, month); // å¦åˆ™æ›´æ–°å½“å‰æœˆä»½æµé‡ä½¿ç”¨æ•°æ®
+						}
+
+						tvFlowUsed.setText("å·²ç”¨:" + combo_used_Size + " MB");
+
+						// å¾—åˆ°å¥—é¤å¤§å°
+						String comboSize = sp.getString("combo", "");
+
+						// è®¾ç½®å®Œå·²ç»æµé‡ä¹Ÿè¦æ›´æ–°ä¸€ä¸‹å‰©ä½™æµé‡æ•°æ®
+						String remainder = "0";
+						if (!comboSize.equals("")) {
+
+							if (Float.parseFloat(comboSize) < Float
+									.parseFloat(combo_used_Size)) {
+								myProgressCircle.startCartoom(100); // ç”»åœˆç”»æ»¡
+								comboSize = "0";
+							} else {
+								remainder = String.valueOf(Float
+										.parseFloat(comboSize)
+										- Float.parseFloat(combo_used_Size));
+								int cartoom = Integer.parseInt(combo_used_Size)
+										* 100 / Integer.parseInt(comboSize);
+								myProgressCircle.startCartoom(cartoom); // ç”»åœˆ
+							}
+						}
+						tvFlowRemainder.setText(remainder);
+
+						Toast.makeText(FlowMonitorActivity.this, "è®¾ç½®æˆåŠŸ!", 0).show();
+						checkDialog.dismiss(); // å…³é—­å¯¹è¯æ¡†
+					}
+				}
+				break;
 		}
 	}
 
 	private void showComboDialog() {
-		// Ò»¸öÉèÖÃÁ÷Á¿Ì×²ÍµÄ¶Ô»°¿ò
+		// ä¸€ä¸ªè®¾ç½®æµé‡å¥—é¤çš„å¯¹è¯æ¡†
 		comboDialog = new Dialog(FlowMonitorActivity.this);
 		comboDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		comboDialog.show();

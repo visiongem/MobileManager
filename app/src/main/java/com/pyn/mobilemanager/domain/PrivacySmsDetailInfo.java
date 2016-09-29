@@ -1,13 +1,13 @@
 package com.pyn.mobilemanager.domain;
 
 /**
- * 隐私保护中短信实体类
+ * 闅愮淇濇姢涓煭淇″疄浣撶被
  */
 public class PrivacySmsDetailInfo {
 
-	private String number; // 电话号码
-	private String time; // 通讯时间
-	private String content; // 通讯内容
+	private String number; // 鐢佃瘽鍙风爜
+	private String time; // 閫氳鏃堕棿
+	private String content; // 閫氳鍐呭
 
 	public String getNumber() {
 		return number;

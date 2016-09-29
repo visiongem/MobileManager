@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * ´´½¨Ò»¸öÊı¾İ¿âÓÃÀ´´æ¼ÓËøµÄ³ÌĞò
+ * åˆ›å»ºä¸€ä¸ªæ•°æ®åº“ç”¨æ¥å­˜åŠ é”çš„ç¨‹åº
  */
 public class AppLockDBHelper extends SQLiteOpenHelper {
 
@@ -14,7 +14,7 @@ public class AppLockDBHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * µÚÒ»´Î´´½¨Êı¾İ¿âµÄÊ±ºòÖ´ĞĞ oncreate·½·¨
+	 * ç¬¬ä¸€æ¬¡åˆ›å»ºæ•°æ®åº“çš„æ—¶å€™æ‰§è¡Œ oncreateæ–¹æ³•
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
@@ -22,7 +22,7 @@ public class AppLockDBHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * ¸üĞÂÊı¾İ¿âµÄ²Ù×÷
+	 * æ›´æ–°æ•°æ®åº“çš„æ“ä½œ
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -16,12 +16,12 @@ import android.widget.TextView;
 import com.pyn.mobilemanager.R;
 
 /**
- * Á÷Á¿¹ÜÀíµÄactivity
+ * æµé‡ç®¡ç†çš„activity
  */
 public class FlowManagerActivity extends TabActivity implements OnClickListener {
 
-	private ImageView ivPrevious; // Ç°Ò»²½µÄimageview
-	private TextView tvTitle; // ÌâÄ¿
+	private ImageView ivPrevious; // å‰ä¸€æ­¥çš„imageview
+	private TextView tvTitle; // é¢˜ç›®
 	private TabHost tabHost;
 	private TabWidget tabWidget;
 
@@ -55,9 +55,9 @@ public class FlowManagerActivity extends TabActivity implements OnClickListener 
 
 				for (int i = 0; i < tabWidget.getChildCount(); i++) {
 					if (tabHost.getCurrentTab() == 0) {
-						tvTitle.setText("Á÷Á¿¼à¿Ø");
+						tvTitle.setText("æµé‡ç›‘æ§");
 					} else if (tabHost.getCurrentTab() == 1) {
-						tvTitle.setText("Á÷Á¿ÏêÇé");
+						tvTitle.setText("æµé‡è¯¦æƒ…");
 					}
 				}
 			}
@@ -66,24 +66,24 @@ public class FlowManagerActivity extends TabActivity implements OnClickListener 
 	}
 
 	/**
-	 * ³õÊ¼»¯¿Ø¼ş
+	 * åˆå§‹åŒ–æ§ä»¶
 	 */
 	private void initViews() {
 		tvTitle = (TextView) findViewById(R.id.flow_tv_title);
 		ivPrevious = (ImageView) findViewById(R.id.flow_iv_previous);
-		ivPrevious.setOnClickListener(this); 
+		ivPrevious.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		case R.id.flow_iv_previous:
-			Intent previousIntent = new Intent(FlowManagerActivity.this,
-					MainActivity.class);
-			startActivity(previousIntent);
-			finish();
-			break;
+			case R.id.flow_iv_previous:
+				Intent previousIntent = new Intent(FlowManagerActivity.this,
+						MainActivity.class);
+				startActivity(previousIntent);
+				finish();
+				break;
 
 		}
 	}

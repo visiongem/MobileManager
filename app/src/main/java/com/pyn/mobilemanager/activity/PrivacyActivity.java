@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import com.pyn.mobilemanager.R;
 
 /**
- * ÉèÖÃºÃÒ»ÇĞ»òÕßÊäÈëÕıÈ·ÃÜÂë½øÈëµ½ÒşË½±£»¤µÄactivity
+ * è®¾ç½®å¥½ä¸€åˆ‡æˆ–è€…è¾“å…¥æ­£ç¡®å¯†ç è¿›å…¥åˆ°éšç§ä¿æŠ¤çš„activity
  */
 public class PrivacyActivity extends BasicActivity implements OnClickListener {
 	private LinearLayout llNote;
@@ -22,7 +22,7 @@ public class PrivacyActivity extends BasicActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.privacy);
-		
+
 		initViews();
 
 	}
@@ -43,38 +43,38 @@ public class PrivacyActivity extends BasicActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.privacy_iv_previous: // µã»÷ÁËÇ°Ò»²½
+			case R.id.privacy_iv_previous: // ç‚¹å‡»äº†å‰ä¸€æ­¥
 
-			Intent previousIntent = new Intent(PrivacyActivity.this,
-					MainActivity.class);
-			startActivity(previousIntent);
-			finish();
+				Intent previousIntent = new Intent(PrivacyActivity.this,
+						MainActivity.class);
+				startActivity(previousIntent);
+				finish();
 
-			break;
+				break;
 
-		case R.id.privacy_ll_lock: // µã»÷ÁË³ÌĞòËø
+			case R.id.privacy_ll_lock: // ç‚¹å‡»äº†ç¨‹åºé”
 
-			Intent lockIntent = new Intent(PrivacyActivity.this,
-					AppLockActivity.class);
-			startActivity(lockIntent);
+				Intent lockIntent = new Intent(PrivacyActivity.this,
+						AppLockActivity.class);
+				startActivity(lockIntent);
 
-			break;
+				break;
 
-		case R.id.privacy_ll_note: // µã»÷ÁËÒşË½Í¨Ñ¶Â¼
+			case R.id.privacy_ll_note: // ç‚¹å‡»äº†éšç§é€šè®¯å½•
 
-			Intent noteIntent = new Intent(PrivacyActivity.this,
-					PrivacyNoteActivity.class);
-			startActivity(noteIntent);
+				Intent noteIntent = new Intent(PrivacyActivity.this,
+						PrivacyNoteActivity.class);
+				startActivity(noteIntent);
 
-			break;
+				break;
 
-		case R.id.privacy_ll_alter_pwd: // µã»÷ÁËĞŞ¸ÄÃÜÂë
+			case R.id.privacy_ll_alter_pwd: // ç‚¹å‡»äº†ä¿®æ”¹å¯†ç 
 
-			Intent alterPwdIntent = new Intent(PrivacyActivity.this,
-					PrivacyPasswordAlterActivity.class);
-			startActivity(alterPwdIntent);
+				Intent alterPwdIntent = new Intent(PrivacyActivity.this,
+						PrivacyPasswordAlterActivity.class);
+				startActivity(alterPwdIntent);
 
-			break;
+				break;
 		}
 
 	}

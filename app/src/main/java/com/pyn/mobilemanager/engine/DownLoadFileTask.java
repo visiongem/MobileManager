@@ -1,49 +1,52 @@
 package com.pyn.mobilemanager.engine;
 
+import android.app.ProgressDialog;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import android.app.ProgressDialog;
-
 /**
- * ÏÂÔØapkÎÄ¼şµÄµÄÀà
- * @param path ·şÎñÆ÷ÎÄ¼şÂ·¾¶
- * @param filePath ±¾µØÎÄ¼şÂ·¾¶
- * @return ±¾µØÎÄ¼ş¶ÔÏó
- * @throws Exception
+ * ä¸‹è½½apkæ–‡ä»¶çš„çš„ç±»
  */
 public class DownLoadFileTask {
 
-	public static File getFile(String path, String filePath, ProgressDialog pd) throws Exception{
-		URL url = new URL(path);
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();		// µÃµ½HttpURLConnection
-		conn.setRequestMethod("GET");				// ÉèÖÃÍ¨¹ıget·½·¨·¢ËÍÊı¾İ
-		conn.setConnectTimeout(5000);				// ÉèÖÃÁ¬½Ó³¬Ê±Ê±¼äÎª5Ãë
-		if(conn.getResponseCode() == 200){			//¡¡Èç¹û·µ»Ø´úÂëÊÇ£²£°£°£¬ÕâÊÇÎªÁËÅĞ¶ÏÊÇ·ñÕı³£ÏìÓ¦ÇëÇóÊı¾İ
-			int total = conn.getContentLength();	// µÃµ½ÄÚÈİ³¤¶È
-			pd.setMax(total);						// ÉèÖÃ½ø¶ÈÌõµÄ½ø¶È×î´ó³¤¶È
-			InputStream is = conn.getInputStream();
-			File file = new File(filePath);
-			FileOutputStream fos = new FileOutputStream(file);
-			byte[] buffer = new byte[1024];
-			int len = 0;
-			int process = 0;
-			while((len = is.read(buffer)) != -1){
-				fos.write(buffer, 0, len);
-				process += len;
-				pd.setProgress(process);		// ÖØÖÃ½ø¶ÈÌõ½ø¶È
-				Thread.sleep(50);				// Ê¹Ïß³ÌË¯Ãß50ºÁÃë
-			}
-			fos.flush();
-			fos.close();
-			is.close();
-			
-			return file;
-		}
-		return null;
-	}
+    /**
+     * @param path     æœåŠ¡å™¨æ–‡ä»¶è·¯å¾„
+     * @param filePath æœ¬åœ°æ–‡ä»¶è·¯å¾„
+     * @param pd
+     * @return æœ¬åœ°æ–‡ä»¶å¯¹è±¡
+     * @throws Exception
+     */
+    public static File getFile(String path, String filePath, ProgressDialog pd) throws Exception {
+        URL url = new URL(path);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();        // å¾—åˆ°HttpURLConnection
+        conn.setRequestMethod("GET");                // è®¾ç½®é€šè¿‡getæ–¹æ³•å‘é€æ•°æ®
+        conn.setConnectTimeout(5000);                // è®¾ç½®è¿æ¥è¶…æ—¶æ—¶é—´ä¸º5ç§’
+        if (conn.getResponseCode() == 200) {            //ã€€å¦‚æœè¿”å›ä»£ç æ˜¯ï¼’ï¼ï¼ï¼Œè¿™æ˜¯ä¸ºäº†åˆ¤æ–­æ˜¯å¦æ­£å¸¸å“åº”è¯·æ±‚æ•°æ®
+            int total = conn.getContentLength();    // å¾—åˆ°å†…å®¹é•¿åº¦
+            pd.setMax(total);                        // è®¾ç½®è¿›åº¦æ¡çš„è¿›åº¦æœ€å¤§é•¿åº¦
+            InputStream is = conn.getInputStream();
+            File file = new File(filePath);
+            FileOutputStream fos = new FileOutputStream(file);
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            int process = 0;
+            while ((len = is.read(buffer)) != -1) {
+                fos.write(buffer, 0, len);
+                process += len;
+                pd.setProgress(process);        // é‡ç½®è¿›åº¦æ¡è¿›åº¦
+                Thread.sleep(50);                // ä½¿çº¿ç¨‹ç¡çœ 50æ¯«ç§’
+            }
+            fos.flush();
+            fos.close();
+            is.close();
+
+            return file;
+        }
+        return null;
+    }
 
 }

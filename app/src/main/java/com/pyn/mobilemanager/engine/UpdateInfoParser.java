@@ -1,43 +1,43 @@
 package com.pyn.mobilemanager.engine;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
 import android.util.Xml;
 
 import com.pyn.mobilemanager.domain.UpdateInfo;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
- * ½âÎöÆ÷xmlÎÄ¼ş
+ * è§£æå™¨xmlæ–‡ä»¶
  */
 public class UpdateInfoParser {
 
 	public static UpdateInfo getUpdateInfo(InputStream is) {
 
-		XmlPullParser parser = Xml.newPullParser(); // ´´½¨Ò»¸öxml½âÎöÆ÷
+		XmlPullParser parser = Xml.newPullParser(); // åˆ›å»ºä¸€ä¸ªxmlè§£æå™¨
 		UpdateInfo updateInfo = new UpdateInfo();
 		try {
-			parser.setInput(is, "utf-8"); // ³õÊ¼»¯parser½âÎöÆ÷£¬µÚÒ»¸ö²ÎÊıÊÇÒ»¸öInputStrem¶ÔÏó£¬¼´½âÎöÊı¾İÔ´£¬µÚ¶ş²ÎÊı´ú±í±àÂë
-			int type = parser.getEventType(); // »ñÈ¡ÊÂ¼şµÄÀàĞÍĞÅÏ¢£¬¶¨Î»µ½xmlÎÄ¼ş¿ªÍ·
+			parser.setInput(is, "utf-8"); // åˆå§‹åŒ–parserè§£æå™¨ï¼Œç¬¬ä¸€ä¸ªå‚æ•°æ˜¯ä¸€ä¸ªInputStremå¯¹è±¡ï¼Œå³è§£ææ•°æ®æºï¼Œç¬¬äºŒå‚æ•°ä»£è¡¨ç¼–ç 
+			int type = parser.getEventType(); // è·å–äº‹ä»¶çš„ç±»å‹ä¿¡æ¯ï¼Œå®šä½åˆ°xmlæ–‡ä»¶å¼€å¤´
 
 			while (type != XmlPullParser.END_DOCUMENT) {
 				switch (type) {
-				case XmlPullParser.START_TAG: // ¿ªÊ¼ÔªËØ
-					if ("version".equals(parser.getName())) {
-						// ÒòÎªÄÚÈİÒ²Ïàµ±ÓÚÒ»¸ö½Úµã£¬ËùÒÔ»ñÈ¡ÄÚÈİÊ±ĞèÒªµ÷ÓÃparser¶ÔÏóµÄnextText()·½·¨²Å¿ÉÒÔµÃµ½ÄÚÈİ
-						String version = parser.nextText(); // »ñÈ¡µ½ÀïÃæµÄÎÄ±¾
-						updateInfo.setVersion(version); // ÉèÖÃ°æ±¾ºÅ
-					} else if ("description".equals(parser.getName())) {
-						String description = parser.nextText();
-						updateInfo.setDescription(description);
-					} else if ("apkurl".equals(parser.getName())) {
-						String apkurl = parser.nextText();
-						updateInfo.setApkUrl(apkurl);
-					}
-					break;
+					case XmlPullParser.START_TAG: // å¼€å§‹å…ƒç´ 
+						if ("version".equals(parser.getName())) {
+							// å› ä¸ºå†…å®¹ä¹Ÿç›¸å½“äºä¸€ä¸ªèŠ‚ç‚¹ï¼Œæ‰€ä»¥è·å–å†…å®¹æ—¶éœ€è¦è°ƒç”¨parserå¯¹è±¡çš„nextText()æ–¹æ³•æ‰å¯ä»¥å¾—åˆ°å†…å®¹
+							String version = parser.nextText(); // è·å–åˆ°é‡Œé¢çš„æ–‡æœ¬
+							updateInfo.setVersion(version); // è®¾ç½®ç‰ˆæœ¬å·
+						} else if ("description".equals(parser.getName())) {
+							String description = parser.nextText();
+							updateInfo.setDescription(description);
+						} else if ("apkurl".equals(parser.getName())) {
+							String apkurl = parser.nextText();
+							updateInfo.setApkUrl(apkurl);
+						}
+						break;
 				}
 				type = parser.next();
 			}
@@ -46,6 +46,6 @@ public class UpdateInfoParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return updateInfo; // ·µ»ØUpdateInfo¶ÔÏó
+		return updateInfo; // è¿”å›UpdateInfoå¯¹è±¡
 	}
 }

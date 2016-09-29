@@ -3,20 +3,20 @@ package com.pyn.mobilemanager.domain;
 import android.graphics.drawable.Drawable;
 
 /**
- * appĞÅÏ¢ÊµÌåÀà
+ * appä¿¡æ¯å®ä½“ç±»
  */
 public class AppInfo {
 
-	private Drawable icon; 		// Ó¦ÓÃ³ÌĞòµÄÍ¼±ê
-	private String appName; 	// Ó¦ÓÃ³ÌĞòµÄÃû×Ö
-	private String packName;	// Ó¦ÓÃ³ÌĞòµÄ°üÃû
-	private String version; 	// Ó¦ÓÃ³ÌĞò°æ±¾ºÅ
-	private boolean isSystemApp;// Ó¦ÓÃ³ÌĞòÊÇ·ñÏµÍ³×Ô´øµÄ³ÌĞò
+	private Drawable icon; 		// åº”ç”¨ç¨‹åºçš„å›¾æ ‡
+	private String appName; 	// åº”ç”¨ç¨‹åºçš„åå­—
+	private String packName;	// åº”ç”¨ç¨‹åºçš„åŒ…å
+	private String version; 	// åº”ç”¨ç¨‹åºç‰ˆæœ¬å·
+	private boolean isSystemApp;// åº”ç”¨ç¨‹åºæ˜¯å¦ç³»ç»Ÿè‡ªå¸¦çš„ç¨‹åº
 
 	private int uid;
-	private long appGprs; // appÓÃµÄ2G/3G×ÜÁ÷Á¿
-	private long rxFlow;  // appÓÃµÄ2G/3G½ÓÊÕÁ÷Á¿
-	private long txFlow;  // appÓÃµÄ2G/3GÉÏ´«Á÷Á¿
+	private long appGprs; // appç”¨çš„2G/3Gæ€»æµé‡
+	private long rxFlow;  // appç”¨çš„2G/3Gæ¥æ”¶æµé‡
+	private long txFlow;  // appç”¨çš„2G/3Gä¸Šä¼ æµé‡
 
 	public Drawable getIcon() {
 		return icon;

@@ -1,7 +1,5 @@
 package com.pyn.mobilemanager.view;
 
-import com.pyn.mobilemanager.R;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,17 +10,19 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.pyn.mobilemanager.R;
+
 /**
- * ÁªÏµÈË×ÖÄ¸±í
+ * è”ç³»äººå­—æ¯è¡¨
  */
 public class MyContactListView extends View {
 
 	/*
-	 * ´¥ÃşÊÂ¼ş
+	 * è§¦æ‘¸äº‹ä»¶
 	 */
 	private OnTouchingLetterChangedListener onTouchingLetterChangedListener;
 	/*
-	 * 26¸ö×ÖÄ¸
+	 * 26ä¸ªå­—æ¯
 	 */
 	private String[] b = { "#", "A", "B", "C", "D", "E", "F", "G", "H", "I",
 			"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
@@ -50,27 +50,27 @@ public class MyContactListView extends View {
 		if (showBkg) {
 			canvas.drawColor(Color.parseColor("#40000000"));
 		}
-		// »ñÈ¡¶ÔÓ¦¸ß¶È
+		// è·å–å¯¹åº”é«˜åº¦
 		int height = getHeight();
-		// »ñÈ¡¶ÔÓ¦¿í¶È
+		// è·å–å¯¹åº”å®½åº¦
 		int width = getWidth();
-		// »ñÈ¡Ã¿Ò»¸ö×ÖÄ¸µÄ¸ß¶È
+		// è·å–æ¯ä¸€ä¸ªå­—æ¯çš„é«˜åº¦
 		int singleHeight = height / b.length;
 		for (int i = 0; i < b.length; i++) {
 			paint.setTypeface(Typeface.DEFAULT_BOLD);
 			paint.setAntiAlias(true);
 			paint.setTextSize(25);
-			// Ñ¡ÖĞµÄ×´Ì¬
+			// é€‰ä¸­çš„çŠ¶æ€
 			if (i == choose) {
-				// ÉèÖÃ±»Ñ¡ÖĞµÄ×ÖÄ¸±ä´óµÄÑÕÉ«
+				// è®¾ç½®è¢«é€‰ä¸­çš„å­—æ¯å˜å¤§çš„é¢œè‰²
 				paint.setColor(Color.parseColor("#3399ff"));
 				paint.setFakeBoldText(true);
 			}
-			// x×ø±êµÈÓÚÖĞ¼ä-×Ö·û´®¿í¶ÈµÄÒ»°ë
+			// xåæ ‡ç­‰äºä¸­é—´-å­—ç¬¦ä¸²å®½åº¦çš„ä¸€åŠ
 			float xPos = width / 2 - paint.measureText(b[i]) / 2;
 			float yPos = singleHeight * i + singleHeight;
 			canvas.drawText(b[i], xPos, yPos, paint);
-			// ÖØÖÃ»­±Ê
+			// é‡ç½®ç”»ç¬”
 			paint.reset();
 		}
 
@@ -79,44 +79,44 @@ public class MyContactListView extends View {
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
 		final int action = event.getAction();
-		// µã»÷y×ø±ê
+		// ç‚¹å‡»yåæ ‡
 		final float y = event.getY();
 		final int oldChoose = choose;
 		final OnTouchingLetterChangedListener listener = onTouchingLetterChangedListener;
-		// µã»÷y×ø±êËùÕ¼×Ü¸ß¶ÈµÄ±ÈÀı*bÊı×éµÄ³¤¶È¾ÍµÈÓÚµã»÷bÖĞµÄ¸öÊı.
+		// ç‚¹å‡»yåæ ‡æ‰€å æ€»é«˜åº¦çš„æ¯”ä¾‹*bæ•°ç»„çš„é•¿åº¦å°±ç­‰äºç‚¹å‡»bä¸­çš„ä¸ªæ•°.
 		final int c = (int) (y / getHeight() * b.length);
 
 		switch (action) {
-		case MotionEvent.ACTION_DOWN:
-			showBkg = true;
-			// ÉèÖÃÓÒ²à×ÖÄ¸ÁĞ±í[A,B,C,D,E....]µÄ±³¾°ÑÕÉ«
-			setBackgroundResource(R.drawable.contact_list_bg);
-			if (oldChoose != c && listener != null) {
-				if (c > 0 && c < b.length) {
-					listener.onTouchingLetterChanged(b[c]);
-					choose = c;
-					invalidate();
+			case MotionEvent.ACTION_DOWN:
+				showBkg = true;
+				// è®¾ç½®å³ä¾§å­—æ¯åˆ—è¡¨[A,B,C,D,E....]çš„èƒŒæ™¯é¢œè‰²
+				setBackgroundResource(R.drawable.contact_list_bg);
+				if (oldChoose != c && listener != null) {
+					if (c > 0 && c < b.length) {
+						listener.onTouchingLetterChanged(b[c]);
+						choose = c;
+						invalidate();
+					}
 				}
-			}
 
-			break;
+				break;
 
-		case MotionEvent.ACTION_MOVE:
-			if (oldChoose != c && listener != null) {
-				if (c > 0 && c < b.length) {
-					listener.onTouchingLetterChanged(b[c]);
-					choose = c;
-					invalidate();
+			case MotionEvent.ACTION_MOVE:
+				if (oldChoose != c && listener != null) {
+					if (c > 0 && c < b.length) {
+						listener.onTouchingLetterChanged(b[c]);
+						choose = c;
+						invalidate();
+					}
 				}
-			}
-			break;
+				break;
 
-		case MotionEvent.ACTION_UP:
-			setBackgroundDrawable(new ColorDrawable(0x00000000));
-			showBkg = false;
-			choose = -1;
-			invalidate();
-			break;
+			case MotionEvent.ACTION_UP:
+				setBackgroundDrawable(new ColorDrawable(0x00000000));
+				showBkg = false;
+				choose = -1;
+				invalidate();
+				break;
 		}
 		return true;
 	}
@@ -127,8 +127,8 @@ public class MyContactListView extends View {
 	}
 
 	/**
-	 * ÏòÍâ¹«¿ªµÄ·½·¨
-	 * 
+	 * å‘å¤–å…¬å¼€çš„æ–¹æ³•
+	 *
 	 * @param listener
 	 */
 	public void setOnTouchingLetterChangedListener(
@@ -137,7 +137,7 @@ public class MyContactListView extends View {
 	}
 
 	/**
-	 * ½Ó¿Ú
+	 * æ¥å£
 	 */
 	public interface OnTouchingLetterChangedListener {
 		public void onTouchingLetterChanged(String s);

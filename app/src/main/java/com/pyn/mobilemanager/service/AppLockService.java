@@ -1,8 +1,5 @@
 package com.pyn.mobilemanager.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.KeyguardManager;
@@ -19,8 +16,11 @@ import com.pyn.mobilemanager.activity.AppLockScreenActivity;
 import com.pyn.mobilemanager.db.dao.AppLockDao;
 import com.pyn.mobilemanager.util.LogUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * ³ÌĞòËø·şÎñ
+ * ç¨‹åºé”æœåŠ¡
  */
 public class AppLockService extends Service {
 
@@ -31,8 +31,8 @@ public class AppLockService extends Service {
 	private Intent lockAppIntent;
 	private boolean flag = true;
 	private MyBinder myBinder;
-	private KeyguardManager keyguardManager; // ¼üÅÌµÄ¹ÜÀíÆ÷
-	private List<String> tempStopApps; // ´æ·ÅÁÙÊ±ÒªÍ£Ö¹±£»¤µÄÓ¦ÓÃ
+	private KeyguardManager keyguardManager; // é”®ç›˜çš„ç®¡ç†å™¨
+	private List<String> tempStopApps; // å­˜æ”¾ä¸´æ—¶è¦åœæ­¢ä¿æŠ¤çš„åº”ç”¨
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -54,7 +54,7 @@ public class AppLockService extends Service {
 	}
 
 	/**
-	 * ÖØĞÂ¿ªÆô¶ÔÓ¦ÓÃµÄ±£»¤
+	 * é‡æ–°å¼€å¯å¯¹åº”ç”¨çš„ä¿æŠ¤
 	 */
 	public void appProtectStart(String packName) {
 		if (tempStopApps.contains(packName)) {
@@ -63,23 +63,23 @@ public class AppLockService extends Service {
 	}
 
 	/**
-	 * ÁÙÊ±Í£Ö¹¶ÔÄ³¸öÓ¦ÓÃµÄ±£»¤
+	 * ä¸´æ—¶åœæ­¢å¯¹æŸä¸ªåº”ç”¨çš„ä¿æŠ¤
 	 */
 	public void appProtectStop(String packName) {
 		tempStopApps.add(packName);
 	}
 
 	/**
-	 * ·şÎñµÚÒ»´Î´´½¨µÄÊ±ºòµ÷ÓÃµÄ·½·¨
+	 * æœåŠ¡ç¬¬ä¸€æ¬¡åˆ›å»ºçš„æ—¶å€™è°ƒç”¨çš„æ–¹æ³•
 	 */
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
-		LogUtil.i(TAG, "µ±Ç°ÔËĞĞ  service");
+
+		LogUtil.i(TAG, "å½“å‰è¿è¡Œ  service");
 
 		keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-		// ×¢²áÒ»¸öÄÚÈİ¹Û²ìÕß
+		// æ³¨å†Œä¸€ä¸ªå†…å®¹è§‚å¯Ÿè€…
 		getContentResolver().registerContentObserver(
 				Uri.parse("content://com.pyn.mobilemanager.applockprovider"), true,
 				new MyObserver(new Handler()));
@@ -88,10 +88,10 @@ public class AppLockService extends Service {
 		dao = new AppLockDao(this);
 		tempStopApps = new ArrayList<String>();
 
-		// µÃµ½ËùÓĞµÄÒªËø¶¨µÄÓ¦ÓÃ³ÌĞò
+		// å¾—åˆ°æ‰€æœ‰çš„è¦é”å®šçš„åº”ç”¨ç¨‹åº
 		lockApps = dao.getAllLockApps();
 		lockAppIntent = new Intent(this, AppLockScreenActivity.class);
-		// ·şÎñÀïÃæÊÇÃ»ÓĞÈÎÎñÕ»µÄ£¬ËùÒÔÒªÖ¸¶¨Ò»¸öĞÂµÄÈÎÎñÕ»£¬²»È»ÊÇÎŞ·¨ÔÚ·şÎñÀïÃæÆô¶¯activityµÄ
+		// æœåŠ¡é‡Œé¢æ˜¯æ²¡æœ‰ä»»åŠ¡æ ˆçš„ï¼Œæ‰€ä»¥è¦æŒ‡å®šä¸€ä¸ªæ–°çš„ä»»åŠ¡æ ˆï¼Œä¸ç„¶æ˜¯æ— æ³•åœ¨æœåŠ¡é‡Œé¢å¯åŠ¨activityçš„
 		lockAppIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -99,39 +99,39 @@ public class AppLockService extends Service {
 
 			@Override
 			public void run() {
-				// ¿ªÆô·şÎñ£¬¼à¿Ø¸÷¸öÓ¦ÓÃµÄÆô¶¯
+				// å¼€å¯æœåŠ¡ï¼Œç›‘æ§å„ä¸ªåº”ç”¨çš„å¯åŠ¨
 				while (flag) {
 					try {
-						// ÅĞ¶ÏÆÁÄ»ÊÇ·ñÊÇËøÆÁ×´Ì¬
+						// åˆ¤æ–­å±å¹•æ˜¯å¦æ˜¯é”å±çŠ¶æ€
 						if (keyguardManager.inKeyguardRestrictedInputMode()) {
-							// Çå¿ÕÁÙÊ±µÄ¼¯ºÏ
+							// æ¸…ç©ºä¸´æ—¶çš„é›†åˆ
 							tempStopApps.clear();
 						}
 
-						// µÃµ½µ±Ç°ÔËĞĞµÄÈÎÎñÕ»£¬²ÎÊı¾ÍÊÇµÃµ½¶àÉÙ¸öÈÎÎñÕ»£¬1¾ÍÊÇÖ»ÄÃÒ»¸öÈÎÎñÕ»
-						// 1¶ÔÓ¦µÄÒ²¾ÍÊÇÕıÔÚÔËĞĞµÄÈÎÎñÕ»À²
+						// å¾—åˆ°å½“å‰è¿è¡Œçš„ä»»åŠ¡æ ˆï¼Œå‚æ•°å°±æ˜¯å¾—åˆ°å¤šå°‘ä¸ªä»»åŠ¡æ ˆï¼Œ1å°±æ˜¯åªæ‹¿ä¸€ä¸ªä»»åŠ¡æ ˆ
+						// 1å¯¹åº”çš„ä¹Ÿå°±æ˜¯æ­£åœ¨è¿è¡Œçš„ä»»åŠ¡æ ˆå•¦
 						List<RunningTaskInfo> taskInfos = mActivityManager.getRunningTasks(1);
-						// ÄÃµ½µ±Ç°ÔËĞĞµÄÈÎÎñÕ»
+						// æ‹¿åˆ°å½“å‰è¿è¡Œçš„ä»»åŠ¡æ ˆ
 						RunningTaskInfo currentTask = taskInfos.get(0);
-						// ÄÃµ½ÒªÔËĞĞµÄActivityµÄ°üÃû
+						// æ‹¿åˆ°è¦è¿è¡Œçš„Activityçš„åŒ…å
 						String packName = currentTask.topActivity
 								.getPackageName();
 
-						LogUtil.i(TAG, "µ±Ç°ÔËĞĞ" + packName);
+						LogUtil.i(TAG, "å½“å‰è¿è¡Œ" + packName);
 
 						if (lockApps.contains(packName)) {
-							// Èç¹ûµ±Ç°µÄÓ¦ÓÃ³ÌĞò ĞèÒªÁÙÊ±µÄ±»ÖÕÖ¹±£»¤
+							// å¦‚æœå½“å‰çš„åº”ç”¨ç¨‹åº éœ€è¦ä¸´æ—¶çš„è¢«ç»ˆæ­¢ä¿æŠ¤
 							if (tempStopApps.contains(packName)) {
 								sleep(1000);
 								continue;
 							}
-							// µ¯³öÀ´Ò»¸öËø¶¨µÄ½çÃæ ÈÃÓÃ»§ÊäÈëÃÜÂë,Ëø¶¨³ÌĞò£¬²¢ÇÒÖÕÖ¹´Ë³ÌĞò
+							// å¼¹å‡ºæ¥ä¸€ä¸ªé”å®šçš„ç•Œé¢ è®©ç”¨æˆ·è¾“å…¥å¯†ç ,é”å®šç¨‹åºï¼Œå¹¶ä¸”ç»ˆæ­¢æ­¤ç¨‹åº
 							ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 							am.killBackgroundProcesses(packName);
 							lockAppIntent.putExtra("packName", packName);
 							startActivity(lockAppIntent);
 						} else {
-							// ¡¡·ÅĞĞÖ´ĞĞ
+							// ã€€æ”¾è¡Œæ‰§è¡Œ
 						}
 
 						sleep(500);
@@ -164,9 +164,9 @@ public class AppLockService extends Service {
 		public void onChange(boolean selfChange) {
 
 			super.onChange(selfChange);
-			// ÖØĞÂ¸üĞÂlockapps¼¯ºÏÀïÃæµÄÄÚÈİ
+			// é‡æ–°æ›´æ–°lockappsé›†åˆé‡Œé¢çš„å†…å®¹
 			lockApps = dao.getAllLockApps();
-			LogUtil.i(TAG, "Êı¾İ¿âµÄÄÚÈİ·¢ÉúÁË¸Ä±ä...");
+			LogUtil.i(TAG, "æ•°æ®åº“çš„å†…å®¹å‘ç”Ÿäº†æ”¹å˜...");
 		}
 	}
 

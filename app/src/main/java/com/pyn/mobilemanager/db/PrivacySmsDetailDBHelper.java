@@ -2,11 +2,10 @@ package com.pyn.mobilemanager.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * ´´½¨Ò»¸öÊı¾İ¿âÓÃÀ´´æÒşË½Í¨Ñ¶Â¼ÖĞÓëÄ³¸öÈË¶ÌĞÅÍ¨Ñ¶µÄÄÚÈİ
+ * åˆ›å»ºä¸€ä¸ªæ•°æ®åº“ç”¨æ¥å­˜éšç§é€šè®¯å½•ä¸­ä¸æŸä¸ªäººçŸ­ä¿¡é€šè®¯çš„å†…å®¹
  */
 public class PrivacySmsDetailDBHelper extends SQLiteOpenHelper {
 
@@ -15,7 +14,7 @@ public class PrivacySmsDetailDBHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * µÚÒ»´Î´´½¨Êı¾İ¿âµÄÊ±ºòÖ´ĞĞ oncreate·½·¨
+	 * ç¬¬ä¸€æ¬¡åˆ›å»ºæ•°æ®åº“çš„æ—¶å€™æ‰§è¡Œ oncreateæ–¹æ³•
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
@@ -24,7 +23,7 @@ public class PrivacySmsDetailDBHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * ¸üĞÂÊı¾İ¿âµÄ²Ù×÷
+	 * æ›´æ–°æ•°æ®åº“çš„æ“ä½œ
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

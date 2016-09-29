@@ -34,7 +34,7 @@ import com.pyn.mobilemanager.db.dao.PrivacySmsDao;
 import com.pyn.mobilemanager.domain.PrivacySmsInfo;
 
 /**
- * ��˽�����е�ͨѶ¼����
+ * 隐私保护中的通讯录保护
  */
 public class PrivacyNoteActivity extends BasicActivity implements
 		OnClickListener {
@@ -43,13 +43,13 @@ public class PrivacyNoteActivity extends BasicActivity implements
 
 	private Dialog dialog;
 
-	// ���ֶ����˽����ϵ�˵Ŀؼ�
+	// 　手动添加私密联系人的控件
 	private TextView tvHandAdd;
 	private EditText etHandNumber, etHandName;
 	private Button btnHandSure, btnHandCancel;
 	private Dialog handDialog;
 
-	// ����˽����ϵ�˵Ŀռ�
+	// 更改私密联系人的空间
 	private Dialog updateDialog;
 	private EditText etUpdateNumber, etUpdateName;
 	private Button btnUpdateSure, btnUpdateCancel;
@@ -59,22 +59,22 @@ public class PrivacyNoteActivity extends BasicActivity implements
 	private LinearLayout llHand;
 	private LinearLayout llContact;
 	private LinearLayout llLoading;
-	private ListView lvPrivacyNote; // ��չ����˽���������listView
-	private PrivacySmsDao dao; // ������˽�����������ݿ�Ķ���
-	// ����˽������������ݿ���һ����ȡ�����뻺�漯���У���������������Ƶ���Ĳ������ݿ⣩
+	private ListView lvPrivacyNote; // 　展现隐私保护号码的listView
+	private PrivacySmsDao dao; // 操作隐私保护号码数据库的对象
+	// 将隐私保护号码从数据库中一次性取出存入缓存集合中（避免在适配器中频繁的操作数据库）
 	private List<PrivacySmsInfo> infos;
-	// ��ʾ���������������������
+	// 显示黑名单号码的适配器对象
 	private PrivacyNumberAdapter adpater;
 
-	// ���ڽ������̷߳��͹�������Ϣ��ʵ��UI�ĸ���
+	// 用于接收子线程发送过来的消息，实现UI的更新
 	private Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
+		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
-			case LOAD_DATA_FINISH: // �����ݿ��м�����˽�����������
-				llLoading.setVisibility(View.INVISIBLE);
-				adpater = new PrivacyNumberAdapter();
-				lvPrivacyNote.setAdapter(adpater);
-				break;
+				case LOAD_DATA_FINISH: // 从数据库中加载隐私保护号码完成
+					llLoading.setVisibility(View.INVISIBLE);
+					adpater = new PrivacyNumberAdapter();
+					lvPrivacyNote.setAdapter(adpater);
+					break;
 			}
 		};
 	};
@@ -88,12 +88,12 @@ public class PrivacyNoteActivity extends BasicActivity implements
 
 		dao = new PrivacySmsDao(this);
 
-		// Ϊ������Ŀ��ӵ���¼�
+		// 为号码条目添加点击事件
 		lvPrivacyNote.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+									int position, long id) {
 
 				Intent smsIntent = new Intent(PrivacyNoteActivity.this,
 						PrivacySmsActivity.class);
@@ -115,14 +115,14 @@ public class PrivacyNoteActivity extends BasicActivity implements
 
 		});
 
-		// 1.Ϊlv_call_sms_safeע��һ�������Ĳ˵�
+		// 1.为lv_call_sms_safe注册一个上下文菜单
 		registerForContextMenu(lvPrivacyNote);
 
-		// һ���Ի�ȡ���ݿ��е��������ݵĲ�����һ���ȽϺ�ʱ�Ĳ��������������߳������
+		// 一次性获取数据库中的所有数据的操作是一个比较耗时的操作，建议在子线程中完成
 		new Thread() {
 			public void run() {
 				infos = dao.findAll();
-				// ֪ͨ���̸߳��½���
+				// 通知主线程更新界面
 				Message msg = Message.obtain();
 				msg.what = LOAD_DATA_FINISH;
 				handler.sendMessage(msg);
@@ -131,33 +131,33 @@ public class PrivacyNoteActivity extends BasicActivity implements
 
 	}
 
-	// ��д���������Ĳ˵��ķ���
+	// 重写创建上下文菜单的方法
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+									ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		// ���ó���Item��Ҫ��ʾ�Ĳ���
+		// 设置长按Item后要显示的布局
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.privacy_note_menu, menu);
 	}
 
-	// 3.��Ӧ�����Ĳ˵��ĵ���¼�
+	// 3.响应上下文菜单的点击事件
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		// ��ȡ��Item��Ӧ�Ķ���
+		// 获取到Item对应的对象
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
-		int position = (int) info.id; // ��ǰ�����Ĳ˵���Ӧ��listview�������һ����Ŀ
+		int position = (int) info.id; // 当前上下文菜单对应的listview里面的哪一个条目
 		switch (item.getItemId()) {
 
-		case R.id.item_delete:
-			deletePrivacyNumber(position);
-			return true;
-		case R.id.item_update:
-			updatePrivacyNumber(position);
-			return true;
-		default:
-			return super.onContextItemSelected(item);
+			case R.id.item_delete:
+				deletePrivacyNumber(position);
+				return true;
+			case R.id.item_update:
+				updatePrivacyNumber(position);
+				return true;
+			default:
+				return super.onContextItemSelected(item);
 		}
 	}
 
@@ -166,103 +166,103 @@ public class PrivacyNoteActivity extends BasicActivity implements
 
 		switch (v.getId()) {
 
-		// ����˷���ǰһ��
-		case R.id.privacy_note_iv_previous:
-			Intent previousIntent = new Intent(PrivacyNoteActivity.this,
-					PrivacyActivity.class);
-			startActivity(previousIntent);
-			finish();
-			break;
+			// 点击了返回前一步
+			case R.id.privacy_note_iv_previous:
+				Intent previousIntent = new Intent(PrivacyNoteActivity.this,
+						PrivacyActivity.class);
+				startActivity(previousIntent);
+				finish();
+				break;
 
-		// ��������
-		case R.id.privacy_note_btn_add:
-			dialog = new Dialog(PrivacyNoteActivity.this);
-			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			dialog.show();
-			Window window = dialog.getWindow();
-			window.setLayout(LayoutParams.MATCH_PARENT,
-					LayoutParams.WRAP_CONTENT);
-			window.setContentView(R.layout.privacy_note_choice);
-			llHand = (LinearLayout) window.findViewById(R.id.ll_hand);
-			llLoading = (LinearLayout) window.findViewById(R.id.ll_contact);
+			// 点击了添加
+			case R.id.privacy_note_btn_add:
+				dialog = new Dialog(PrivacyNoteActivity.this);
+				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				dialog.show();
+				Window window = dialog.getWindow();
+				window.setLayout(LayoutParams.MATCH_PARENT,
+						LayoutParams.WRAP_CONTENT);
+				window.setContentView(R.layout.privacy_note_choice);
+				llHand = (LinearLayout) window.findViewById(R.id.ll_hand);
+				llLoading = (LinearLayout) window.findViewById(R.id.ll_contact);
 
-			llHand.setOnClickListener(PrivacyNoteActivity.this);
-			llLoading.setOnClickListener(PrivacyNoteActivity.this);
-			break;
+				llHand.setOnClickListener(PrivacyNoteActivity.this);
+				llLoading.setOnClickListener(PrivacyNoteActivity.this);
+				break;
 
-		// ����˴���ϵ�����
-		case R.id.ll_contact:
-			Intent intent = new Intent(PrivacyNoteActivity.this,
-					SelectContactActivity.class);
-			startActivityForResult(intent, 0); // ����һ�����з���ֵ�Ľ���
-			dialog.dismiss();
-			break;
+			// 点击了从联系人添加
+			case R.id.ll_contact:
+				Intent intent = new Intent(PrivacyNoteActivity.this,
+						SelectContactActivity.class);
+				startActivityForResult(intent, 0); // 激活一个带有返回值的界面
+				dialog.dismiss();
+				break;
 
-		// ������ֶ����
-		case R.id.ll_hand:
-			handDialog = new Dialog(PrivacyNoteActivity.this);
-			handDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			handDialog.show();
-			Window handWindow = handDialog.getWindow();
-			handWindow.setLayout(LayoutParams.MATCH_PARENT,
-					LayoutParams.WRAP_CONTENT);
-			handWindow.setContentView(R.layout.hand_addnumber);
+			// 点击了手动添加
+			case R.id.ll_hand:
+				handDialog = new Dialog(PrivacyNoteActivity.this);
+				handDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				handDialog.show();
+				Window handWindow = handDialog.getWindow();
+				handWindow.setLayout(LayoutParams.MATCH_PARENT,
+						LayoutParams.WRAP_CONTENT);
+				handWindow.setContentView(R.layout.hand_addnumber);
 
-			tvHandAdd = (TextView) handWindow.findViewById(R.id.tv_hand_add);
-			tvHandAdd.setText("�ֶ����˽����ϵ��");
-			etHandNumber = (EditText) handWindow
-					.findViewById(R.id.et_hand_number);
-			etHandName = (EditText) handWindow.findViewById(R.id.et_hand_name);
-			btnHandSure = (Button) handWindow.findViewById(R.id.bt_hand_sure);
-			btnHandCancel = (Button) handWindow
-					.findViewById(R.id.bt_hand_cancel);
+				tvHandAdd = (TextView) handWindow.findViewById(R.id.tv_hand_add);
+				tvHandAdd.setText("手动添加私密联系人");
+				etHandNumber = (EditText) handWindow
+						.findViewById(R.id.et_hand_number);
+				etHandName = (EditText) handWindow.findViewById(R.id.et_hand_name);
+				btnHandSure = (Button) handWindow.findViewById(R.id.bt_hand_sure);
+				btnHandCancel = (Button) handWindow
+						.findViewById(R.id.bt_hand_cancel);
 
-			btnHandSure.setOnClickListener(this);
-			btnHandCancel.setOnClickListener(this);
+				btnHandSure.setOnClickListener(this);
+				btnHandCancel.setOnClickListener(this);
 
-			dialog.dismiss();
-			break;
+				dialog.dismiss();
+				break;
 
-		// �ֶ���Ӻ����ȡ����ť
-		case R.id.bt_hand_cancel:
-			handDialog.dismiss();
-			break;
-
-		// �ֶ���Ӻ����ȷ����ť
-		case R.id.bt_hand_sure:
-
-			boolean result = false;
-
-			if (etHandNumber.getText().toString().trim().equals("")) {
-				Toast.makeText(PrivacyNoteActivity.this, "���벻��Ϊ�գ�", 0).show();
-			} else {
-				String number = etHandNumber.getText().toString().trim();
-				String name = etHandName.getText().toString().trim();
-
-				PrivacySmsInfo info = new PrivacySmsInfo();
-				info.setName(name);
-				info.setNumber(number);
-				result = dao.add(number, name);
-
-				if (result) { // ��ӻ��޸����ݳɹ�����ʱ��Ҫ���½����б��е�����
-					// ������ӵ�������ӵ������У���Ϊ�������ǴӼ�����ȡ���ݵ�
-					infos.add(info);
-					// ֪ͨ������������ʾ���ݣ���ʱ�������ϵ����ݱ�ˢ�£�
-					adpater.notifyDataSetChanged();
-					Toast.makeText(PrivacyNoteActivity.this, "�ѳɹ���Ӻ���!", 0)
-							.show();
-				} else {
-					Toast.makeText(PrivacyNoteActivity.this, "�����Ѵ���!", 0)
-							.show();
-				}
+			// 手动添加号码的取消按钮
+			case R.id.bt_hand_cancel:
 				handDialog.dismiss();
-			}
-			break;
+				break;
 
-		// �޸ĺ����ȡ����ť
-		case R.id.b_privacy_update_cancel:
-			updateDialog.dismiss();
-			break;
+			// 手动添加号码的确定按钮
+			case R.id.bt_hand_sure:
+
+				boolean result = false;
+
+				if (etHandNumber.getText().toString().trim().equals("")) {
+					Toast.makeText(PrivacyNoteActivity.this, "号码不能为空！", 0).show();
+				} else {
+					String number = etHandNumber.getText().toString().trim();
+					String name = etHandName.getText().toString().trim();
+
+					PrivacySmsInfo info = new PrivacySmsInfo();
+					info.setName(name);
+					info.setNumber(number);
+					result = dao.add(number, name);
+
+					if (result) { // 添加或修改数据成功，此时需要更新界面列表中的数据
+						// 将新添加的数据添加到集合中，因为适配器是从集合中取数据的
+						infos.add(info);
+						// 通知适配器重新显示数据（此时，界面上的数据被刷新）
+						adpater.notifyDataSetChanged();
+						Toast.makeText(PrivacyNoteActivity.this, "已成功添加号码!", 0)
+								.show();
+					} else {
+						Toast.makeText(PrivacyNoteActivity.this, "号码已存在!", 0)
+								.show();
+					}
+					handDialog.dismiss();
+				}
+				break;
+
+			// 修改号码的取消按钮
+			case R.id.b_privacy_update_cancel:
+				updateDialog.dismiss();
+				break;
 
 		}
 
@@ -281,21 +281,21 @@ public class PrivacyNoteActivity extends BasicActivity implements
 			info.setNumber(number);
 			result = dao.add(number, name);
 
-			if (result) { // ��ӻ��޸����ݳɹ�����ʱ��Ҫ���½����б��е�����
-				// ������ӵ�������ӵ������У���Ϊ�������ǴӼ�����ȡ���ݵ�
+			if (result) { // 添加或修改数据成功，此时需要更新界面列表中的数据
+				// 将新添加的数据添加到集合中，因为适配器是从集合中取数据的
 				infos.add(info);
-				// ֪ͨ������������ʾ���ݣ���ʱ�������ϵ����ݱ�ˢ�£�
+				// 通知适配器重新显示数据（此时，界面上的数据被刷新）
 				adpater.notifyDataSetChanged();
-				Toast.makeText(PrivacyNoteActivity.this, "�ѳɹ���Ӻ���!", 0).show();
+				Toast.makeText(PrivacyNoteActivity.this, "已成功添加号码!", 0).show();
 			} else {
-				Toast.makeText(PrivacyNoteActivity.this, "�����Ѵ���!", 0).show();
+				Toast.makeText(PrivacyNoteActivity.this, "号码已存在!", 0).show();
 			}
 		}
 	}
 
 	/**
-	 * ����һ����˽������¼
-	 * 
+	 * 更新一条隐私保护记录
+	 *
 	 * @param position
 	 */
 	private void updatePrivacyNumber(int position) {
@@ -332,7 +332,7 @@ public class PrivacyNoteActivity extends BasicActivity implements
 				String newName = etUpdateName.getText().toString().trim();
 
 				if (newNumber.equals("")) {
-					Toast.makeText(PrivacyNoteActivity.this, "���벻��Ϊ��!", 0)
+					Toast.makeText(PrivacyNoteActivity.this, "号码不能为空!", 0)
 							.show();
 				} else {
 					updateInfo.setNumber(newNumber);
@@ -340,7 +340,7 @@ public class PrivacyNoteActivity extends BasicActivity implements
 
 					dao.update(oldNumber, newNumber, newName);
 					adpater.notifyDataSetChanged();
-					Toast.makeText(PrivacyNoteActivity.this, "�ѳɹ��޸ĺ���!", 0)
+					Toast.makeText(PrivacyNoteActivity.this, "已成功修改号码!", 0)
 							.show();
 					updateDialog.dismiss();
 				}
@@ -352,52 +352,52 @@ public class PrivacyNoteActivity extends BasicActivity implements
 	}
 
 	/**
-	 * ɾ��һ����˽������¼
-	 * 
+	 * 删除一条隐私保护记录
+	 *
 	 * @param position
 	 */
 	private void deletePrivacyNumber(int position) {
 		PrivacySmsInfo info = (PrivacySmsInfo) lvPrivacyNote
 				.getItemAtPosition(position);
 		String number = info.getNumber();
-		dao.delete(number); // ɾ���� ���ݿ�����ļ�¼
-		infos.remove(info); // ɾ����ǰlistview���������
-		Toast.makeText(PrivacyNoteActivity.this, "��ɾ����", 0).show();
+		dao.delete(number); // 删除了 数据库里面的记录
+		infos.remove(info); // 删除当前listview里面的数据
+		Toast.makeText(PrivacyNoteActivity.this, "已删除！", 0).show();
 		adpater.notifyDataSetChanged();
 	}
 
 	/**
-	 * Ϊ��˽���������е�listView�е�Item��������
+	 * 为隐私保护号码中的listView中的Item适配数据
 	 */
 	private class PrivacyNumberAdapter extends BaseAdapter {
-		// ��ȡItem����Ŀ
+		// 获取Item的数目
 		public int getCount() {
 			return infos.size();
 		}
 
-		// ��ȡItem�Ķ���
+		// 获取Item的对象
 		public Object getItem(int position) {
 			return infos.get(position);
 		}
 
-		// ��ȡItem��Ӧ��id
+		// 获取Item对应的id
 		public long getItemId(int position) {
 			return position;
 		}
 
-		// ����Ļ�ϣ�ÿ��ʾһ��Item�͵���һ�θ÷���
+		// 在屏幕上，每显示一个Item就调用一次该方法
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View view;
 			ViewHolder holder;
-			// ������ʷ�����View����
+			// 复用历史缓存的View对象
 			if (convertView == null) {
-				// ��Itemת��View����
+				// 将Item转成View对象
 				view = View.inflate(getApplicationContext(),
 						R.layout.privacy_note_item, null);
 				holder = new ViewHolder();
 				holder.tv_privacy_note_number = (TextView) view
 						.findViewById(R.id.tv_privacy_note_number);
-				view.setTag(holder); // �ѿؼ�id������ �����view��������
+				view.setTag(holder); // 把控件id的引用 存放在view对象里面
 			} else {
 				view = convertView;
 				holder = (ViewHolder) view.getTag();
@@ -415,17 +415,17 @@ public class PrivacyNoteActivity extends BasicActivity implements
 		}
 	}
 
-	// ��Item�еĿؼ�ʹ��static���Σ���static���ε�����ֽ�����JVM��ֻ�����һ�ݡ�tv_number��tv_mode��ջ��Ҳ��ֻ����һ��
+	// 将Item中的控件使用static修饰，被static修饰的类的字节码在JVM中只会存在一份。tv_number与tv_mode在栈中也会只存在一份
 	private static class ViewHolder {
 		TextView tv_privacy_note_number;
 	}
 
 	@Override
 	protected void initViews() {
-		// ����ǰһ��
+		// 返回前一步
 		ivPrevious = (ImageView) findViewById(R.id.privacy_note_iv_previous);
 		ivPrevious.setOnClickListener(PrivacyNoteActivity.this);
-		lvPrivacyNote = (ListView) findViewById(R.id.privacy_note_lv); // չ����˽�����绰������listview
+		lvPrivacyNote = (ListView) findViewById(R.id.privacy_note_lv); // 展现隐私保护电话名单的listview
 		llLoading = (LinearLayout) findViewById(R.id.privacy_note_ll_loading);
 		llLoading.setVisibility(View.VISIBLE);
 		btnAdd = (Button) findViewById(R.id.privacy_note_btn_add);

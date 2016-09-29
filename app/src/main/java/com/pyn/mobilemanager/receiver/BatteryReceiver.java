@@ -9,7 +9,7 @@ import com.pyn.mobilemanager.service.AppLockService;
 import com.pyn.mobilemanager.util.ServiceUtil;
 
 /**
- * ÕâÊÇÒ»¸ö¹ØÓÚÊÖ»úµç³ØµÄ¹ã²¥£¬µ±µçÁ¿·¢Éú±ä»¯Ê±£¬ÎÒÃÇ»áÖØĞÂÆô¶¯³ÌĞòËø·şÎñ£¬ÈÃÎÒÃÇ¿ÉÄÜ´ËÊ±±»ÍêÈ«É±ËÀµÄ·şÎñ¿ªÆğÀ´
+ * è¿™æ˜¯ä¸€ä¸ªå…³äºæ‰‹æœºç”µæ± çš„å¹¿æ’­ï¼Œå½“ç”µé‡å‘ç”Ÿå˜åŒ–æ—¶ï¼Œæˆ‘ä»¬ä¼šé‡æ–°å¯åŠ¨ç¨‹åºé”æœåŠ¡ï¼Œè®©æˆ‘ä»¬å¯èƒ½æ­¤æ—¶è¢«å®Œå…¨æ€æ­»çš„æœåŠ¡å¼€èµ·æ¥
  */
 public class BatteryReceiver extends BroadcastReceiver {
 
@@ -21,11 +21,11 @@ public class BatteryReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 
 		serviceUtil = new ServiceUtil(context);
-		
+
 		if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
-			// Èç¹ûµçÁ¿·¢ÉúÁË±ä»¯
-			// µ±MyServiceÃ»ÓĞ¿ªÆôÊ±£¬Æô¶¯MyService
-			// ÅĞ¶ÏÊÖ»úÊÇ·ñ´¦ÓÚ±£»¤×´Ì¬
+			// å¦‚æœç”µé‡å‘ç”Ÿäº†å˜åŒ–
+			// å½“MyServiceæ²¡æœ‰å¼€å¯æ—¶ï¼Œå¯åŠ¨MyService
+			// åˆ¤æ–­æ‰‹æœºæ˜¯å¦å¤„äºä¿æŠ¤çŠ¶æ€
 			sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
 			if (!sp.getBoolean("isFirstEnterPrivacy", true)) {
 				if (!serviceUtil

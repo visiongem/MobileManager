@@ -10,7 +10,7 @@ import com.pyn.mobilemanager.util.LogUtil;
 import com.pyn.mobilemanager.util.ServiceUtil;
 
 /**
- * ¿ª»ú¹ã²¥¼àÌıÀà£¨ÓÃÓÚ¿ª»ú×ÔÆô·şÎñ£©
+ * å¼€æœºå¹¿æ’­ç›‘å¬ç±»ï¼ˆç”¨äºå¼€æœºè‡ªå¯æœåŠ¡ï¼‰
  */
 public class BootCompleteReceiver extends BroadcastReceiver {
 
@@ -21,18 +21,18 @@ public class BootCompleteReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 
-		String action = intent.getAction(); // »ñÈ¡¹ã²¥ÀàĞÍ
+		String action = intent.getAction(); // è·å–å¹¿æ’­ç±»å‹
 
 		serviceUtil = new ServiceUtil(context);
 
-		if (action.equals(Intent.ACTION_BOOT_COMPLETED)) { // ÅĞ¶ÏÊÇ·ñÊÇ¿ª»ú¹ã²¥
+		if (action.equals(Intent.ACTION_BOOT_COMPLETED)) { // åˆ¤æ–­æ˜¯å¦æ˜¯å¼€æœºå¹¿æ’­
 
-			LogUtil.i(TAG, "¿ª»úÀ²~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			LogUtil.i(TAG, "å¼€æœºå•¦~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
-			// ÅĞ¶ÏÊÖ»úÊÇ·ñ´¦ÓÚ±£»¤×´Ì¬
+			// åˆ¤æ–­æ‰‹æœºæ˜¯å¦å¤„äºä¿æŠ¤çŠ¶æ€
 			sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
 
-			// Èç¹ûÆô¶¯¹ıÒşË½±£»¤£¬Ôò½øÈë¾Í¿ªÆô³ÌĞòËøµÄ·şÎñ
+			// å¦‚æœå¯åŠ¨è¿‡éšç§ä¿æŠ¤ï¼Œåˆ™è¿›å…¥å°±å¼€å¯ç¨‹åºé”çš„æœåŠ¡
 			if (!sp.getBoolean("isFirstEnterPrivacy", true)) {
 				Intent appLockServiceIntent = new Intent(context,
 						AppLockService.class);

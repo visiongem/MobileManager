@@ -16,7 +16,7 @@ import com.pyn.mobilemanager.R;
 import com.pyn.mobilemanager.util.MD5Encoder;
 
 /**
- * ÒşË½±£»¤ÃÜÂëĞŞ¸Ä
+ * éšç§ä¿æŠ¤å¯†ç ä¿®æ”¹
  */
 public class PrivacyPasswordAlterActivity extends BasicActivity implements
 		OnClickListener {
@@ -54,40 +54,40 @@ public class PrivacyPasswordAlterActivity extends BasicActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.alter_privacy_pwd_iv_previous:
+			case R.id.alter_privacy_pwd_iv_previous:
 
-			Intent previousIntent = new Intent(
-					PrivacyPasswordAlterActivity.this, PrivacyActivity.class);
-			startActivity(previousIntent);
-			finish();
+				Intent previousIntent = new Intent(
+						PrivacyPasswordAlterActivity.this, PrivacyActivity.class);
+				startActivity(previousIntent);
+				finish();
 
-			break;
+				break;
 
-		case R.id.alter_privacy_btn_finish:
+			case R.id.alter_privacy_btn_finish:
 
-			String password = etAlterPwd.getText().toString().trim();
-			String passwordConfirm = etAlterPwdConfirm.getText().toString()
-					.trim();
+				String password = etAlterPwd.getText().toString().trim();
+				String passwordConfirm = etAlterPwdConfirm.getText().toString()
+						.trim();
 
-			if ("".equals(password) || "".equals(passwordConfirm)) { // ÃÜÂëÎª¿ÕµÄÇé¿ö
-				Toast.makeText(getApplicationContext(), "ÃÜÂë²»ÄÜÎª¿Õ", 0).show();
-				return;
-			} else {
-				if (password.equals(passwordConfirm)) { // Á½´ÎÃÜÂëÊäÈëÏàÍ¬£¬¾Í°Ñ
-														// ÃÜÂë´æÔÚsharedpreference
-					Editor editor1 = sp.edit();
-					editor1.putString("privacy_password",
-							MD5Encoder.encode(password)); // ÕâÀï´æÃÜÂëĞèÒª¼ÓÃÜÒ»ÏÂ
-					editor1.commit();
-					Toast.makeText(getApplicationContext(), "ĞŞ¸ÄÃÜÂë³É¹¦", 0).show();
-					finish();
-				} else {
-					Toast.makeText(getApplicationContext(), "Á½´ÎÃÜÂë²»Ò»ÖÂ", 0)
-							.show();
+				if ("".equals(password) || "".equals(passwordConfirm)) { // å¯†ç ä¸ºç©ºçš„æƒ…å†µ
+					Toast.makeText(getApplicationContext(), "å¯†ç ä¸èƒ½ä¸ºç©º", Toast.LENGTH_SHORT).show();
 					return;
+				} else {
+					if (password.equals(passwordConfirm)) { // ä¸¤æ¬¡å¯†ç è¾“å…¥ç›¸åŒï¼Œå°±æŠŠ
+						// å¯†ç å­˜åœ¨sharedpreference
+						Editor editor1 = sp.edit();
+						editor1.putString("privacy_password",
+								MD5Encoder.encode(password)); // è¿™é‡Œå­˜å¯†ç éœ€è¦åŠ å¯†ä¸€ä¸‹
+						editor1.commit();
+						Toast.makeText(getApplicationContext(), "ä¿®æ”¹å¯†ç æˆåŠŸ", Toast.LENGTH_SHORT).show();
+						finish();
+					} else {
+						Toast.makeText(getApplicationContext(), "ä¸¤æ¬¡å¯†ç ä¸ä¸€è‡´", Toast.LENGTH_SHORT)
+								.show();
+						return;
+					}
 				}
-			}
-			break;
+				break;
 		}
 	}
 }
