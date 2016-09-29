@@ -24,7 +24,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/background">
+        android:background="@mipmap/background">
 
         <ListView
             android:id="@+id/select_contact_lv"

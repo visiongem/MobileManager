@@ -33,221 +33,223 @@ import java.util.List;
  */
 public class AppLockActivity extends BasicActivity implements OnClickListener {
 
-	private ListView lvAppLock; // 就是程序锁应用的列表
-	private ImageView ivPrevious;
-	private List<AppInfo> userAppInfos; // 所有应用程序的信息,不包括系统程序
-	private AppInfoProvider provider; // 提供手机应用的类
-	private AppLockAdapter adapter;
-	private AppLockDao dao;
-	private LoadingDialog dialog;
-	private List<String> lockAppInfos; // 设置了程序锁的app的集合
-	private Animation animation;
-	private LayoutAnimationController lac;
+    private ListView lvAppLock; // 就是程序锁应用的列表
+    private ImageView ivPrevious;
+    private List<AppInfo> userAppInfos; // 所有应用程序的信息,不包括系统程序
+    private AppInfoProvider provider; // 提供手机应用的类
+    private AppLockAdapter adapter;
+    private AppLockDao dao;
+    private LoadingDialog dialog;
+    private List<String> lockAppInfos; // 设置了程序锁的app的集合
+    private Animation animation;
+    private LayoutAnimationController lac;
 
-	private Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			dialog.dismiss();
-			adapter = new AppLockAdapter();
-			lvAppLock.setAdapter(adapter);
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            dialog.dismiss();
+            adapter = new AppLockAdapter();
+            lvAppLock.setAdapter(adapter);
 
-			lvAppLock.setLayoutAnimation(lac);
-			lvAppLock.startLayoutAnimation();
+            lvAppLock.setLayoutAnimation(lac);
+            lvAppLock.startLayoutAnimation();
 
-		};
-	};
+        }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.app_lock);
+        ;
+    };
 
-		initAnimation();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.app_lock);
 
-		dialog = new LoadingDialog(this);
-		initViews();
-		dao = new AppLockDao(AppLockActivity.this);
-		lockAppInfos = dao.getAllLockApps(); // 得到所有已经加锁的应用程序集合
+        initAnimation();
 
-		provider = new AppInfoProvider(this);
+        dialog = new LoadingDialog(this);
+        initViews();
+        dao = new AppLockDao(AppLockActivity.this);
+        lockAppInfos = dao.getAllLockApps(); // 得到所有已经加锁的应用程序集合
 
-		initUI();
+        provider = new AppInfoProvider(this);
 
-		// 为每个app条目添加点击事件
-		lvAppLock.setOnItemClickListener(new OnItemClickListener() {
+        initUI();
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-									int position, long id) {
-				// 添加动画效果，动画结束后，就把锁的图片改变
-				TranslateAnimation translateAnimation = new TranslateAnimation(
-						Animation.RELATIVE_TO_SELF, 0.0f,
-						Animation.RELATIVE_TO_SELF, 0.5f,
-						Animation.RELATIVE_TO_SELF, 0.0f,
-						Animation.RELATIVE_TO_SELF, 0.0f);
-				translateAnimation.setDuration(500);
-				view.startAnimation(translateAnimation);
-				ImageView iv_status = (ImageView) view
-						.findViewById(R.id.app_lock_item_iv_status);
+        // 为每个app条目添加点击事件
+        lvAppLock.setOnItemClickListener(new OnItemClickListener() {
 
-				// 传递当前要锁定程序的包名
-				AppInfo info = (AppInfo) lvAppLock.getItemAtPosition(position);
-				String packName = info.getPackName(); // 得到当前要锁定的包名
-				if (dao.find(packName)) {
-					// 移除这个条目
-					getContentResolver()
-							.delete(Uri
-											.parse("content://com.pyn.mobilemanager.applockprovider/delete"),
-									null, new String[] { packName });
-					lockAppInfos.remove(packName);
-					iv_status.setImageResource(R.drawable.unlock);
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // 添加动画效果，动画结束后，就把锁的图片改变
+                TranslateAnimation translateAnimation = new TranslateAnimation(
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.0f);
+                translateAnimation.setDuration(500);
+                view.startAnimation(translateAnimation);
+                ImageView iv_status = (ImageView) view
+                        .findViewById(R.id.app_lock_item_iv_status);
 
-				} else {
-					lockAppInfos.add(packName);
-					ContentValues values = new ContentValues();
-					values.put("packName", packName);
-					getContentResolver()
-							.insert(Uri
-											.parse("content://com.pyn.mobilemanager.applockprovider/insert"),
-									values);
-					iv_status.setImageResource(R.drawable.lock);
-				}
+                // 传递当前要锁定程序的包名
+                AppInfo info = (AppInfo) lvAppLock.getItemAtPosition(position);
+                String packName = info.getPackName(); // 得到当前要锁定的包名
+                if (dao.find(packName)) {
+                    // 移除这个条目
+                    getContentResolver()
+                            .delete(Uri
+                                            .parse("content://com.pyn.mobilemanager.applockprovider/delete"),
+                                    null, new String[]{packName});
+                    lockAppInfos.remove(packName);
+                    iv_status.setImageResource(R.mipmap.unlock);
 
-			}
+                } else {
+                    lockAppInfos.add(packName);
+                    ContentValues values = new ContentValues();
+                    values.put("packName", packName);
+                    getContentResolver()
+                            .insert(Uri
+                                            .parse("content://com.pyn.mobilemanager.applockprovider/insert"),
+                                    values);
+                    iv_status.setImageResource(R.mipmap.lock);
+                }
 
-		});
+            }
 
-	}
+        });
 
-	/**
-	 * 初始化动画
-	 */
-	private void initAnimation() {
-		animation  = AnimationUtils.loadAnimation(this, R.anim.listview_in);
-		lac = new LayoutAnimationController(animation);
-		lac.setOrder(LayoutAnimationController.ORDER_NORMAL);
-	}
+    }
 
-	/**
-	 * 初始化界面
-	 */
-	private void initUI() {
+    /**
+     * 初始化动画
+     */
+    private void initAnimation() {
+        animation = AnimationUtils.loadAnimation(this, R.anim.listview_in);
+        lac = new LayoutAnimationController(animation);
+        lac.setOrder(LayoutAnimationController.ORDER_NORMAL);
+    }
 
-		dialog.show();
-		new Thread() {
-			@Override
-			public void run() {
+    /**
+     * 初始化界面
+     */
+    private void initUI() {
 
-				try {
-					sleep(800);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				userAppInfos = provider.getAllUserApps();
-				handler.sendEmptyMessage(0);
-			}
+        dialog.show();
+        new Thread() {
+            @Override
+            public void run() {
 
-		}.start();
-	}
+                try {
+                    sleep(800);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                userAppInfos = provider.getAllUserApps();
+                handler.sendEmptyMessage(0);
+            }
 
-	/**
-	 * 适配器
-	 */
-	private class AppLockAdapter extends BaseAdapter {
+        }.start();
+    }
 
-		@Override
-		public int getCount() {
-			return userAppInfos.size();
-		}
+    /**
+     * 适配器
+     */
+    private class AppLockAdapter extends BaseAdapter {
 
-		@Override
-		public Object getItem(int position) {
-			return userAppInfos.get(position);
-		}
+        @Override
+        public int getCount() {
+            return userAppInfos.size();
+        }
 
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
+        @Override
+        public Object getItem(int position) {
+            return userAppInfos.get(position);
+        }
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
 
-			AppInfo info = userAppInfos.get(position);
-			if (convertView == null) {
-				View view = View.inflate(getApplicationContext(),
-						R.layout.app_lock_item, null);
-				AppManagerViews views = new AppManagerViews();
-				// 更改view对象的状态
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
 
-				views.ivAppIcon = (ImageView) view
-						.findViewById(R.id.app_lock_item_iv_icon);
-				views.tvAppName = (TextView) view
-						.findViewById(R.id.app_lock_item_tv_name);
-				views.tvAppPackname = (TextView) view
-						.findViewById(R.id.app_lock_item_tv_packname);
-				views.ivAppLock = (ImageView) view
-						.findViewById(R.id.app_lock_item_iv_status);
+            AppInfo info = userAppInfos.get(position);
+            if (convertView == null) {
+                View view = View.inflate(getApplicationContext(),
+                        R.layout.app_lock_item, null);
+                AppManagerViews views = new AppManagerViews();
+                // 更改view对象的状态
 
-				views.ivAppIcon.setImageDrawable(info.getIcon());
-				views.tvAppName.setText(info.getAppName());
-				views.tvAppPackname.setText(info.getPackName());
+                views.ivAppIcon = (ImageView) view
+                        .findViewById(R.id.app_lock_item_iv_icon);
+                views.tvAppName = (TextView) view
+                        .findViewById(R.id.app_lock_item_tv_name);
+                views.tvAppPackname = (TextView) view
+                        .findViewById(R.id.app_lock_item_tv_packname);
+                views.ivAppLock = (ImageView) view
+                        .findViewById(R.id.app_lock_item_iv_status);
 
-				if (lockAppInfos.contains(info.getPackName())) { // 如果是加锁的程序，则使右边的图标变成加锁的图片
-					views.ivAppLock.setImageResource(R.drawable.lock);
-				} else {
-					views.ivAppLock.setImageResource(R.drawable.unlock);
-				}
+                views.ivAppIcon.setImageDrawable(info.getIcon());
+                views.tvAppName.setText(info.getAppName());
+                views.tvAppPackname.setText(info.getPackName());
 
-				view.setTag(views);
-				return view;
-			} else {
-				AppManagerViews views = (AppManagerViews) convertView.getTag();
-				views.ivAppIcon.setImageDrawable(info.getIcon());
-				views.tvAppName.setText(info.getAppName());
-				views.tvAppPackname.setText(info.getPackName());
-				if (lockAppInfos.contains(info.getPackName())) {
-					views.ivAppLock.setImageResource(R.drawable.lock);
-				} else {
-					views.ivAppLock.setImageResource(R.drawable.unlock);
-				}
-				return convertView;
-			}
+                if (lockAppInfos.contains(info.getPackName())) { // 如果是加锁的程序，则使右边的图标变成加锁的图片
+                    views.ivAppLock.setImageResource(R.mipmap.lock);
+                } else {
+                    views.ivAppLock.setImageResource(R.mipmap.unlock);
+                }
 
-		}
+                view.setTag(views);
+                return view;
+            } else {
+                AppManagerViews views = (AppManagerViews) convertView.getTag();
+                views.ivAppIcon.setImageDrawable(info.getIcon());
+                views.tvAppName.setText(info.getAppName());
+                views.tvAppPackname.setText(info.getPackName());
+                if (lockAppInfos.contains(info.getPackName())) {
+                    views.ivAppLock.setImageResource(R.mipmap.lock);
+                } else {
+                    views.ivAppLock.setImageResource(R.mipmap.unlock);
+                }
+                return convertView;
+            }
 
-	}
+        }
 
-	// 用来优化listview的类
-	private class AppManagerViews {
-		ImageView ivAppIcon;
-		TextView tvAppName;
-		TextView tvAppPackname;
-		ImageView ivAppLock;
-	}
+    }
 
-	@Override
-	protected void initViews() {
-		ivPrevious = (ImageView) findViewById(R.id.app_lock_iv_previous);
-		ivPrevious.setOnClickListener(this);
-		lvAppLock = (ListView) findViewById(R.id.app_lock_lv);
-	}
+    // 用来优化listview的类
+    private class AppManagerViews {
+        ImageView ivAppIcon;
+        TextView tvAppName;
+        TextView tvAppPackname;
+        ImageView ivAppLock;
+    }
 
-	@Override
-	public void onClick(View v) {
+    @Override
+    protected void initViews() {
+        ivPrevious = (ImageView) findViewById(R.id.app_lock_iv_previous);
+        ivPrevious.setOnClickListener(this);
+        lvAppLock = (ListView) findViewById(R.id.app_lock_lv);
+    }
 
-		switch (v.getId()) {
-			case R.id.app_lock_iv_previous:
-				Intent previousIntent = new Intent(AppLockActivity.this,
-						PrivacyActivity.class);
-				startActivity(previousIntent);
-				finish();
+    @Override
+    public void onClick(View v) {
 
-				break;
-		}
+        switch (v.getId()) {
+            case R.id.app_lock_iv_previous:
+                Intent previousIntent = new Intent(AppLockActivity.this,
+                        PrivacyActivity.class);
+                startActivity(previousIntent);
+                finish();
 
-	}
+                break;
+        }
+
+    }
 
 }
 

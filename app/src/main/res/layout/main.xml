@@ -19,7 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:scaleType="fitXY"
-            android:src="@drawable/main_settings" />
+            android:src="@mipmap/main_settings" />
     </RelativeLayout>
 
     <LinearLayout
@@ -30,7 +30,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/widget1" />
+            android:src="@mipmap/widget1" />
 
         <TextView
             style="@style/tv_main_item"
@@ -45,7 +45,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/widget2" />
+            android:src="@mipmap/widget2" />
 
         <TextView
             style="@style/tv_main_item"
@@ -60,7 +60,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/widget3" />
+            android:src="@mipmap/widget3" />
 
         <TextView
             style="@style/tv_main_item"

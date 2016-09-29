@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@mipmap/background"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -17,7 +17,7 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/flow_monitor_title" />
+            android:src="@mipmap/flow_monitor_title" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/progressbg" />
+            android:background="@mipmap/progressbg" />
 
         <ImageView
             android:id="@+id/iv_progressfg"
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/progressfg" />
+            android:src="@mipmap/progressfg" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

@@ -43,7 +43,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginLeft="5dp"
-                android:src="@drawable/net_upload" />
+                android:src="@mipmap/net_upload" />
 
             <TextView
                 android:id="@+id/flow_sort_tv_updata"
@@ -78,7 +78,7 @@
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/net_download" />
+                android:src="@mipmap/net_download" />
 
             <TextView
                 android:id="@+id/flow_sort_tv_downdata"

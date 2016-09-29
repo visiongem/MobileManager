@@ -16,7 +16,7 @@
             android:id="@+id/loading_iv"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@drawable/loading_dialog_rotate_img" />
+            android:background="@mipmap/loading_dialog_rotate_img" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

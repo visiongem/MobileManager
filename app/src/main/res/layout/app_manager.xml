@@ -18,7 +18,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background"
+        android:background="@mipmap/background"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -53,7 +53,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scaleType="matrix"
-            android:src="@drawable/cursor" />
+            android:src="@mipmap/cursor" />
 
         <FrameLayout
             android:layout_width="match_parent"

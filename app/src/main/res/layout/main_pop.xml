@@ -1,12 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/pop_main2_bg"
+        android:background="@mipmap/pop_main2_bg"
         android:orientation="vertical" >
 
         <TextView
@@ -40,6 +39,6 @@
         android:layout_height="10dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="85dp"
-        android:background="@drawable/pop_arrow" />
+        android:background="@mipmap/pop_arrow" />
 
 </RelativeLayout>

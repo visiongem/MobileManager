@@ -2,21 +2,21 @@
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 发短信 -->
-    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
     <!-- 读联系人 -->
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <!-- 打电话 -->
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <!-- 杀死其他应用 -->
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
     <!-- 关闭程序 -->
-    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
     <!-- 获取任务信息 -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
 
 
     <application
@@ -29,96 +29,78 @@
         <activity
             android:name="com.pyn.mobilemanager.activity.SplashActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name="com.pyn.mobilemanager.activity.MainActivity"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:launchMode="singleTask"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.AppManagerActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.AppManagerActivity"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.FlowManagerActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.FlowManagerActivity"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.FlowMonitorActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.FlowMonitorActivity"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.FlowSortActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.FlowSortActivity"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.EnterPrivacyActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.EnterPrivacyActivity"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.SetupPrivacyPwdActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.SetupPrivacyPwdActivity"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.SetupPrivacyQuestionActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.SetupPrivacyQuestionActivity"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.PrivacyPasswordAlterActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.PrivacyPasswordAlterActivity"/>
         <activity
             android:name="com.pyn.mobilemanager.activity.PrivacyActivity"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:launchMode="singleTask"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.AppLockActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.AppLockActivity"/>
         <activity
             android:name="com.pyn.mobilemanager.activity.AppLockScreenActivity"
-            android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:launchMode="singleInstance"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.PrivacyNoteActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.PrivacyNoteActivity"/>
         <activity
             android:name="com.pyn.mobilemanager.activity.SelectContactActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-            android:name="com.pyn.mobilemanager.activity.PrivacySmsActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity
-            android:name="com.pyn.mobilemanager.activity.ResourceManagerActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:name="com.pyn.mobilemanager.activity.PrivacySmsActivity"/>
 
-        <service android:name="com.pyn.mobilemanager.service.AppLockService" />
+        <service android:name="com.pyn.mobilemanager.service.AppLockService"/>
 
         <!-- 开机广播 -->
-        <receiver android:name="com.pyn.mobilemanager.receiver.BootCompleteReceiver" >
-            <intent-filter android:priority="2147483647" >
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+        <receiver android:name="com.pyn.mobilemanager.receiver.BootCompleteReceiver">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
 
         <!-- 电量变化的广播 -->
-        <receiver android:name="com.pyn.mobilemanager.receiver.BatteryReceiver" >
-            <intent-filter android:priority="2147483647" >
-                <action android:name="android.intent.action.BATTERY_CHANGED" />
+        <receiver android:name="com.pyn.mobilemanager.receiver.BatteryReceiver">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.BATTERY_CHANGED"/>
             </intent-filter>
         </receiver>
 
         <!-- 关机广播 -->
-        <receiver android:name="com.pyn.mobilemanager.receiver.ShutdownReceiver" >
-            <intent-filter android:priority="2147483647" >
-                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+        <receiver android:name="com.pyn.mobilemanager.receiver.ShutdownReceiver">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.ACTION_SHUTDOWN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
 
         <provider
             android:name="com.pyn.mobilemanager.provider.AppLockProvider"
-            android:authorities="com.pyn.mobilemanager.applockprovider" />
-
+            android:authorities="com.pyn.mobilemanager.applockprovider"/>
 
     </application>
 

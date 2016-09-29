@@ -149,7 +149,7 @@ public class SetupPrivacyQuestionActivity extends BasicActivity implements
 	private void showSelectQuestionDialog() {
 		questions = getQuestions();
 		ListView lv = new ListView(this);
-		lv.setBackgroundResource(R.drawable.icon_spinner_listview_background);
+		lv.setBackgroundResource(R.mipmap.icon_spinner_listview_background);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

@@ -24,7 +24,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background"
+        android:background="@mipmap/background"
         android:orientation="vertical" >
 
         <ImageView
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
-            android:src="@drawable/privacy_bg" />
+            android:src="@mipmap/privacy_bg" />
 
         <com.pyn.mobilemanager.view.MyTextView
             android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/privacy_protected_bg"
+            android:background="@mipmap/privacy_protected_bg"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/privacy_note" />
+                    android:src="@mipmap/privacy_note" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -101,7 +101,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/right_arrow" />
+                        android:background="@mipmap/right_arrow" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/privacy_lock" />
+                    android:src="@mipmap/privacy_lock" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -155,7 +155,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/right_arrow" />
+                        android:background="@mipmap/right_arrow" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

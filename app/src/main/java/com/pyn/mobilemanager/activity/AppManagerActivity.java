@@ -134,7 +134,7 @@ public class AppManagerActivity extends BasicActivity implements
 	 */
 	private void initImageView() {
 		cursor = (ImageView) findViewById(R.id.cursor);
-		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.cursor)
+		bmpW = BitmapFactory.decodeResource(getResources(), R.mipmap.cursor)
 				.getWidth(); // 获取图片宽度
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
